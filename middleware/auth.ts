@@ -3,6 +3,6 @@ export default function ({
   redirect
 }) {
   if (!store.state.auth.user) {
-    redirect('/login')
+    redirect('/')
   }
 }
