@@ -1,10 +1,10 @@
 import firebase from 'firebase'
-import pick from "lodash/pick";
+import pick from 'lodash/pick'
 import {
   ActionTree,
   MutationTree,
   GetterTree
-} from 'vuex';
+} from 'vuex'
 
 interface RootState { }
 
@@ -64,8 +64,8 @@ export const actions: ActionTree<AuthState, RootState> = {
     twitterId,
     credential
   }) => {
-    const db = firebase.firestore();
-    db.collection("users").doc(uid).set(Object.assign({
+    const db = firebase.firestore()
+    db.collection('users').doc(uid).set(Object.assign({
       twitterId,
       created_at: new Date().getTime()
     }, pick(

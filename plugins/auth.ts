@@ -12,7 +12,7 @@ export default ({
 
       store.commit('auth/setUser', user.providerData[0])
       store.commit('auth/setUid', user.uid)
-      firebase.firestore().collection('users').doc(user.uid).onSnapshot(doc => {
+      firebase.firestore().collection('users').doc(user.uid).onSnapshot((doc) => {
         const credential = doc.data()
         store.commit('auth/setCredential', credential)
       }, _ => _)
