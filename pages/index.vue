@@ -3,6 +3,7 @@
   h1 top page
   p(v-if="isLogined")
     span {{ user.displayName }}
+    button(@click="logout(uid)") ログアウト
   p(v-else)
     button(@click="login") ログイン
 </template>
