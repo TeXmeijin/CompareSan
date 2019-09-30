@@ -1,22 +1,27 @@
-# enmemo
+# 概要
+ベターなTwitterログインとFirebaseへのユーザー情報保存機能を持ったWebサイトの構築
 
-> People connection recorder
+個人開発サービスを作るときに応用が効くようなテンプレートを目指して作成
 
-## Build Setup
+# 技術
+Nuxt v2.8.1
+TypeScript
+Firebase auth, firestore
 
-``` bash
-# install dependencies
-$ npm run install
+Nuxtは2019/09/30現在2.9が最新だが、VuexをTypeScript化するためのvuex-classと相性が良くないのでダウングレードしている（随時対策を検討）
 
-# serve with hot reload at localhost:3000
-$ npm run dev
+# set up
+ルートディレクトリにenv.development.jsを作成し、下記のような情報を書き込む
+env.sample.jsを参照
 
-# build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run generate
 ```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+module.exports = {
+  APIKEY: "",
+  AUTHDOMAIN: "",
+  DATABASEURL: "",
+  PROJECTID: "",
+  STORAGEBUCKET: "",
+  MESSAGINGSENDERID: "",
+  APPID: ""
+}
+```
