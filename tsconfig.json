@@ -1,3 +1,4 @@
+// tsconfig.json
 {
   "compilerOptions": {
     "target": "esnext",
@@ -9,11 +10,11 @@
       "dom"
     ],
     "esModuleInterop": true,
+    "noImplicitAny": false,
     "experimentalDecorators": true,
     "allowJs": true,
     "sourceMap": true,
     "strict": true,
-    "noImplicitAny": false,
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
@@ -26,7 +27,10 @@
     },
     "types": [
       "@types/node",
-      "@nuxt/vue-app"
+      "@nuxt/types"
     ]
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }
