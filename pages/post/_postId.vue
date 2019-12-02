@@ -1,7 +1,7 @@
 <template lang="pug">
 main.sec-main
   section.heading
-    h1.heading__head 比較をはじめる
+    h1.heading__head 比較を編集する
   section.dataTable
     table.table
       tr.heading
@@ -13,7 +13,7 @@ main.sec-main
             v-model="product.name"
           )
         th.heading__header.--actionCell
-          button(type="button" @click="addColumn").--btn 追加
+          button(type="button" @click="addColumn").--miniBtn 追加
       tr.data(v-for="(data, index) in tableData")
         td.data__value
           input(
@@ -31,23 +31,26 @@ main.sec-main
             @input="updateValue(index, key, $event.target.value)"
           )
         td.data__value.--actionCell
-          button(type="button" @click="removeRow(index)").--btn 削除
+          button(type="button" @click="removeRow(index)").--miniBtn 削除
       tr.footer
         td.footer__addPoint.--actionCell
-          button(type="button" @click="addRow").--btn 追加
+          button(type="button" @click="addRow").--miniBtn 追加
         td(v-for="(key, index) in tableColumns").--actionCell
-          button(type="button" @click="removeColumn(key)").--btn 削除
+          button(type="button" @click="removeColumn(key)").--miniBtn 削除
       tr.summary
         td.summary__heading.--textReadOnly
           span 評価合計：
         template(v-for="(evaluate, key) in summaries")
           td.summary__evaluate.--textReadOnly
             span {{ evaluate }}
+  section.commit
+    button(type="button" @click="save").--mediumButton.primary 保存する
 </template>
 
 <script lang="ts">
 import { Vue, Component, Ref } from 'vue-property-decorator'
 import { namespace, Action } from 'vuex-class'
+import firebase from 'firebase'
 
 import Selector from '~/components/atoms/rankSelector.vue'
 
@@ -70,39 +73,17 @@ export default class Post extends Vue {
   compares: Array<any> = [];
   products: Array<any> = [];
 
-  public created (): void {
-    this.products = [
-      {
-        id: 'FIRST',
-        name: '比較製品１'
-      },
-      {
-        id: 'SECOND',
-        name: '比較製品２'
-      }
-    ]
-    this.compares = [
-      {
-        meta: {
-          name: 'メーカー',
-          type: InputType.StringField
-        },
-        values: {
-          FIRST: 'MSI',
-          SECOND: 'IO-data'
-        }
-      },
-      {
-        meta: {
-          name: '価格',
-          type: InputType.Select
-        },
-        values: {
-          FIRST: 1,
-          SECOND: 2
-        }
-      }
-    ]
+  public async created (): Promise<void> {
+    const savedData = await firebase.firestore().collection('compare-san').doc(this.$route.params.postId).get()
+
+    const snapshot = savedData.data()
+
+    if (!snapshot) {
+      return
+    }
+
+    this.products = snapshot.products
+    this.compares = snapshot.compares
   }
 
   public get tableData (): Array<any> {
@@ -219,6 +200,21 @@ export default class Post extends Vue {
       return product.id !== id
     })
   }
+
+  @Auth.State uid;
+
+  save () {
+    firebase
+      .firestore()
+      .collection('compare-san')
+      .doc(this.$route.params.postId)
+      .set({
+        uid: this.uid,
+        products: this.products,
+        compares: this.compares
+      }).then(() => {
+      })
+  }
 }
 </script>
 
@@ -288,6 +284,10 @@ export default class Post extends Vue {
       }
     }
   }
+
+  .commit {
+    padding: 12px;
+  }
 }
 
 %cell {
@@ -311,11 +311,24 @@ export default class Post extends Vue {
   text-align: center;
 }
 
-.--btn {
+.--miniBtn {
   font-size: 0.7rem;
   padding: 2px 12px;
   text-align: center;
   border: 1px solid $gray-light-3;
   border-radius: 4px;
+}
+
+.--mediumButton {
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px 24px;
+  border-radius: 8px;
+
+  &.primary {
+    background: $primary;
+    color: $white;
+  }
 }
 </style>
