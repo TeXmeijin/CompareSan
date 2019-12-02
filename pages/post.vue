@@ -12,36 +12,46 @@ main.sec-main
             class="--stringField"
             v-model="product.name"
           )
-        th.heading__header
-          button(type="button" @click="addColumn").btn 追加
+        th.heading__header.--actionCell
+          button(type="button" @click="addColumn").--btn 追加
       tr.data(v-for="(data, index) in tableData")
         td.data__value
           input(
             type="text"
             class="--stringField --head"
-            v-model="data['checkPoint']"
+            :value="data['checkPoint']"
+            @input="updateCheckPoint(index, $event.target.value)"
           )
-        td.data__value(v-for="(key, index) in tableColumns")
+        td.data__value(v-for="(key) in tableColumns")
           component(
             :is="tagOf(data.__type)"
             :type="typeOf(data.__type)"
             class="--stringField"
-            v-model="data[key]"
+            :value="data[key]"
+            @input="updateValue(index, key, $event.target.value)"
           )
-        td.data__value
-          button(type="button" @click="removeRow(index)").btn 削除
+        td.data__value.--actionCell
+          button(type="button" @click="removeRow(index)").--btn 削除
       tr.footer
-        td.footer__addPoint
-          button(type="button" @click="addRow").btn 追加
-        td(v-for="(key, index) in tableColumns")
-          button(type="button" @click="removeColumn(key)").btn 削除
+        td.footer__addPoint.--actionCell
+          button(type="button" @click="addRow").--btn 追加
+        td(v-for="(key, index) in tableColumns").--actionCell
+          button(type="button" @click="removeColumn(key)").--btn 削除
+      tr.summary
+        td.summary__heading.--textReadOnly
+          span 評価合計：
+        template(v-for="(evaluate, key) in summaries")
+          td.summary__evaluate.--textReadOnly
+            span {{ evaluate }}
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator';
-import { namespace, Action } from 'vuex-class';
+import { Vue, Component, Ref } from 'vue-property-decorator'
+import { namespace, Action } from 'vuex-class'
 
-import * as auth from '~/store/auth';
+import Selector from '~/components/atoms/rankSelector.vue'
+
+import * as auth from '~/store/auth'
 const Auth = namespace(auth.name)
 
 enum InputType {
@@ -51,7 +61,11 @@ enum InputType {
   Select
 }
 
-@Component
+@Component({
+  components: {
+    Selector
+  }
+})
 export default class Post extends Vue {
   compares: Array<any> = [];
   products: Array<any> = [];
@@ -81,11 +95,11 @@ export default class Post extends Vue {
       {
         meta: {
           name: '価格',
-          type: InputType.StringField
+          type: InputType.Select
         },
         values: {
-          FIRST: '10,000',
-          SECOND: '20,000'
+          FIRST: 1,
+          SECOND: 2
         }
       }
     ]
@@ -129,23 +143,51 @@ export default class Post extends Vue {
       editableColumns
     }
   }
+  public get summaries () {
+    const result = {}
+    this.tableColumns.forEach((key) => {
+      let sum = 0
+      this.compares.forEach((data) => {
+        if (data.values && parseInt(data.values[key]) >= 0) {
+          sum += parseInt(data.values[key])
+        }
+      })
+      result[key] = sum
+    })
+    return result
+  }
   tagOf (type: InputType): string {
-    return type === InputType.StringField ? 'input' : 'span';
+    if (type === InputType.StringField) {
+      return 'input'
+    }
+    if (type === InputType.Select) {
+      return 'selector'
+    }
+    return 'span'
   }
   typeOf (type: InputType): string {
-    return type === InputType.StringField ? 'text' : '';
+    return type === InputType.StringField ? 'text' : ''
+  }
+  updateCheckPoint (index: number, name: string) {
+    this.compares[index].meta.name = name
+  }
+  updateValue (index: number, key: string, val: string) {
+    if (!this.compares[index].values) {
+      this.compares[index].values = {}
+    }
+    this.compares[index].values[key] = val
   }
   addRow () {
-    const value = {}
+    const values = {}
     this.tableColumns.forEach((column) => {
-      value[column] = '';
+      values[column] = ''
     })
     this.compares.push({
       meta: {
         name: '',
-        type: InputType.StringField
+        type: InputType.Select
       },
-      value
+      values
     })
   }
   addColumn () {
@@ -154,15 +196,15 @@ export default class Post extends Vue {
       const l = 8
 
       // 生成する文字列に含める文字セット
-      const c = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      const c = 'abcdefghijklmnopqrstuvwxyz0123456789'
 
       const cl = c.length
-      let r = '';
+      let r = ''
       for (let i = 0; i < l; i++) {
         r += c[Math.floor(Math.random() * cl)]
       }
       return r
-    };
+    }
     const rand: string = generateRandom()
     this.products.push({
       id: rand,
@@ -208,9 +250,13 @@ export default class Post extends Vue {
         border-bottom: 1px solid $gray-light-3;
 
         .heading__header {
-          padding: 8px;
+          padding: 12px 2px 0;
 
           &:first-child {
+            min-width: 96px;
+          }
+
+          &:last-child {
             min-width: 96px;
           }
         }
@@ -218,7 +264,7 @@ export default class Post extends Vue {
 
       .data {
         .data__value {
-          padding: 8px;
+          padding: 2px;
 
           .--head {
             width: 96px;
@@ -226,14 +272,50 @@ export default class Post extends Vue {
           }
         }
       }
+
+      .summary {
+        background: $gray-light-3;
+
+        .summary__heading {
+          font-weight: bold;
+          font-size: 0.9rem;
+        }
+
+        .summary__evaluate {
+          font-weight: bold;
+          letter-spacing: 2px;
+        }
+      }
     }
   }
 }
 
-.--stringField {
-  border: 1px solid $gray-light-3;
+%cell {
   padding: 8px;
   font-size: 1rem;
+}
+
+.--stringField {
+  @extend %cell;
+  border: 1px solid $gray-light-3;
+  border-radius: 2px;
+}
+
+.--textReadOnly {
+  @extend %cell;
+  text-align: center;
+}
+
+.--actionCell {
+  @extend %cell;
+  text-align: center;
+}
+
+.--btn {
+  font-size: 0.7rem;
+  padding: 2px 12px;
+  text-align: center;
+  border: 1px solid $gray-light-3;
   border-radius: 4px;
 }
 </style>
