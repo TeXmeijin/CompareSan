@@ -183,7 +183,7 @@ export default class Post extends Vue {
   addRow () {
     const values = {}
     this.tableColumns.forEach((column) => {
-      values[column] = ''
+      values[column] = 0
     })
     this.compares.push({
       meta: {
@@ -213,9 +213,8 @@ export default class Post extends Vue {
       id: rand,
       name: ''
     })
-    this.compares = this.compares.map((data) => {
-      data.values[rand] = 0
-      return data
+    this.compares.forEach((data) => {
+      this.$set(data.values, rand, 0)
     })
   }
   removeRow (index: number) {
