@@ -42,18 +42,16 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-import { namespace, Action } from 'vuex-class'
-import firebase from 'firebase'
+import { Vue, Component, Prop } from 'vue-property-decorator';
+import { namespace, Action } from 'vuex-class';
+import firebase from 'firebase';
 
-import Selector from '~/components/atoms/rankSelector.vue'
-
-enum InputType {
-  StringField,
-  StringArea,
-  Url,
-  Select
-}
+import {
+  InputType,
+  CompareOneRow,
+  Product
+} from '../../assets/javascript/types/tableTypes';
+import Selector from '~/components/atoms/rankSelector.vue';
 
 @Component({
   components: {
@@ -61,11 +59,11 @@ enum InputType {
   }
 })
 export default class DataTable extends Vue {
-  @Prop({ type: Array, required: true }) readonly initialCompares: Array<any>
-  @Prop({ type: Array, required: true }) readonly initialProducts: Array<any>
+  @Prop({ type: Array, required: true }) initialCompares: Array<CompareOneRow>;
+  @Prop({ type: Array, required: true }) initialProducts: Array<Product>;
 
-  compares: Array<any> = [];
-  products: Array<any> = [];
+  compares: Array<CompareOneRow> = [];
+  products: Array<Product> = [];
 
   public mounted () {
     this.compares = this.initialCompares
@@ -84,7 +82,7 @@ export default class DataTable extends Vue {
       }
     })
   }
-  public get tableColumns (): Array<any> {
+  public get tableColumns (): Array<string> {
     if (this.products.length === 0) {
       return []
     }
@@ -112,8 +110,9 @@ export default class DataTable extends Vue {
     this.tableColumns.forEach((key) => {
       let sum = 0
       this.compares.forEach((data) => {
-        if (data.values && parseInt(data.values[key]) >= 0) {
-          sum += parseInt(data.values[key])
+        const value = data.values[key]
+        if (data.values && typeof value === 'string') {
+          sum += parseInt(value)
         }
       })
       result[key] = sum
@@ -122,15 +121,15 @@ export default class DataTable extends Vue {
   }
   tagOf (type: InputType): string {
     if (type === InputType.StringField) {
-      return 'input'
+      return 'input';
     }
     if (type === InputType.Select) {
-      return 'selector'
+      return 'selector';
     }
-    return 'span'
+    return 'span';
   }
   typeOf (type: InputType): string {
-    return type === InputType.StringField ? 'text' : ''
+    return type === InputType.StringField ? 'text' : '';
   }
   updateCheckPoint (index: number, name: string) {
     this.compares[index].meta.name = name
@@ -163,15 +162,15 @@ export default class DataTable extends Vue {
       const l = 8
 
       // 生成する文字列に含める文字セット
-      const c = 'abcdefghijklmnopqrstuvwxyz0123456789'
+      const c = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
       const cl = c.length
-      let r = ''
+      let r = '';
       for (let i = 0; i < l; i++) {
         r += c[Math.floor(Math.random() * cl)]
       }
       return r
-    }
+    };
     const rand: string = generateRandom()
     this.products.push({
       id: rand,

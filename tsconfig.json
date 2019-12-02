@@ -12,6 +12,7 @@
     "esModuleInterop": true,
     "noImplicitAny": false,
     "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
     "allowJs": true,
     "sourceMap": true,
     "strict": true,
@@ -28,7 +29,7 @@
     "types": [
       "@types/node",
       "@nuxt/types"
-    ]
+    ],
   },
   "exclude": [
     "node_modules"

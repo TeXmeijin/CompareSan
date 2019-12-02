@@ -14,21 +14,19 @@ main.sec-main
 </template>
 
 <script lang="ts">
-import { Vue, Component, Ref } from 'vue-property-decorator'
-import { namespace, Action } from 'vuex-class'
-import firebase from 'firebase'
+import { Vue, Component, Ref } from 'vue-property-decorator';
+import { namespace, Action } from 'vuex-class';
+import firebase from 'firebase';
 
-import DataTable from '~/components/organisms/dataTable.vue'
+import {
+  InputType,
+  CompareOneRow,
+  Product
+} from '../../assets/javascript/types/tableTypes';
+import DataTable from '~/components/organisms/dataTable.vue';
 
-import * as auth from '~/store/auth'
+import * as auth from '~/store/auth';
 const Auth = namespace(auth.name)
-
-enum InputType {
-  StringField,
-  StringArea,
-  Url,
-  Select
-}
 
 @Component({
   components: {
@@ -36,8 +34,8 @@ enum InputType {
   }
 })
 export default class Post extends Vue {
-  compares: Array<any> = [];
-  products: Array<any> = [];
+  compares: Array<CompareOneRow> = [];
+  products: Array<Product> = [];
 
   public created (): void {
     this.products = [
@@ -84,7 +82,8 @@ export default class Post extends Vue {
         uid: this.uid,
         products: this.products,
         compares: this.compares
-      }).then((docRef) => {
+      })
+      .then((docRef) => {
         console.log('Document written with ID: ', docRef.id)
         this.$router.push({
           name: 'post-postId',

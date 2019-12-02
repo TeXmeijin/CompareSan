@@ -1,7 +1,7 @@
 {
-  "name": "enmemo",
+  "name": "compare-san",
   "version": "1.0.0",
-  "description": "People connection recorder",
+  "description": "Purchase Comparing Tool",
   "author": "Texmeijin",
   "private": true,
   "scripts": {
