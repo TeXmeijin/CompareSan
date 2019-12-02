@@ -42,16 +42,16 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
-import { namespace, Action } from 'vuex-class';
-import firebase from 'firebase';
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { namespace, Action } from 'vuex-class'
+import firebase from 'firebase'
 
 import {
   InputType,
   CompareOneRow,
   Product
-} from '../../assets/javascript/types/tableTypes';
-import Selector from '~/components/atoms/rankSelector.vue';
+} from '../../assets/javascript/types/tableTypes'
+import Selector from '~/components/atoms/rankSelector.vue'
 
 @Component({
   components: {
@@ -111,7 +111,7 @@ export default class DataTable extends Vue {
       let sum = 0
       this.compares.forEach((data) => {
         const value = data.values[key]
-        if (data.values && typeof value === 'string') {
+        if (data.values && typeof value === 'string' && parseInt(value) >= 0) {
           sum += parseInt(value)
         }
       })
@@ -121,15 +121,15 @@ export default class DataTable extends Vue {
   }
   tagOf (type: InputType): string {
     if (type === InputType.StringField) {
-      return 'input';
+      return 'input'
     }
     if (type === InputType.Select) {
-      return 'selector';
+      return 'selector'
     }
-    return 'span';
+    return 'span'
   }
   typeOf (type: InputType): string {
-    return type === InputType.StringField ? 'text' : '';
+    return type === InputType.StringField ? 'text' : ''
   }
   updateCheckPoint (index: number, name: string) {
     this.compares[index].meta.name = name
@@ -162,15 +162,15 @@ export default class DataTable extends Vue {
       const l = 8
 
       // 生成する文字列に含める文字セット
-      const c = 'abcdefghijklmnopqrstuvwxyz0123456789';
+      const c = 'abcdefghijklmnopqrstuvwxyz0123456789'
 
       const cl = c.length
-      let r = '';
+      let r = ''
       for (let i = 0; i < l; i++) {
         r += c[Math.floor(Math.random() * cl)]
       }
       return r
-    };
+    }
     const rand: string = generateRandom()
     this.products.push({
       id: rand,
