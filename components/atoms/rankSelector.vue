@@ -5,7 +5,7 @@
         <option
           :key="item.key"
           :value="item.key"
-          :selected="item.key === value"
+          :selected="item.key == value"
         >
           {{ item.value }}
         </option>

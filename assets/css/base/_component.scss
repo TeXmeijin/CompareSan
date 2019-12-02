@@ -1,0 +1,20 @@
+.--miniBtn {
+  font-size: 0.7rem;
+  padding: 2px 12px;
+  text-align: center;
+  border: 1px solid $gray-light-3;
+  border-radius: 4px;
+}
+
+.--mediumButton {
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 8px 24px;
+  border-radius: 8px;
+
+  &.primary {
+    background: $primary;
+    color: $white;
+  }
+}
