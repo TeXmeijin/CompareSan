@@ -15,41 +15,48 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue, { PropOptions } from 'vue'
+import { ValueForSelect } from '../../assets/javascript/types/tableTypes'
+
+interface SelectItem {
+  key: string,
+  value: string
+}
 
 export default Vue.extend({
   props: {
     value: {
-      type: [Number, String],
+      type: Object,
       required: true
-    }
+    } as PropOptions<ValueForSelect>
   },
   data () {
+    const items: Array<SelectItem> = [
+      {
+        key: '0',
+        value: '✕'
+      },
+      {
+        key: '1',
+        value: '△'
+      },
+      {
+        key: '2',
+        value: '◯'
+      },
+      {
+        key: '3',
+        value: '◎'
+      }
+    ]
     return {
-      items: [
-        {
-          key: 0,
-          value: '✕'
-        },
-        {
-          key: 1,
-          value: '△'
-        },
-        {
-          key: 2,
-          value: '◯'
-        },
-        {
-          key: 3,
-          value: '◎'
-        }
-      ]
+      items
     }
   },
   methods: {
-    getCurrentValue (items) {
+    getCurrentValue (items: Array<SelectItem>) {
       return (items.filter((item) => {
-        return item.key == this.value
+        return item.key === this.value.value
       }))[0].value
     }
   }

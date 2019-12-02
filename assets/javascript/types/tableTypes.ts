@@ -16,7 +16,12 @@ interface Meta {
 }
 
 interface ValueList {
-  [key: string]: string | number;
+  [key: string]: string | ValueForSelect;
+}
+
+export interface ValueForSelect {
+  value: string;
+  exactly: string;
 }
 
 export interface CompareOneRow {

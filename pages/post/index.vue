@@ -14,18 +14,18 @@ main.sec-main
 </template>
 
 <script lang="ts">
-import { Vue, Component, Ref } from 'vue-property-decorator';
-import { namespace, Action } from 'vuex-class';
-import firebase from 'firebase';
+import { Vue, Component, Ref } from 'vue-property-decorator'
+import { namespace, Action } from 'vuex-class'
+import firebase from 'firebase'
 
 import {
   InputType,
   CompareOneRow,
   Product
-} from '../../assets/javascript/types/tableTypes';
-import DataTable from '~/components/organisms/dataTable.vue';
+} from '../../assets/javascript/types/tableTypes'
+import DataTable from '~/components/organisms/dataTable.vue'
 
-import * as auth from '~/store/auth';
+import * as auth from '~/store/auth'
 const Auth = namespace(auth.name)
 
 @Component({
@@ -65,8 +65,14 @@ export default class Post extends Vue {
           type: InputType.Select
         },
         values: {
-          FIRST: 1,
-          SECOND: 2
+          FIRST: {
+            value: '1',
+            exactly: ''
+          },
+          SECOND: {
+            value: '2',
+            exactly: ''
+          }
         }
       }
     ]
