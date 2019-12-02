@@ -20,7 +20,7 @@
     "firebase": "^6.6.2",
     "lodash": "^4.17.15",
     "nuxt": "^2.10.2",
-    "vue-material-design-icons": "^3.3.1",
+    "vue-material-design-icons": "^3.4.0",
     "vue-property-decorator": "^8.2.1",
     "vue-tables-2": "^1.5.46",
     "vuex-class": "^0.3.2"

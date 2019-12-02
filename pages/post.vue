@@ -3,45 +3,38 @@ main.sec-main
   section.heading
     h1.heading__head 比較をはじめる
   section.dataTable
-    v-client-table(
-      v-model="tableData"
-      :columns="tableColumns"
-      :options="tableOptions"
-    )
-      template(v-if="products.length > 0")
-        template(
-          v-for="product in products"
-        )
+    table.table
+      tr.heading
+        th.heading__header
+        th.heading__header(v-for="product in products")
           input(
             type="text"
-            :slot="`${product.id}`"
-            slot-scope="{row, update}"
-            v-model="row[`${product.id}`]"
-            @input="update"
             class="--stringField"
+            v-model="product.name"
           )
-      //- input(
-      //-   type="text"
-      //-   :slot="`FIRST`"
-      //-   slot-scope="{row, update}"
-      //-   v-model="row[`FIRST`]"
-      //-   @input="update"
-      //-   class="--stringField"
-      //- )
-      //- input(
-      //-   type="text"
-      //-   :slot="`SECOND`"
-      //-   slot-scope="{row, update}"
-      //-   v-model="row[`SECOND`]"
-      //-   @input="update"
-      //-   class="--stringField"
-      //- )
-      button.delete(
-        type="button"
-        slot="remove"
-        slot-scope="{row}"
-        @click="remove(row.id)"
-      )
+        th.heading__header
+          button(type="button" @click="addColumn").btn 追加
+      tr.data(v-for="(data, index) in tableData")
+        td.data__value
+          input(
+            type="text"
+            class="--stringField --head"
+            v-model="data['checkPoint']"
+          )
+        td.data__value(v-for="(key, index) in tableColumns")
+          component(
+            :is="tagOf(data.__type)"
+            :type="typeOf(data.__type)"
+            class="--stringField"
+            v-model="data[key]"
+          )
+        td.data__value
+          button(type="button" @click="removeRow(index)").btn 削除
+      tr.footer
+        td.footer__addPoint
+          button(type="button" @click="addRow").btn 追加
+        td(v-for="(key, index) in tableColumns")
+          button(type="button" @click="removeColumn(key)").btn 削除
 </template>
 
 <script lang="ts">
@@ -102,16 +95,9 @@ export default class Post extends Vue {
     if (this.compares.length === 0) {
       return []
     }
-    console.log(
-      this.compares.map((data, index) => {
-        return {
-          checkPoint: data.meta.name,
-          ...data.values
-        }
-      })
-    )
     return this.compares.map((data, index) => {
       return {
+        __type: data.meta.type,
         checkPoint: data.meta.name,
         ...data.values
       }
@@ -124,9 +110,7 @@ export default class Post extends Vue {
     if (this.products.length === 0) {
       return []
     }
-    const columns = ['checkPoint']
-    console.log(columns.concat(this.products.map(el => el.id)))
-    return columns.concat(this.products.map(el => el.id))
+    return this.products.map(el => el.id)
   }
   public get tableOptions () {
     const headings = {}
@@ -136,7 +120,6 @@ export default class Post extends Vue {
     const editableColumns = this.products.map((product) => {
       return product.id
     })
-    console.log(editableColumns)
     return {
       headings: {
         checkPoint: '',
@@ -146,8 +129,50 @@ export default class Post extends Vue {
       editableColumns
     }
   }
-  remove (id: string) {
-    console.log(id)
+  tagOf (type: InputType): string {
+    return type === InputType.StringField ? 'input' : 'span';
+  }
+  typeOf (type: InputType): string {
+    return type === InputType.StringField ? 'text' : '';
+  }
+  addRow () {
+    const value = {}
+    this.tableColumns.forEach((column) => {
+      value[column] = '';
+    })
+    this.compares.push({
+      meta: {
+        name: '',
+        type: InputType.StringField
+      },
+      value
+    })
+  }
+  addColumn () {
+    const generateRandom = (): string => {
+      // 生成する文字列の長さ
+      const l = 8
+
+      // 生成する文字列に含める文字セット
+      const c = 'abcdefghijklmnopqrstuvwxyz0123456789';
+
+      const cl = c.length
+      let r = '';
+      for (let i = 0; i < l; i++) {
+        r += c[Math.floor(Math.random() * cl)]
+      }
+      return r
+    };
+    const rand: string = generateRandom()
+    this.products.push({
+      id: rand,
+      name: ''
+    })
+  }
+  removeRow (index: number) {
+    this.compares.splice(index, 1)
+  }
+  removeColumn (id: string) {
     this.products = this.products.filter((product) => {
       return product.id !== id
     })
@@ -172,8 +197,36 @@ export default class Post extends Vue {
   }
 
   .dataTable {
-    padding: 0 12px;
+    padding: 24px 12px;
     overflow-x: scroll;
+    color: $body;
+
+    .table {
+      background: $white;
+
+      .heading {
+        border-bottom: 1px solid $gray-light-3;
+
+        .heading__header {
+          padding: 8px;
+
+          &:first-child {
+            min-width: 96px;
+          }
+        }
+      }
+
+      .data {
+        .data__value {
+          padding: 8px;
+
+          .--head {
+            width: 96px;
+            font-weight: bold;
+          }
+        }
+      }
+    }
   }
 }
 
