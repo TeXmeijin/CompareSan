@@ -1,6 +1,15 @@
 <template>
   <div class="select">
-    <select id="selector" class="selector" @input="$emit('input', $event)">
+    <input
+      type="text"
+      class="--stringField"
+      :value="value.exactly"
+      @input="$emit('input', {
+        ...value,
+        exactly: $event
+      })"
+    >
+    <select id="selector" class="selector" @input="$emit('input', {...value, value: $event})">
       <template v-for="item in items">
         <option
           :key="item.key"
@@ -66,6 +75,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .select {
   display: flex;
+  flex-direction: column;
   font-size: 1rem;
   position: relative;
 

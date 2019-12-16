@@ -18,3 +18,24 @@
     color: $white;
   }
 }
+
+%cell {
+  padding: 8px;
+  font-size: 1rem;
+}
+
+.--stringField {
+  @extend %cell;
+  border: 1px solid $gray-light-3;
+  border-radius: 2px;
+}
+
+.--textReadOnly {
+  @extend %cell;
+  text-align: center;
+}
+
+.--actionCell {
+  @extend %cell;
+  text-align: center;
+}

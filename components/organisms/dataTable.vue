@@ -24,7 +24,7 @@
             :type="typeOf(data.__type)"
             class="--stringField"
             :value="data[key]"
-            @input="updateValue(index, key, $event.target.value)"
+            @input="updateValue(index, key, $event)"
           )
         td.data__value.--actionCell
           button(type="button" @click="removeRow(index)").--miniBtn 削除
@@ -42,16 +42,18 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
-import { namespace, Action } from 'vuex-class'
-import firebase from 'firebase'
+import { Vue, Component, Prop } from 'vue-property-decorator';
+import { namespace, Action } from 'vuex-class';
+import firebase from 'firebase';
 
 import {
   InputType,
   CompareOneRow,
-  Product
-} from '../../assets/javascript/types/tableTypes'
-import Selector from '~/components/atoms/rankSelector.vue'
+  Product,
+  ValueForSelect,
+  HTMLElementEvent
+} from '../../assets/javascript/types/tableTypes';
+import Selector from '~/components/atoms/rankSelector.vue';
 
 @Component({
   components: {
@@ -121,25 +123,33 @@ export default class DataTable extends Vue {
   }
   tagOf (type: InputType): string {
     if (type === InputType.StringField) {
-      return 'input'
+      return 'input';
     }
     if (type === InputType.Select) {
-      return 'selector'
+      return 'selector';
     }
-    return 'span'
+    return 'span';
   }
   typeOf (type: InputType): string {
-    return type === InputType.StringField ? 'text' : ''
+    return type === InputType.StringField ? 'text' : '';
   }
   updateCheckPoint (index: number, name: string) {
     this.compares[index].meta.name = name
     this.$emit('changeCompares', this.compares)
   }
-  updateValue (index: number, key: string, val: string) {
+  updateValue (
+    index: number,
+    key: string,
+    val: HTMLElementEvent<HTMLInputElement> | ValueForSelect
+  ) {
     if (!this.compares[index].values) {
       this.compares[index].values = {}
     }
-    this.compares[index].values[key] = val
+    if (val instanceof HTMLElementEvent) {
+      this.compares[index].values[key] = val.target!.value
+    } else {
+      this.compares[index].values[key] = val.value
+    }
     this.$emit('changeCompares', this.compares)
   }
   addRow () {
@@ -162,15 +172,15 @@ export default class DataTable extends Vue {
       const l = 8
 
       // 生成する文字列に含める文字セット
-      const c = 'abcdefghijklmnopqrstuvwxyz0123456789'
+      const c = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
       const cl = c.length
-      let r = ''
+      let r = '';
       for (let i = 0; i < l; i++) {
         r += c[Math.floor(Math.random() * cl)]
       }
       return r
-    }
+    };
     const rand: string = generateRandom()
     this.products.push({
       id: rand,
@@ -239,26 +249,5 @@ export default class DataTable extends Vue {
       letter-spacing: 2px;
     }
   }
-}
-
-%cell {
-  padding: 8px;
-  font-size: 1rem;
-}
-
-.--stringField {
-  @extend %cell;
-  border: 1px solid $gray-light-3;
-  border-radius: 2px;
-}
-
-.--textReadOnly {
-  @extend %cell;
-  text-align: center;
-}
-
-.--actionCell {
-  @extend %cell;
-  text-align: center;
 }
 </style>

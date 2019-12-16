@@ -19,6 +19,10 @@ interface ValueList {
   [key: string]: string | ValueForSelect;
 }
 
+export class HTMLElementEvent<T extends HTMLElement> extends Event {
+  target: T;
+}
+
 export interface ValueForSelect {
   value: string;
   exactly: string;
