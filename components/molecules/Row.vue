@@ -5,7 +5,7 @@
   .cell(:style="{ width: cellWidth }" v-for="cell in cells" :key="cell.comparingItemKey")
     text-cell(:cell="cell")
   .data__value.--actionCell
-    button(type="button" @click="removeRow(index)").--miniBtn 削除
+    button(type="button" @click="$emit('on-clicked-remove-row', row.rowKey)").--miniBtn 削除
 </template>
 
 <script lang="ts">

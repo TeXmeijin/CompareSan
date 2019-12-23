@@ -59,6 +59,8 @@ export enum EvaluateString {
 export type Row = {
   head: ComparingPoint;
   cells: Array<Cell>;
+  rowKey: string;
+  deleted?: boolean;
 };
 
 export type Summary = {

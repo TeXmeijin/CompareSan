@@ -4,18 +4,19 @@ import { generateRandom } from '../utils/GenerateRandom';
 export const oneRowFactory = (instance: CompareTableClass): Row => {
   const cells: Cell[] = [];
 
-  for (let index = 0; index < instance.data.header.length; index++) {
+  instance.data.header.forEach(oneHeader => {
     cells.push({
       type: CellType.TEXT,
-      comparingItemKey: generateRandom()
+      comparingItemKey: oneHeader.comparingItemKey
     });
-  }
+  });
 
   return {
     head: {
       name: '比較ポイント',
       type: CellType.TEXT
     },
-    cells
+    cells,
+    rowKey: generateRandom()
   };
 };

@@ -3,10 +3,14 @@
     template(v-if="!compares.isEmpty()")
       table-header(:table-header="tableColumns")
       template(v-for="(row, index) in tableRows")
-        row(:row="row")
+        row(
+          :row="row"
+          @on-clicked-remove-row="removeRow($event)"
+          v-if="row.deleted !== true"
+        )
       the-footer(
         :header="tableColumns"
-        @on-click-add-row="addRow"
+        @on-clicked-add-row="addRow"
       )
       the-summary(:summaries="summaries")
 </template>
@@ -105,7 +109,13 @@ export default class CompareTableView extends Vue {
   addRow() {
     this.compares.data.rows.push(oneRowFactory(this.compares))
   }
-  removeRow (index: number) {
+  removeRow (rowKey: string) {
+    this.compares.data.rows = this.compares.data.rows.map(row => {
+      if (row.rowKey === rowKey) {
+        row.deleted = true
+      }
+      return row
+    })
   }
 }
 </script>

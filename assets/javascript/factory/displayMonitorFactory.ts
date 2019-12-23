@@ -1,15 +1,16 @@
 import { CompareTableClass } from '../types/tableTypes';
 import { oneRowFactory } from './oneRowFactory';
+import { generateRandom } from '../utils/GenerateRandom';
 export const displayMonitorFactory = function (): CompareTableClass {
   const table = {
     header: [
       {
         name: 'test',
-        comparingItemKey: '1'
+        comparingItemKey: generateRandom()
       },
       {
         name: 'test2',
-        comparingItemKey: '2'
+        comparingItemKey: generateRandom()
       }
     ],
     rows: [
