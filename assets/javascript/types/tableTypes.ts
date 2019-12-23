@@ -1,34 +1,67 @@
-export enum InputType {
-  StringField,
-  StringArea,
-  Url,
-  Select
+export type CompareTable = {
+  header: TableHeader;
+  rows: Array<Row>;
+};
+
+export class CompareTableClass {
+  data: CompareTable;
+
+  isEmpty(): boolean {
+    return !this.data || this.data.rows.length === 0 || this.data.header.length === 0;
+  }
 }
 
-export interface Product {
-  id: string;
+export type ComparingItem = {
   name: string;
-}
+  comparingItemKey: string;
+};
 
-interface Meta {
+export type TableHeader = Array<ComparingItem>;
+
+export type ComparingPoint = {
   name: string;
-  type: InputType;
+  type: CellType;
+};
+
+export enum CellType {
+  URL,
+  TEXT,
+  TEXT_WITH_EVALUATION,
+  IMAGE
 }
 
-interface ValueList {
-  [key: string]: string | ValueForSelect;
+export interface Cell {
+  type: CellType;
+  comparingItemKey: string;
 }
 
-export class HTMLElementEvent<T extends HTMLElement> extends Event {
-  target: T;
-}
-
-export interface ValueForSelect {
+export interface TextCell extends Cell {
   value: string;
-  exactly: string;
 }
 
-export interface CompareOneRow {
-  meta: Meta;
-  values: ValueList;
+export interface TextWithEvaluationCell extends Cell {
+  value: string;
+  evaluate: Evaluate;
 }
+
+export type Evaluate = {
+  level: number;
+  levelString: EvaluateString;
+};
+
+export enum EvaluateString {
+  WORST = "✕",
+  BAD = "△",
+  BETTER = "◯",
+  BEST = "◎"
+}
+
+export type Row = {
+  head: ComparingPoint;
+  cells: Array<Cell>;
+};
+
+export type Summary = {
+  comparingItemKey: string,
+  value: number;
+};

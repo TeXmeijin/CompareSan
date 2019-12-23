@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import { ValueForSelect } from '../../assets/javascript/types/tableTypes'
+import { Cell } from '../../assets/javascript/types/tableTypes'
 
 interface SelectItem {
   key: string,
@@ -37,7 +37,7 @@ export default Vue.extend({
     value: {
       type: Object,
       required: true
-    } as PropOptions<ValueForSelect>
+    } as PropOptions<Cell>
   },
   data () {
     const items: Array<SelectItem> = [
@@ -63,11 +63,6 @@ export default Vue.extend({
     }
   },
   methods: {
-    getCurrentValue (items: Array<SelectItem>) {
-      return (items.filter((item) => {
-        return item.key === this.value.value
-      }))[0].value
-    }
   }
 })
 </script>

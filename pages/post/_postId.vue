@@ -3,7 +3,7 @@ main.sec-main
   section.heading
     h1.heading__head 比較を編集する
   section.dataTable
-    data-table(
+    compare-table-view(
       :initialProducts="products"
       @changeProducts="products = $event"
       :initialCompares="compares"
@@ -19,7 +19,7 @@ import { Vue, Component, Ref } from 'vue-property-decorator'
 import { namespace, Action } from 'vuex-class'
 import firebase from 'firebase'
 
-import DataTable from '~/components/organisms/dataTable.vue'
+import CompareTableView from '~/components/organisms/CompareTableView.vue'
 
 import * as auth from '~/store/auth'
 const Auth = namespace(auth.name)
@@ -33,7 +33,7 @@ enum InputType {
 
 @Component({
   components: {
-    DataTable
+    CompareTableView
   }
 })
 export default class EditPost extends Vue {
