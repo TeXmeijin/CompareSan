@@ -14,6 +14,7 @@ export class CompareTableClass {
 export type ComparingItem = {
   name: string;
   comparingItemKey: string;
+  deleted_at?: number;
 };
 
 export type TableHeader = Array<ComparingItem>;
@@ -60,7 +61,7 @@ export type Row = {
   head: ComparingPoint;
   cells: Array<Cell>;
   rowKey: string;
-  deleted?: boolean;
+  deleted_at?: number;
 };
 
 export type Summary = {

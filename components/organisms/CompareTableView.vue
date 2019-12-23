@@ -1,16 +1,21 @@
 <template lang="pug">
   section.table
     template(v-if="!compares.isEmpty()")
-      table-header(:table-header="tableColumns")
+      table-header(
+        :table-header="softDeletedTableHeader"
+        @on-clicked-add-item="addItem"
+      )
       row(
         :row="row"
+        :table-header="tableColumns"
         @on-clicked-remove-row="removeRow($event)"
         v-for="(row, index) in tableRows"
         :key="row.rowKey"
       )
       the-footer(
-        :header="tableColumns"
+        :header="softDeletedTableHeader"
         @on-clicked-add-row="addRow"
+        @on-clicked-remove-item="removeItem($event)"
       )
       the-summary(:summaries="summaries")
 </template>
@@ -37,6 +42,7 @@ import TextCellVue from '../atoms/TextCell.vue';
 import FooterVue from '../molecules/Footer.vue';
 import SummaryVue from '../molecules/Summary.vue';
 import { oneRowFactory } from '../../assets/javascript/factory/oneRowFactory';
+import { addItemUseCase } from '../../assets/javascript/useCase/addItemUseCase';
 
 @Component({
   components: {
@@ -58,17 +64,22 @@ export default class CompareTableView extends Vue {
 
   public get tableRows (): Array<Row> {
     return this.compares.data.rows.filter(row => {
-      return row.deleted !== true
+      return row.deleted_at === undefined
     })
   }
-  public get tableColumns (): ComparingItem[] {
+  public get tableColumns (): TableHeader {
     return this.compares.data.header
+  }
+  public get softDeletedTableHeader(): TableHeader {
+    return this.compares.data.header.filter(header => {
+      return header.deleted_at === undefined
+    })
   }
   public get summaries (): {
     [key: string]: Summary
   } {
     const result = {}
-    this.tableColumns.forEach((item: ComparingItem) => {
+    this.softDeletedTableHeader.forEach((item: ComparingItem) => {
       let sum = 0
       this.compares.data.rows.forEach((row: Row) => {
         const cell = row.cells.find(
@@ -91,22 +102,16 @@ export default class CompareTableView extends Vue {
   updateValue (
   ) {
   }
-  addColumn () {
-    const generateRandom = (): string => {
-      // 生成する文字列の長さ
-      const l = 8
-
-      // 生成する文字列に含める文字セット
-      const c = 'abcdefghijklmnopqrstuvwxyz0123456789'
-
-      const cl = c.length
-      let r = ''
-      for (let i = 0; i < l; i++) {
-        r += c[Math.floor(Math.random() * cl)]
+  addItem () {
+    addItemUseCase(this.compares)
+  }
+  removeItem(itemKey: string) {
+    this.compares.data.header = this.compares.data.header.map(item => {
+      if (item.comparingItemKey === itemKey) {
+        item.deleted_at = Date.now()
       }
-      return r
-    }
-    const rand: string = generateRandom()
+      return item
+    })
   }
   addRow() {
     this.compares.data.rows.push(oneRowFactory(this.compares))
@@ -114,7 +119,7 @@ export default class CompareTableView extends Vue {
   removeRow (rowKey: string) {
     this.compares.data.rows = this.compares.data.rows.map(row => {
       if (row.rowKey === rowKey) {
-        row.deleted = true
+        row.deleted_at = Date.now()
       }
       return row
     })

@@ -3,7 +3,7 @@
     .footer__addPoint.--actionCell(:style="{ minWidth: headWidth }")
       button(type="button" @click="$emit('on-clicked-add-row')").--miniBtn 追加
     .--actionCell(v-for="comparingItem in header" :style="{ width: cellWidth }")
-      button(type="button" @click="removeColumn(comparingItem.comparingItemKey)").--miniBtn 削除
+      button(type="button" @click="$emit('on-clicked-remove-item', comparingItem.comparingItemKey)").--miniBtn 削除
 </template>
 
 <script lang="ts">
@@ -24,10 +24,6 @@ export default class Footer extends Vue {
 
   @TableSize.Getter headWidth;
   @TableSize.Getter cellWidth;
-
-  addRow() {}
-
-  removeColumn(key: string) {}
 }
 </script>
 

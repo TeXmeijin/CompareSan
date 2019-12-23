@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
-import { Row, ComparingPoint, Cell } from '../../assets/javascript/types/tableTypes'
+import { Row, ComparingPoint, Cell, TableHeader } from '../../assets/javascript/types/tableTypes'
 
 import * as tableSize from '~/store/tableSize'
 import { Component, Prop } from 'vue-property-decorator';
@@ -32,6 +32,11 @@ export default class RowView extends Vue {
     required: true
   }) row: Row
 
+  @Prop({
+    type: Array,
+    required: true
+  }) tableHeader: TableHeader
+
   @TableSize.Getter headWidth;
   @TableSize.Getter cellWidth;
 
@@ -39,7 +44,17 @@ export default class RowView extends Vue {
     return this.row.head
   }
   public get cells (): Cell[] {
-    return this.row.cells
+    const removedKeys = this.tableHeader.filter(head => {
+      return head.deleted_at !== undefined
+    }).map(head => head.comparingItemKey)
+
+    if (removedKeys.length <= 0) {
+      return this.row.cells
+    }
+
+    return this.row.cells.filter(cell => {
+      return removedKeys.includes(cell.comparingItemKey)
+    })
   }
 }
 </script>

@@ -3,6 +3,8 @@
     .emptyHeaderItem(:style="{ minWidth: headWidth }")
     .TableHeaderItem(v-for="header in tableHeader" :style="{ width: cellWidth }")
       comparing-item(:comparing-item="header")
+    .TableAddItem
+      button(type="button" @click="$emit('on-clicked-add-item')").--miniBtn 追加
 </template>
 
 <script lang="ts">
