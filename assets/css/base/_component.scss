@@ -4,14 +4,18 @@
   text-align: center;
   border: 1px solid $gray-light-3;
   border-radius: 4px;
+  white-space: nowrap;
 }
 
 .--mediumButton {
   font-size: 1rem;
   font-weight: bold;
   text-align: center;
-  padding: 8px 24px;
+  padding: 12px 24px;
   border-radius: 8px;
+  width: 100%;
+  border: 0;
+  display: block;
 
   &.primary {
     background: $primary;
@@ -38,4 +42,8 @@
 .--actionCell {
   @extend %cell;
   text-align: center;
+}
+
+.BaseCell {
+  padding: 4px;
 }

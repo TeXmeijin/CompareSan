@@ -11,13 +11,27 @@ export default Vue.extend({
   props: {
     comparingItem: {
       type: Object,
-      required: true
-    } as PropOptions<ComparingPoint>
+      required: true,
+    } as PropOptions<ComparingPoint>,
   },
   computed: {
-    name (): string {
+    name(): string {
       return this.comparingItem.name
-    }
-  }
+    },
+  },
 })
 </script>
+
+<style lang="scss" scoped>
+.ComparingPoint {
+  padding: 12px 0;
+  border-radius: 4px;
+  background: $gray-light-3;
+  margin-right: 4px;
+  text-align: center;
+
+  &__text {
+    font-weight: bold;
+  }
+}
+</style>

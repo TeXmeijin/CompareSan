@@ -1,36 +1,33 @@
-import {
-  ActionTree,
-  MutationTree,
-  GetterTree
-} from 'vuex';
+import { ActionTree, MutationTree, GetterTree } from 'vuex'
 
-interface RootState { }
+interface RootState {}
 
 interface TableSizeState {
-  headWidth: number,
-  cellWidth: number,
-  headHeight: number,
+  headWidth: number
+  cellWidth: number
+  headHeight: number
 }
 
-export const name = 'tableSize';
+export const name = 'tableSize'
 
 export const state = (): TableSizeState => ({
-  headWidth: 90,
-  cellWidth: 120,
-  headHeight: 60,
-});
+  headWidth: 120,
+  cellWidth: 130,
+  headHeight: 40,
+})
 
 export const getters: GetterTree<TableSizeState, RootState> = {
   headWidth(): string {
-    return `${state().headWidth}px`;
+    return `${state().headWidth}px`
   },
   cellWidth(): string {
-    return `${state().cellWidth}px`;
-  }
-};
+    return `${state().cellWidth}px`
+  },
+  headHeight(): string {
+    return `${state().headHeight}px`
+  },
+}
 
-export const mutations: MutationTree<TableSizeState> = {
-};
+export const mutations: MutationTree<TableSizeState> = {}
 
-export const actions: ActionTree<TableSizeState, RootState> = {
-};
+export const actions: ActionTree<TableSizeState, RootState> = {}

@@ -55,12 +55,13 @@ export default class Post extends Vue {
 
 <style lang="scss" scoped>
 .sec-main {
-  background: linear-gradient(#20e5f3, #089dca) fixed;
-  color: $white;
+  background: $white;
+  color: $body;
   padding: 40px 0;
   min-height: 100vh;
 
   .heading {
+    text-align: center;
     padding: 0 12px;
 
     .heading__head {

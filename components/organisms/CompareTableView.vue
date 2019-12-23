@@ -32,17 +32,17 @@ import {
   Row,
   ComparingItem,
   TextWithEvaluationCell,
-  Summary
+  Summary,
 } from '../../assets/javascript/types/tableTypes'
-import RowVue from '../molecules/Row.vue';
-import TableHeaderVue from '../molecules/TableHeader.vue';
-import ComparingItemVue from '../atoms/ComparingItem.vue';
-import ComparingPointVue from '../atoms/ComparingPoint.vue';
-import TextCellVue from '../atoms/TextCell.vue';
-import FooterVue from '../molecules/Footer.vue';
-import SummaryVue from '../molecules/Summary.vue';
-import { oneRowFactory } from '../../assets/javascript/factory/oneRowFactory';
-import { addItemUseCase } from '../../assets/javascript/useCase/addItemUseCase';
+import RowVue from '../molecules/Row.vue'
+import TableHeaderVue from '../molecules/TableHeader.vue'
+import ComparingItemVue from '../atoms/ComparingItem.vue'
+import ComparingPointVue from '../atoms/ComparingPoint.vue'
+import TextCellVue from '../atoms/TextCell.vue'
+import FooterVue from '../molecules/Footer.vue'
+import SummaryVue from '../molecules/Summary.vue'
+import { oneRowFactory } from '../../assets/javascript/factory/oneRowFactory'
+import { addItemUseCase } from '../../assets/javascript/useCase/addItemUseCase'
 
 @Component({
   components: {
@@ -50,24 +50,24 @@ import { addItemUseCase } from '../../assets/javascript/useCase/addItemUseCase';
     TableHeader: TableHeaderVue,
     Row: RowVue,
     TheFooter: FooterVue,
-    TheSummary: SummaryVue
-  }
+    TheSummary: SummaryVue,
+  },
 })
 export default class CompareTableView extends Vue {
-  @Prop({ type: Object, required: true }) initialTable: CompareTableClass;
+  @Prop({ type: Object, required: true }) initialTable: CompareTableClass
 
-  compares: CompareTableClass = new CompareTableClass();
+  compares: CompareTableClass = new CompareTableClass()
 
-  public mounted () {
+  public mounted() {
     this.compares = this.initialTable
   }
 
-  public get tableRows (): Array<Row> {
+  public get tableRows(): Array<Row> {
     return this.compares.data.rows.filter(row => {
       return row.deleted_at === undefined
     })
   }
-  public get tableColumns (): TableHeader {
+  public get tableColumns(): TableHeader {
     return this.compares.data.header
   }
   public get softDeletedTableHeader(): TableHeader {
@@ -75,7 +75,7 @@ export default class CompareTableView extends Vue {
       return header.deleted_at === undefined
     })
   }
-  public get summaries (): {
+  public get summaries(): {
     [key: string]: Summary
   } {
     const result = {}
@@ -92,18 +92,15 @@ export default class CompareTableView extends Vue {
       })
       result[item.comparingItemKey] = {
         comparingItemKey: item.comparingItemKey,
-        value: sum
+        value: sum,
       }
     })
     return result
   }
-  updateCheckPoint (index: number, name: string) {
-  }
-  updateValue (
-  ) {
-  }
-  addItem () {
-    addItemUseCase(this.compares)
+  updateCheckPoint(index: number, name: string) {}
+  updateValue() {}
+  addItem() {
+    this.compares = addItemUseCase(this.compares)
   }
   removeItem(itemKey: string) {
     this.compares.data.header = this.compares.data.header.map(item => {
@@ -116,7 +113,7 @@ export default class CompareTableView extends Vue {
   addRow() {
     this.compares.data.rows.push(oneRowFactory(this.compares))
   }
-  removeRow (rowKey: string) {
+  removeRow(rowKey: string) {
     this.compares.data.rows = this.compares.data.rows.map(row => {
       if (row.rowKey === rowKey) {
         row.deleted_at = Date.now()
