@@ -2,22 +2,10 @@
   section.table
     template(v-if="!compares.isEmpty()")
       table-header(:table-header="tableColumns")
-      .data(v-for="(row, index) in tableRows")
-        comparing-point(:comparing-item="row.head")
-        text-cell(:cell="cell" v-for="cell in row.cells" :key="cell.comparingItemKey")
-        .data__value.--actionCell
-          button(type="button" @click="removeRow(index)").--miniBtn 削除
-      .footer
-        .footer__addPoint.--actionCell
-          button(type="button" @click="addRow").--miniBtn 追加
-        .--actionCell(v-for="(key, index) in tableColumns")
-          button(type="button" @click="removeColumn(key)").--miniBtn 削除
-      .summary
-        .summary__heading.--textReadOnly
-          span 評価合計：
-        template(v-for="(evaluate, key) in summaries")
-          .summary__evaluate.--textReadOnly
-            span {{ evaluate }}
+      template(v-for="(row, index) in tableRows")
+        row(:row="row")
+      the-footer(:header="tableColumns")
+      the-summary(:summaries="summaries")
 </template>
 
 <script lang="ts">
@@ -31,21 +19,24 @@ import {
   TableHeader,
   Row,
   ComparingItem,
-  TextWithEvaluationCell
+  TextWithEvaluationCell,
+  Summary
 } from '../../assets/javascript/types/tableTypes'
 import RowVue from '../molecules/Row.vue';
 import TableHeaderVue from '../molecules/TableHeader.vue';
 import ComparingItemVue from '../atoms/ComparingItem.vue';
 import ComparingPointVue from '../atoms/ComparingPoint.vue';
 import TextCellVue from '../atoms/TextCell.vue';
+import FooterVue from '../molecules/Footer.vue';
+import SummaryVue from '../molecules/Summary.vue';
 
 @Component({
   components: {
+    ComparingItem: ComparingItemVue,
     TableHeader: TableHeaderVue,
     Row: RowVue,
-    ComparingItem: ComparingItemVue,
-    ComparingPoint: ComparingPointVue,
-    TextCell: TextCellVue
+    TheFooter: FooterVue,
+    TheSummary: SummaryVue
   }
 })
 export default class CompareTableView extends Vue {
@@ -63,7 +54,9 @@ export default class CompareTableView extends Vue {
   public get tableColumns (): ComparingItem[] {
     return this.compares.data.header
   }
-  public get summaries () {
+  public get summaries (): {
+    [key: string]: Summary
+  } {
     const result = {}
     this.tableColumns.forEach((item: ComparingItem) => {
       let sum = 0
@@ -76,7 +69,10 @@ export default class CompareTableView extends Vue {
         }
         sum += cell.evaluate.level
       })
-      result[item.comparingItemKey] = sum
+      result[item.comparingItemKey] = {
+        comparingItemKey: item.comparingItemKey,
+        value: sum
+      }
     })
     return result
   }
@@ -84,8 +80,6 @@ export default class CompareTableView extends Vue {
   }
   updateValue (
   ) {
-  }
-  addRow () {
   }
   addColumn () {
     const generateRandom = (): string => {
@@ -105,8 +99,6 @@ export default class CompareTableView extends Vue {
     const rand: string = generateRandom()
   }
   removeRow (index: number) {
-  }
-  removeColumn (id: string) {
   }
 }
 </script>
@@ -142,27 +134,6 @@ export default class CompareTableView extends Vue {
         width: 96px;
         font-weight: bold;
       }
-    }
-  }
-
-  .footer {
-    display: flex;
-    align-items: center;
-  }
-
-  .summary {
-    display: flex;
-    align-items: center;
-    background: $gray-light-3;
-
-    .summary__heading {
-      font-weight: bold;
-      font-size: 0.9rem;
-    }
-
-    .summary__evaluate {
-      font-weight: bold;
-      letter-spacing: 2px;
     }
   }
 }

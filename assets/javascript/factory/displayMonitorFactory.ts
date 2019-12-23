@@ -14,7 +14,7 @@ export const displayMonitorFactory = function (): CompareTableClass {
     rows: [
       {
         head: {
-          name: '',
+          name: '比較ポイント１',
           type: CellType.TEXT
         },
         cells: [

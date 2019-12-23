@@ -1,6 +1,7 @@
 import {
   ActionTree,
   MutationTree,
+  GetterTree
 } from 'vuex';
 
 interface RootState { }
@@ -18,6 +19,15 @@ export const state = (): TableSizeState => ({
   cellWidth: 120,
   headHeight: 60,
 });
+
+export const getters: GetterTree<TableSizeState, RootState> = {
+  headWidth(): string {
+    return `${state().headWidth}px`;
+  },
+  cellWidth(): string {
+    return `${state().cellWidth}px`;
+  }
+};
 
 export const mutations: MutationTree<TableSizeState> = {
 };

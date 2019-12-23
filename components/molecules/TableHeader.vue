@@ -1,6 +1,7 @@
 <template lang="pug">
   .TableHeader
-    .TableHeaderItem(v-for="header in tableHeader")
+    .emptyHeaderItem(:style="{ minWidth: headWidth }")
+    .TableHeaderItem(v-for="header in tableHeader" :style="{ width: cellWidth }")
       comparing-item(:comparing-item="header")
 </template>
 
@@ -10,21 +11,28 @@ import Vue, { PropOptions } from 'vue'
 import { TableHeader } from '../../assets/javascript/types/tableTypes';
 import { namespace } from 'vuex-class';
 
+import { Component, Prop } from 'vue-property-decorator';
 import * as tableSize from '~/store/tableSize'
 const TableSize = namespace(tableSize.name)
 
-export default Vue.extend({
-  name: 'TableHeader',
+@Component({
   components: {
     ComparingItem: () => import('~/components/atoms/ComparingItem.vue')
-  },
-  props: {
-    tableHeader: {
-      type: Array,
-      required: true
-    } as PropOptions<TableHeader>
   }
 })
+export default class TableHeaderVue extends Vue {
+  @Prop({
+    type: Array,
+    required: true
+  }) tableHeader: TableHeader
+
+  @TableSize.Getter headWidth;
+  @TableSize.Getter cellWidth;
+
+  mounted() {
+    console.log(this.headWidth)
+  }
+}
 </script>
 
 <style lang="scss" scoped>
