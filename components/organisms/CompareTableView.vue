@@ -2,12 +2,12 @@
   section.table
     template(v-if="!compares.isEmpty()")
       table-header(:table-header="tableColumns")
-      template(v-for="(row, index) in tableRows")
-        row(
-          :row="row"
-          @on-clicked-remove-row="removeRow($event)"
-          v-if="row.deleted !== true"
-        )
+      row(
+        :row="row"
+        @on-clicked-remove-row="removeRow($event)"
+        v-for="(row, index) in tableRows"
+        :key="row.rowKey"
+      )
       the-footer(
         :header="tableColumns"
         @on-clicked-add-row="addRow"
@@ -57,7 +57,9 @@ export default class CompareTableView extends Vue {
   }
 
   public get tableRows (): Array<Row> {
-    return this.compares.data.rows
+    return this.compares.data.rows.filter(row => {
+      return row.deleted !== true
+    })
   }
   public get tableColumns (): ComparingItem[] {
     return this.compares.data.header
