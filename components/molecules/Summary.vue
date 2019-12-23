@@ -20,7 +20,7 @@ const TableSize = namespace(tableSize.name)
 @Component
 export default class SummaryVue extends Vue {
   @Prop({
-    type: Array,
+    type: Object,
     required: true
   }) summaries: {
     [key: string]: Summary

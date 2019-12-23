@@ -1,7 +1,7 @@
 <template lang="pug">
   .footer
     .footer__addPoint.--actionCell(:style="{ minWidth: headWidth }")
-      button(type="button" @click="addRow").--miniBtn 追加
+      button(type="button" @click="$emit('on-click-add-row')").--miniBtn 追加
     .--actionCell(v-for="comparingItem in header" :style="{ width: cellWidth }")
       button(type="button" @click="removeColumn(comparingItem.comparingItemKey)").--miniBtn 削除
 </template>

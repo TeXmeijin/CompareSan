@@ -1,4 +1,5 @@
-import { CompareTableClass, CellType } from '../types/tableTypes';
+import { CompareTableClass } from '../types/tableTypes';
+import { oneRowFactory } from './oneRowFactory';
 export const displayMonitorFactory = function (): CompareTableClass {
   const table = {
     header: [
@@ -12,27 +13,13 @@ export const displayMonitorFactory = function (): CompareTableClass {
       }
     ],
     rows: [
-      {
-        head: {
-          name: '比較ポイント１',
-          type: CellType.TEXT
-        },
-        cells: [
-          {
-            type: CellType.TEXT,
-            comparingItemKey: '2'
-          },
-          {
-            type: CellType.TEXT,
-            comparingItemKey: '1'
-          }
-        ]
-      }
     ]
   };
 
   const instance = new CompareTableClass();
   instance.data = table;
+  instance.data.rows.push(oneRowFactory(instance));
 
   return instance;
 };
+

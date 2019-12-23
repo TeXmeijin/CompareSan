@@ -4,7 +4,10 @@
       table-header(:table-header="tableColumns")
       template(v-for="(row, index) in tableRows")
         row(:row="row")
-      the-footer(:header="tableColumns")
+      the-footer(
+        :header="tableColumns"
+        @on-click-add-row="addRow"
+      )
       the-summary(:summaries="summaries")
 </template>
 
@@ -29,6 +32,7 @@ import ComparingPointVue from '../atoms/ComparingPoint.vue';
 import TextCellVue from '../atoms/TextCell.vue';
 import FooterVue from '../molecules/Footer.vue';
 import SummaryVue from '../molecules/Summary.vue';
+import { oneRowFactory } from '../../assets/javascript/factory/oneRowFactory';
 
 @Component({
   components: {
@@ -97,6 +101,9 @@ export default class CompareTableView extends Vue {
       return r
     }
     const rand: string = generateRandom()
+  }
+  addRow() {
+    this.compares.data.rows.push(oneRowFactory(this.compares))
   }
   removeRow (index: number) {
   }
