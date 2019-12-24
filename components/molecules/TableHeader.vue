@@ -32,9 +32,7 @@ export default class TableHeaderVue extends Vue {
   @TableSize.Getter headWidth
   @TableSize.Getter cellWidth
 
-  mounted() {
-    console.log(this.headWidth)
-  }
+  mounted() {}
 }
 </script>
 

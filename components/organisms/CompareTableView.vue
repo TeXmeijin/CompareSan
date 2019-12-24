@@ -9,6 +9,8 @@
         :row="row"
         :table-header="tableColumns"
         @on-clicked-remove-row="removeRow($event)"
+        @on-updated-cell-value="updatedCellValue($event, index)"
+        @on-updated-cell-evaluate="updatedCellEvaluate($event, index)"
         v-for="(row, index) in tableRows"
         :key="row.rowKey"
       )
@@ -33,6 +35,9 @@ import {
   ComparingItem,
   TextWithEvaluationCell,
   Summary,
+  Cell,
+  CellType,
+  TextCell,
 } from '../../assets/javascript/types/tableTypes'
 import RowVue from '../molecules/Row.vue'
 import TableHeaderVue from '../molecules/TableHeader.vue'
@@ -88,7 +93,7 @@ export default class CompareTableView extends Vue {
         if (!cell || !cell.evaluate) {
           return
         }
-        sum += cell.evaluate.level
+        sum += cell.evaluate
       })
       result[item.comparingItemKey] = {
         comparingItemKey: item.comparingItemKey,
@@ -98,7 +103,40 @@ export default class CompareTableView extends Vue {
     return result
   }
   updateCheckPoint(index: number, name: string) {}
-  updateValue() {}
+  updatedCellValue(cell: TextCell | TextWithEvaluationCell, index: number) {
+    const targetIndex = this.compares.data.rows[index].cells.findIndex(searchCell => {
+      return searchCell.comparingItemKey === cell.comparingItemKey
+    })
+    if (targetIndex < 0) {
+      return
+    }
+
+    const target = this.compares.data.rows[index].cells[targetIndex] as
+      | TextCell
+      | TextWithEvaluationCell
+
+    target.value = cell.value
+    this.compares.data.rows[index].cells.splice(targetIndex, 1, target)
+    console.log(this.compares)
+    return
+  }
+  updatedCellEvaluate(cell: TextWithEvaluationCell, index: number) {
+    const targetIndex = this.compares.data.rows[index].cells.findIndex(searchCell => {
+      return searchCell.comparingItemKey === cell.comparingItemKey
+    })
+    if (targetIndex < 0) {
+      return
+    }
+
+    const target = this.compares.data.rows[index].cells[
+      targetIndex
+    ] as TextWithEvaluationCell
+
+    target.evaluate = parseInt(`${cell.evaluate}`)
+    this.compares.data.rows[index].cells.splice(targetIndex, 1, target)
+    console.log(this.compares)
+    return
+  }
   addItem() {
     this.compares = addItemUseCase(this.compares)
   }

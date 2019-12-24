@@ -3,7 +3,11 @@
   .head(:style="{ minWidth: headWidth }")
     comparing-point(:comparing-item="head")
   .cell(:style="{ minWidth: cellWidth }" v-for="cell in cells" :key="cell.comparingItemKey")
-    text-cell(:cell="cell")
+    cell(
+      :cell="cell"
+      @on-updated-cell-value="$emit('on-updated-cell-value', $event)"
+      @on-updated-cell-evaluate="$emit('on-updated-cell-evaluate', $event)"
+    )
   .data__value.--actionCell
     button(type="button" @click="$emit('on-clicked-remove-row', row.rowKey)").--miniBtn 削除
 </template>
@@ -22,13 +26,13 @@ import { Component, Prop } from 'vue-property-decorator'
 const TableSize = namespace(tableSize.name)
 
 import ComparingPointVue from '../atoms/ComparingPoint.vue'
-import TextCellVue from '../atoms/TextCell.vue'
+import CellVue from '../atoms/Cell.vue'
 import { namespace } from 'vuex-class'
 
 @Component({
   components: {
     ComparingPoint: ComparingPointVue,
-    TextCell: TextCellVue,
+    Cell: CellVue,
   },
 })
 export default class RowView extends Vue {

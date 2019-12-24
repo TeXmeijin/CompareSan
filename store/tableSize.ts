@@ -12,7 +12,7 @@ export const name = 'tableSize'
 
 export const state = (): TableSizeState => ({
   headWidth: 120,
-  cellWidth: 130,
+  cellWidth: 165,
   headHeight: 40,
 })
 

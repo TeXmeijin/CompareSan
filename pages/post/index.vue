@@ -19,20 +19,22 @@ import CompareTableView from '~/components/organisms/CompareTableView.vue'
 
 import * as auth from '~/store/auth'
 import { CompareTableClass } from '../../assets/javascript/types/tableTypes'
-import { displayMonitorFactory } from '../../assets/javascript/factory/displayMonitorFactory';
+import { displayMonitorFactory } from '../../assets/javascript/factory/displayMonitorFactory'
 const Auth = namespace(auth.name)
 
 @Component({
   components: {
-    CompareTableView
-  }
+    CompareTableView,
+  },
 })
 export default class Post extends Vue {
   table: CompareTableClass = displayMonitorFactory()
 
-  @Auth.State uid;
+  @Auth.State uid
 
-  save () {
+  save() {
+    console.log(this.table)
+    return
     firebase
       .firestore()
       .collection('compare-san/v0_1_0')
@@ -40,13 +42,13 @@ export default class Post extends Vue {
         uid: this.uid,
         table: this.table,
       })
-      .then((docRef) => {
+      .then(docRef => {
         console.log('Document written with ID: ', docRef.id)
         this.$router.push({
           name: 'post-postId',
           params: {
-            postId: docRef.id
-          }
+            postId: docRef.id,
+          },
         })
       })
   }
