@@ -2,13 +2,9 @@
 main.sec-main
   section.heading
     h1.heading__head 比較を編集する
-  section.dataTable
+  section.dataTable(v-if="!table.isEmpty()")
     compare-table-view(
-      :initialProducts="products"
-      @changeProducts="products = $event"
-      :initialCompares="compares"
-      @changeCompares="compares = $event"
-      v-if="products.length && compares.length"
+      :initialTable="table"
     )
   section.commit
     button(type="button" @click="save").--mediumButton.primary 保存する
@@ -22,6 +18,8 @@ import firebase from 'firebase'
 import CompareTableView from '~/components/organisms/CompareTableView.vue'
 
 import * as auth from '~/store/auth'
+import { CompareTableClass, CompareTable } from '../../assets/javascript/types/tableTypes';
+import { emptyTableFactory } from '../../assets/javascript/factory/emptyTableFactory';
 const Auth = namespace(auth.name)
 
 enum InputType {
@@ -37,11 +35,10 @@ enum InputType {
   }
 })
 export default class EditPost extends Vue {
-  compares: Array<any> = [];
-  products: Array<any> = [];
+  table: CompareTableClass  = emptyTableFactory()
 
   public async created (): Promise<void> {
-    const savedData = await firebase.firestore().collection('compare-san').doc(this.$route.params.postId).get()
+    const savedData = await firebase.firestore().collection('compare-data-v0_1_0').doc(this.$route.params.postId).get()
 
     const snapshot = savedData.data()
 
@@ -49,8 +46,10 @@ export default class EditPost extends Vue {
       return
     }
 
-    this.products = snapshot.products
-    this.compares = snapshot.compares
+    const table = snapshot.table as CompareTable
+
+    this.table = new CompareTableClass()
+    this.table.data = snapshot.table
   }
 
   @Auth.State uid;
@@ -58,12 +57,11 @@ export default class EditPost extends Vue {
   save () {
     firebase
       .firestore()
-      .collection('compare-san')
+      .collection('compare-data-v0_1_0')
       .doc(this.$route.params.postId)
       .set({
         uid: this.uid,
-        products: this.products,
-        compares: this.compares
+        table: this.table.data,
       }).then(() => {
       })
   }
@@ -72,12 +70,13 @@ export default class EditPost extends Vue {
 
 <style lang="scss" scoped>
 .sec-main {
-  background: linear-gradient(#20e5f3, #089dca) fixed;
-  color: $white;
+  background: $white;
+  color: $body;
   padding: 40px 0;
   min-height: 100vh;
 
   .heading {
+    text-align: center;
     padding: 0 12px;
 
     .heading__head {

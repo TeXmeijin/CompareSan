@@ -33,14 +33,12 @@ export default class Post extends Vue {
   @Auth.State uid
 
   save() {
-    console.log(this.table)
-    return
     firebase
       .firestore()
-      .collection('compare-san/v0_1_0')
+      .collection('compare-data-v0_1_0')
       .add({
         uid: this.uid,
-        table: this.table,
+        table: this.table.data,
       })
       .then(docRef => {
         console.log('Document written with ID: ', docRef.id)
