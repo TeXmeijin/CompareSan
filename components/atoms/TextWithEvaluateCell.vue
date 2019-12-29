@@ -8,6 +8,7 @@
     )
     select(
       :value="cell.evaluate"
+      class="--stringField"
       @input="$emit('on-updated-cell-evaluate', { ...cell, evaluate: $event.target.value })"
     ).selector
       template(v-for="evaluateItem in evaluateItemList")
@@ -65,13 +66,9 @@ export default class TextWithEvaluateCellVue extends Vue {
 
   font-size: 1rem;
   position: relative;
+}
 
-  .selector {
-    border: 1px solid $gray-light-2;
-    border-radius: 4px;
-    padding: 4px;
-    width: 100%;
-    margin-top: 8px;
-  }
+.selector {
+  margin-top: 8px;
 }
 </style>

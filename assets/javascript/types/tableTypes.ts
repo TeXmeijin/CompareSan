@@ -27,10 +27,10 @@ export type ComparingPoint = {
 }
 
 export enum CellType {
-  URL,
-  TEXT,
-  TEXT_WITH_EVALUATION,
-  IMAGE,
+  URL = 'URL',
+  TEXT = 'Text',
+  TEXT_WITH_EVALUATION = 'Text with Evaluation',
+  IMAGE = 'Image',
 }
 
 export interface Cell {

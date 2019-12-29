@@ -2,14 +2,35 @@
 .row
   .head(:style="{ minWidth: headWidth }")
     comparing-point(:comparing-item="head")
-  .cell(:style="{ minWidth: cellWidth }" v-for="cell in cells" :key="cell.comparingItemKey")
+  .cell(:style="{ width: cellWidth }" v-for="cell in cells" :key="cell.comparingItemKey")
     cell(
       :cell="cell"
       @on-updated-cell-value="$emit('on-updated-cell-value', $event)"
       @on-updated-cell-evaluate="$emit('on-updated-cell-evaluate', $event)"
     )
-  .data__value.--actionCell
+  .row__action.--actionCell
+    button(type="button" @click="isShowingUpdateModal = true").--miniBtn 編集
     button(type="button" @click="$emit('on-clicked-remove-row', row.rowKey)").--miniBtn 削除
+  modal(
+    :isShowing="isShowingUpdateModal"
+    @on-closed="isShowingUpdateModal = false"
+  )
+    .CellUpdate
+      span.Label セルの種類を選択
+      .SelectCellType
+        select(v-model="cellType").selector
+          option(
+            :key="type"
+            :value="type"
+            :selected="head.type === type"
+            v-for="type in CellTypeMaster"
+          ) {{ type }}
+      .Submit
+        button(
+          @click="onClickedSaveCellUpdate"
+          :disabled="!cellType"
+          class="--mediumButton"
+        ) 保存する
 </template>
 
 <script lang="ts">
@@ -19,6 +40,7 @@ import {
   ComparingPoint,
   Cell,
   TableHeader,
+  CellType,
 } from '../../assets/javascript/types/tableTypes'
 
 import * as tableSize from '~/store/tableSize'
@@ -29,10 +51,16 @@ import ComparingPointVue from '../atoms/ComparingPoint.vue'
 import CellVue from '../atoms/Cell.vue'
 import { namespace } from 'vuex-class'
 
+export interface UpdateRowContent {
+  rowKey: string,
+  type: CellType | null
+}
+
 @Component({
   components: {
     ComparingPoint: ComparingPointVue,
     Cell: CellVue,
+    Modal: () => import('~/components/atoms/Modal.vue'),
   },
 })
 export default class RowView extends Vue {
@@ -47,6 +75,9 @@ export default class RowView extends Vue {
     required: true,
   })
   tableHeader: TableHeader
+
+  isShowingUpdateModal = false
+  cellType = null
 
   @TableSize.Getter headWidth
   @TableSize.Getter cellWidth
@@ -69,16 +100,62 @@ export default class RowView extends Vue {
       return !removedKeys.includes(cell.comparingItemKey)
     })
   }
+
+  public get CellTypeMaster(): string[] {
+    return [
+      CellType.TEXT,
+      CellType.TEXT_WITH_EVALUATION,
+      CellType.IMAGE,
+      CellType.URL,
+    ]
+  }
+
+  onClickedSaveCellUpdate() {
+    this.isShowingUpdateModal = false
+    const update: UpdateRowContent = {
+      rowKey: this.row.rowKey,
+      type: this.cellType
+    }
+    this.$emit('on-clicked-update-row', update)
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .row {
   display: flex;
-  align-items: center;
+
+  .cell {
+    display: flex;
+    align-items: center;
+  }
 
   .head {
-    padding: 12px 0;
+    display: flex;
+    padding: 4px 0;
+  }
+
+  &__action {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+
+  .CellUpdate {
+    padding: 8px 12px;
+
+    .Label {
+      font-weight: bold;
+      font-size: 1rem;
+    }
+
+    .SelectCellType {
+      margin-top: 8px;
+    }
+
+    .Submit {
+      margin-top: 16px;
+    }
   }
 }
 </style>

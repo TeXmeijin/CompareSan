@@ -29,6 +29,10 @@ export default Vue.extend({
   background: $gray-light-3;
   margin-right: 4px;
   text-align: center;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &__text {
     font-weight: bold;

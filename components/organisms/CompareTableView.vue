@@ -9,6 +9,7 @@
         :row="row"
         :table-header="tableColumns"
         @on-clicked-remove-row="removeRow($event)"
+        @on-clicked-update-row="uddateRow($event)"
         @on-updated-cell-value="updatedCellValue($event, index)"
         @on-updated-cell-evaluate="updatedCellEvaluate($event, index)"
         v-for="(row, index) in tableRows"
@@ -39,7 +40,7 @@ import {
   CellType,
   TextCell,
 } from '../../assets/javascript/types/tableTypes'
-import RowVue from '../molecules/Row.vue'
+import RowVue, { UpdateRowContent } from '../molecules/Row.vue'
 import TableHeaderVue from '../molecules/TableHeader.vue'
 import ComparingItemVue from '../atoms/ComparingItem.vue'
 import ComparingPointVue from '../atoms/ComparingPoint.vue'
@@ -117,7 +118,6 @@ export default class CompareTableView extends Vue {
 
     target.value = cell.value
     this.compares.data.rows[index].cells.splice(targetIndex, 1, target)
-    console.log(this.compares)
     return
   }
   updatedCellEvaluate(cell: TextWithEvaluationCell, index: number) {
@@ -134,7 +134,6 @@ export default class CompareTableView extends Vue {
 
     target.evaluate = parseInt(`${cell.evaluate}`)
     this.compares.data.rows[index].cells.splice(targetIndex, 1, target)
-    console.log(this.compares)
     return
   }
   addItem() {
@@ -155,6 +154,20 @@ export default class CompareTableView extends Vue {
     this.compares.data.rows = this.compares.data.rows.map(row => {
       if (row.rowKey === rowKey) {
         row.deleted_at = Date.now()
+      }
+      return row
+    })
+  }
+  uddateRow(update: UpdateRowContent) {
+    this.compares.data.rows = this.compares.data.rows.map(row => {
+      if (row.rowKey === update.rowKey && !!update.type) {
+        row.head.type = update.type
+        row.cells = row.cells.map(cell => {
+          if (update.type) {
+            cell.type = update.type
+          }
+          return cell
+        })
       }
       return row
     })
