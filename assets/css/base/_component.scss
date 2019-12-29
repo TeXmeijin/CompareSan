@@ -66,3 +66,20 @@
   width: 100%;
   font-size: 1rem;
 }
+
+.CellUpdate {
+  padding: 8px 12px;
+
+  .Label {
+    font-weight: bold;
+    font-size: 1rem;
+  }
+
+  .SelectCellType {
+    margin-top: 8px;
+  }
+
+  .Submit {
+    margin-top: 16px;
+  }
+}

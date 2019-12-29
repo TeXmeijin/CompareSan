@@ -140,22 +140,5 @@ export default class RowView extends Vue {
     flex-direction: column;
     justify-content: space-around;
   }
-
-  .CellUpdate {
-    padding: 8px 12px;
-
-    .Label {
-      font-weight: bold;
-      font-size: 1rem;
-    }
-
-    .SelectCellType {
-      margin-top: 8px;
-    }
-
-    .Submit {
-      margin-top: 16px;
-    }
-  }
 }
 </style>

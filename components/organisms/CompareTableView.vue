@@ -147,8 +147,8 @@ export default class CompareTableView extends Vue {
       return item
     })
   }
-  addRow() {
-    this.compares.data.rows.push(oneRowFactory(this.compares))
+  addRow({ type }) {
+    this.compares.data.rows.push(oneRowFactory(this.compares, type))
   }
   removeRow(rowKey: string) {
     this.compares.data.rows = this.compares.data.rows.map(row => {
