@@ -67,6 +67,7 @@ export default class UrlCellVue extends Vue {
   align-items: center;
   justify-content: center;
   position: relative;
+  word-break: break-all;
 
   .Link {
     font-size: 0.8rem;
