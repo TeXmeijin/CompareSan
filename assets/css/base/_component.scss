@@ -1,0 +1,65 @@
+%cell {
+  max-width: calc(100% - 24px);
+  padding: 8px;
+  font-size: 1rem;
+}
+
+.--stringField {
+  @extend %cell;
+  display: flex;
+  border: 1px solid $gray-light-3;
+  border-radius: 2px;
+}
+
+.--textReadOnly {
+  @extend %cell;
+  text-align: center;
+}
+
+.--actionCell {
+  @extend %cell;
+  text-align: center;
+}
+
+.BaseCell {
+  display: flex;
+  height: 100%;
+  padding: 4px;
+}
+
+.selector {
+  border: 1px solid $gray-light-2;
+  border-radius: 4px;
+  padding: 4px 8px;
+  width: 100%;
+  font-size: 1rem;
+  min-height: 36px;
+}
+
+.ModalForm {
+  padding: 8px 12px;
+
+  .Label {
+    font-size: 0.9rem;
+  }
+
+  .FormContent {
+    padding: 12px 0;
+
+    &:not(:first-child) {
+      border-top: 1px solid $gray-light-3;
+    }
+
+    &.--no-border {
+      border: 0;
+    }
+
+    &.--dense {
+      padding: 6px 0;
+    }
+  }
+
+  .FormItem {
+    margin-top: 8px;
+  }
+}

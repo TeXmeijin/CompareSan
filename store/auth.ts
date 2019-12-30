@@ -1,17 +1,14 @@
-import firebase from 'firebase'
+import * as firebase from 'firebase/app'
+import 'firebase/auth'
 import pick from 'lodash/pick'
-import {
-  ActionTree,
-  MutationTree,
-  GetterTree
-} from 'vuex'
+import { ActionTree, MutationTree } from 'vuex'
 
-interface RootState { }
+interface RootState {}
 
 interface AuthState {
-  user: firebase.UserInfo | null;
-  uid: string | null;
-  credential: any | null;
+  user: firebase.UserInfo | null
+  uid: string | null
+  credential: any | null
 }
 
 export const name = 'auth'
@@ -19,7 +16,7 @@ export const name = 'auth'
 export const state = (): AuthState => ({
   user: null,
   uid: null,
-  credential: null
+  credential: null,
 })
 
 export const mutations: MutationTree<AuthState> = {
@@ -39,7 +36,7 @@ export const mutations: MutationTree<AuthState> = {
       return
     }
     state.credential = credential
-  }
+  },
 }
 
 export const actions: ActionTree<AuthState, RootState> = {
@@ -47,31 +44,31 @@ export const actions: ActionTree<AuthState, RootState> = {
     const provider = new firebase.auth.TwitterAuthProvider()
     firebase.auth().signInWithRedirect(provider)
   },
-  logout: ({
-    commit
-  }, uid: string) => {
+  logout: ({ commit }, uid: string) => {
     firebase.auth().signOut()
 
     commit('setUid', null)
     commit('setUser', null)
     commit('setCredential', null)
-    firebase.firestore().collection('users').doc(uid).set({})
+    firebase
+      .firestore()
+      .collection('users')
+      .doc(uid)
+      .set({})
   },
-  setCredential: ({
-    commit
-  }, {
-    uid,
-    twitterId,
-    credential
-  }) => {
+  setCredential: ({ commit }, { uid, twitterId, credential }) => {
     const db = firebase.firestore()
-    db.collection('users').doc(uid).set(Object.assign({
-      twitterId,
-      created_at: new Date().getTime()
-    }, pick(
-      credential,
-      ['accessToken', 'secret']
-    )))
+    db.collection('users')
+      .doc(uid)
+      .set(
+        Object.assign(
+          {
+            twitterId,
+            created_at: new Date().getTime(),
+          },
+          pick(credential, ['accessToken', 'secret'])
+        )
+      )
     commit('setCredential', credential)
-  }
+  },
 }
