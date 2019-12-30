@@ -14,9 +14,7 @@
         .FormContent
           span.Label URL
           .FormItem
-            input(
-              type="text"
-              class="--stringField --head"
+            c-text-field(
               v-model="url"
             )
         .FormContent.--no-border.--dense
