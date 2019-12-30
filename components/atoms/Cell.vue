@@ -9,14 +9,16 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch, Emit, Ref } from 'vue-property-decorator'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Cell, CellType } from '../../assets/javascript/types/tableTypes'
 import TextCell from './TextCell.vue'
 import TextWithEvaluateCellVue from './TextWithEvaluateCell.vue'
+import UrlCellVue from './UrlCell.vue'
 
 @Component({
   components: {
     TextCell,
+    UrlCell: UrlCellVue,
     TextEvaluateCell: TextWithEvaluateCellVue,
   },
 })
@@ -27,9 +29,12 @@ export default class CellVue extends Vue {
   })
   cell: Cell
 
-  public get cellComponentName(): string {
+  public get cellComponentName (): string {
     if (this.cell.type === CellType.TEXT) {
       return 'text-cell'
+    }
+    if (this.cell.type === CellType.URL) {
+      return 'url-cell'
     }
     return 'text-evaluate-cell'
   }

@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch, Emit, Ref } from 'vue-property-decorator'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 
 import { namespace } from 'vuex-class'
 import { TableHeader, CellType } from '../../assets/javascript/types/tableTypes'
@@ -73,11 +73,11 @@ export default class Footer extends Vue {
   }
 
   onClickedAddRowSubmit () {
-    this.cellType = null
     this.isShowingAddRowModal = false
     this.$emit('on-clicked-add-row', {
       type: this.cellType,
     } as AddRowContent)
+    this.cellType = null
   }
 }
 </script>

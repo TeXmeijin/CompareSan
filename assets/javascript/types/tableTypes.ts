@@ -6,7 +6,7 @@ export type CompareTable = {
 export class CompareTableClass {
   data: CompareTable
 
-  isEmpty(): boolean {
+  isEmpty (): boolean {
     return (
       !this.data || this.data.rows.length === 0 || this.data.header.length === 0
     )
@@ -39,6 +39,10 @@ export interface Cell {
 }
 
 export interface TextCell extends Cell {
+  value: string
+}
+
+export interface UrlCell extends Cell {
   value: string
 }
 

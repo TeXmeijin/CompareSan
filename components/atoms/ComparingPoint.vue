@@ -16,10 +16,10 @@ export default Vue.extend({
     } as PropOptions<ComparingPoint>,
   },
   components: {
-    EditButton: () => import('~/components/atoms/EditButton.vue')
+    EditButton: () => import('~/components/atoms/EditButton.vue'),
   },
   computed: {
-    name(): string {
+    name (): string {
       return this.comparingItem.name
     },
   },
@@ -47,7 +47,7 @@ export default Vue.extend({
     position: absolute;
     right: 4px;
     bottom: 4px;
-    font-size: .8rem;
+    font-size: 0.8rem;
     display: flex;
     align-items: center;
     color: $gray-light-1;

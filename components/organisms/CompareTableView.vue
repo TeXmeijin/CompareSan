@@ -120,7 +120,7 @@ export default class CompareTableView extends Vue {
     target.value = cell.value
 
     const row = this.compares.data.rows[index]
-    row.cells.splice(targetIndex, 1, target)
+    row.cells.splice(targetIndex, 1, Object.assign({}, target))
     this.compares.data.rows.splice(index, 1, row)
   }
   updatedCellEvaluate (cell: TextWithEvaluationCell, index: number) {

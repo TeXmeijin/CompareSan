@@ -1,5 +1,7 @@
 <template lang="pug">
-  button.EditButton
+  button.EditButton(
+    @click="$emit('click')"
+  )
     v-icon(
       name="pencil-alt"
       scale="0.8"
@@ -13,7 +15,7 @@ import Icon from 'vue-awesome/components/Icon.vue'
 
 export default Vue.extend({
   components: {
-    'v-icon': Icon
+    'v-icon': Icon,
   },
 })
 </script>

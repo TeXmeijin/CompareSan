@@ -9,8 +9,8 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch, Emit, Ref } from 'vue-property-decorator'
-import { Cell, TextCell } from '../../assets/javascript/types/tableTypes'
+import { Vue, Component, Prop } from 'vue-property-decorator'
+import { TextCell } from '../../assets/javascript/types/tableTypes'
 
 @Component
 export default class TextCellVue extends Vue {
