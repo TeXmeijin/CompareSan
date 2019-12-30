@@ -2,7 +2,11 @@
   .TableHeader
     .emptyHeaderItem(:style="{ minWidth: headWidth }")
     .TableHeaderItem(v-for="header in tableHeader" :style="{ minWidth: cellWidth }")
-      comparing-item(:comparing-item="header")
+      comparing-item(
+        :comparing-item="header"
+        @on-clicked-remove-item="$emit('on-clicked-remove-item', $event)"
+        @on-clicked-update-item="$emit('on-clicked-update-item', $event)"
+      )
     .TableAddItem.--actionCell
       c-button(size="small" @click="$emit('on-clicked-add-item')") 追加
 </template>

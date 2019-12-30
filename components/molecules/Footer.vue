@@ -2,8 +2,6 @@
   .footer
     .footer__addPoint.--actionCell(:style="{ minWidth: headWidth }")
       c-button(@click="isShowingAddRowModal = true" size="small") 追加
-    .--actionCell(v-for="comparingItem in header" :style="{ minWidth: cellWidth }")
-      c-button(@click="$emit('on-clicked-remove-item', comparingItem.comparingItemKey)" size="small") 削除
     modal(
       :isShowing="isShowingAddRowModal"
       @on-closed="cellType = null; isShowingAddRowModal = false"

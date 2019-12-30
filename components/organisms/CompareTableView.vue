@@ -4,6 +4,8 @@
       table-header(
         :table-header="softDeletedTableHeader"
         @on-clicked-add-item="addItem"
+        @on-clicked-remove-item="removeItem($event)"
+        @on-clicked-update-item="updateItem($event)"
       )
       row(
         :row="row"
@@ -18,7 +20,6 @@
       the-footer(
         :header="softDeletedTableHeader"
         @on-clicked-add-row="addRow"
-        @on-clicked-remove-item="removeItem($event)"
       )
       the-summary(:summaries="summaries")
 </template>
@@ -37,7 +38,7 @@ import {
 } from '../../assets/javascript/types/tableTypes'
 import RowVue, { UpdateRowContent } from '../molecules/Row.vue'
 import TableHeaderVue from '../molecules/TableHeader.vue'
-import ComparingItemVue from '../atoms/ComparingItem.vue'
+import ComparingItemVue, { UpdateItemContent } from '../atoms/ComparingItem.vue'
 import FooterVue from '../molecules/Footer.vue'
 import SummaryVue from '../molecules/Summary.vue'
 import { oneRowFactory } from '../../assets/javascript/factory/oneRowFactory'
@@ -142,6 +143,24 @@ export default class CompareTableView extends Vue {
   }
   addItem () {
     this.compares = addItemUseCase(this.compares)
+  }
+  updateItem (content: UpdateItemContent) {
+    const index = this.compares.data.header.findIndex((header) => {
+      return header.comparingItemKey === content.itemKey
+    })
+
+    if (index < 0) {
+      return
+    }
+
+    this.compares.data.header.splice(
+      index,
+      1,
+      ((item) => {
+        item.name = content.name
+        return item
+      })(this.compares.data.header[index])
+    )
   }
   removeItem (itemKey: string) {
     this.compares.data.header = this.compares.data.header.map((item) => {
