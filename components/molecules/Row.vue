@@ -19,9 +19,7 @@
       .FormContent
         span.Label 名前
         .FormItem
-          input(
-            type="text"
-            class="--stringField --head"
+          c-text-field(
             v-model="cellName"
           )
       .FormContent

@@ -1,14 +1,11 @@
 <template lang="pug">
   .TextEvaluationCell
-    input(
-      type="text"
-      class="--stringField --head"
+    c-text-field(
       :value="cell.value"
-      @input="$emit('on-updated-cell-value', { ...cell, value: $event.target.value })"
+      @input="$emit('on-updated-cell-value', { ...cell, value: $event })"
     )
     select(
       :value="cell.evaluate"
-      class="--stringField"
       @input="$emit('on-updated-cell-evaluate', { ...cell, evaluate: $event.target.value })"
     ).selector
       template(v-for="evaluateItem in evaluateItemList")
@@ -36,7 +33,7 @@ export default class TextWithEvaluateCellVue extends Vue {
   })
   cell: TextWithEvaluationCell
 
-  public get evaluateItemList(): Evaluate[] {
+  public get evaluateItemList (): Evaluate[] {
     return [
       {
         level: 1,
@@ -63,6 +60,7 @@ export default class TextWithEvaluateCellVue extends Vue {
 .TextEvaluationCell {
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   font-size: 1rem;
   position: relative;

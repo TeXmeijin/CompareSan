@@ -11,9 +11,7 @@
         .FormContent
           span.Label 商品の名前
           .FormItem
-            input(
-              type="text"
-              class="--stringField --head"
+            c-text-field(
               v-model="name"
             )
         .FormContent.--no-border.--dense
