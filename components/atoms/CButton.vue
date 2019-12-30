@@ -62,15 +62,17 @@ export default Vue.extend({
   border: 1px solid $primary;
   border-radius: 4px;
 
+  transition: background 0.2s;
+
   &.--block {
     display: block;
     width: 100%;
   }
 
   &:disabled {
-    color: $gray;
-    background: $gray-light-3;
-    border-color: $gray-light-2;
+    color: $gray !important;
+    background: $gray-light-3 !important;
+    border-color: $gray-light-2 !important;
   }
 
   &.--small {
@@ -89,10 +91,23 @@ export default Vue.extend({
     border-radius: 4px;
   }
 
+  &.--large {
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    padding: 12px 24px;
+    border-radius: 8px;
+  }
+
   &.primary {
     background: $primary;
     color: $white;
     border: 0;
+  }
+
+  &.error-outlined {
+    color: $error;
+    border-color: $error;
   }
 }
 </style>

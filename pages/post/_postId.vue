@@ -7,7 +7,7 @@ main.sec-main
       :initialTable="table"
     )
   section.commit
-    button(type="button" @click="save").--mediumButton.primary 保存する
+    c-button(type="primary" size="large" :block="true" @click="save") 保存する
 </template>
 
 <script lang="ts">
@@ -15,30 +15,37 @@ import { Vue, Component, Ref } from 'vue-property-decorator'
 import { namespace, Action } from 'vuex-class'
 import firebase from 'firebase'
 
+import {
+  CompareTableClass,
+  CompareTable,
+} from '../../assets/javascript/types/tableTypes'
+import { emptyTableFactory } from '../../assets/javascript/factory/emptyTableFactory'
 import CompareTableView from '~/components/organisms/CompareTableView.vue'
 
 import * as auth from '~/store/auth'
-import { CompareTableClass, CompareTable } from '../../assets/javascript/types/tableTypes';
-import { emptyTableFactory } from '../../assets/javascript/factory/emptyTableFactory';
 const Auth = namespace(auth.name)
 
 enum InputType {
   StringField,
   StringArea,
   Url,
-  Select
+  Select,
 }
 
 @Component({
   components: {
-    CompareTableView
-  }
+    CompareTableView,
+  },
 })
 export default class EditPost extends Vue {
-  table: CompareTableClass  = emptyTableFactory()
+  table: CompareTableClass = emptyTableFactory()
 
   public async created (): Promise<void> {
-    const savedData = await firebase.firestore().collection('compare-data-v0_1_0').doc(this.$route.params.postId).get()
+    const savedData = await firebase
+      .firestore()
+      .collection('compare-data-v0_1_0')
+      .doc(this.$route.params.postId)
+      .get()
 
     const snapshot = savedData.data()
 
@@ -48,11 +55,10 @@ export default class EditPost extends Vue {
 
     const table = snapshot.table as CompareTable
 
-    this.table = new CompareTableClass()
-    this.table.data = snapshot.table
+    this.table.data = table
   }
 
-  @Auth.State uid;
+  @Auth.State uid
 
   save () {
     firebase
@@ -62,8 +68,8 @@ export default class EditPost extends Vue {
       .set({
         uid: this.uid,
         table: this.table.data,
-      }).then(() => {
       })
+      .then(() => {})
   }
 }
 </script>

@@ -35,19 +35,30 @@
   font-size: 1rem;
 }
 
-.CellUpdate {
+.ModalForm {
   padding: 8px 12px;
 
   .Label {
-    font-weight: bold;
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
-  .SelectCellType {
+  .FormContent {
+    padding: 12px 0;
+
+    &:not(:first-child) {
+      border-top: 1px solid $gray-light-3;
+    }
+
+    &.--no-border {
+      border: 0;
+    }
+
+    &.--dense {
+      padding: 6px 0;
+    }
+  }
+
+  .FormItem {
     margin-top: 8px;
-  }
-
-  .Submit {
-    margin-top: 16px;
   }
 }

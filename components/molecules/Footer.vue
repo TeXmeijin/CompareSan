@@ -6,26 +6,28 @@
       c-button(@click="$emit('on-clicked-remove-item', comparingItem.comparingItemKey)" size="small") 削除
     modal(
       :isShowing="isShowingAddRowModal"
-      @on-closed="isShowingAddRowModal = false"
+      @on-closed="cellType = null; isShowingAddRowModal = false"
     )
-      .CellUpdate
-        span.Label セルの種類を選択
-        .SelectCellType
-          select(v-model="cellType").selector
-            option(
-              :key="type"
-              :value="type"
-              :selected="defaultType === type"
-              v-for="type in CellTypeMaster"
-            ) {{ type }}
-        .Submit
-          c-button(
-            @click="onClickedAddRowSubmit"
-            :disabled="!cellType"
-            size="medium"
-            type="primary"
-            :block="true"
-          ) 行を追加
+      .ModalForm
+        .FormContent
+          span.Label セルの種類を選択
+          .FormItem
+            select(v-model="cellType").selector
+              option(
+                :key="type"
+                :value="type"
+                :selected="defaultType === type"
+                v-for="type in CellTypeMaster"
+              ) {{ type }}
+        .FormContent.--dense.--no-border
+          .Submit
+            c-button(
+              @click="onClickedAddRowSubmit"
+              :disabled="!cellType"
+              size="medium"
+              type="primary"
+              :block="true"
+            ) 行を追加
 </template>
 
 <script lang="ts">
@@ -71,6 +73,7 @@ export default class Footer extends Vue {
   }
 
   onClickedAddRowSubmit () {
+    this.cellType = null
     this.isShowingAddRowModal = false
     this.$emit('on-clicked-add-row', {
       type: this.cellType,

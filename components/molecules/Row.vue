@@ -11,37 +11,47 @@
       @on-updated-cell-value="$emit('on-updated-cell-value', $event)"
       @on-updated-cell-evaluate="$emit('on-updated-cell-evaluate', $event)"
     )
-  .row__action.--actionCell
-    c-button(
-      @click="$emit('on-clicked-remove-row', row.rowKey)"
-      size="small"
-    ) 削除
   modal(
     :isShowing="isShowingUpdateModal"
     @on-closed="isShowingUpdateModal = false"
   )
-    .CellUpdate
-      .CellUpdateForm
-        span.Label セルの種類を変える
-        .SelectCellType
+    .ModalForm
+      .FormContent
+        span.Label 名前
+        .FormItem
+          input(
+            type="text"
+            class="--stringField --head"
+            v-model="cellName"
+          )
+      .FormContent
+        span.Label セルの種類
+        .FormItem
           select(v-model="cellType").selector
             option(
               :key="type"
               :value="type"
-              :selected="head.type === type"
               v-for="type in CellTypeMaster"
             ) {{ type }}
+      .FormContent.--no-border.--dense
         .Submit
           c-button(
-            @click="onClickedSaveCellUpdate"
+            @click="onClickedRowUpdate"
             :disabled="!cellType"
             size="medium"
             :block="true"
           ) 保存する
+      .FormContent.--no-border.--dense
+        .Submit
+          c-button(
+            type="error-outlined"
+            size="small"
+            @click="onClickedRowDelete"
+          ) 行を削除
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
+import Vue from 'vue'
 import { Component, Prop } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import {
@@ -55,6 +65,7 @@ import {
 import ComparingPointVue from '../atoms/ComparingPoint.vue'
 import CellVue from '../atoms/Cell.vue'
 import * as tableSize from '~/store/tableSize'
+
 const TableSize = namespace(tableSize.name)
 
 export interface UpdateRowContent {
@@ -83,11 +94,17 @@ export default class RowView extends Vue {
   tableHeader: TableHeader
 
   isShowingUpdateModal = false
-  cellType = null
+  cellType: null | CellType = null
+  cellName = ''
 
   @TableSize.Getter headWidth
   @TableSize.Getter cellWidth
   @TableSize.Getter cellHeight
+
+  created () {
+    this.cellType = this.row.head.type
+    this.cellName = this.row.head.name
+  }
 
   public get head (): ComparingPoint {
     return this.row.head
@@ -117,13 +134,18 @@ export default class RowView extends Vue {
     ]
   }
 
-  onClickedSaveCellUpdate () {
+  onClickedRowUpdate () {
     this.isShowingUpdateModal = false
     const update: UpdateRowContent = {
       rowKey: this.row.rowKey,
       type: this.cellType,
     }
     this.$emit('on-clicked-update-row', update)
+  }
+
+  onClickedRowDelete () {
+    this.isShowingUpdateModal = false
+    this.$emit('on-clicked-remove-row', this.row.rowKey)
   }
 }
 </script>

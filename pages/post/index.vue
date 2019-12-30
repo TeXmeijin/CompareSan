@@ -7,7 +7,7 @@ main.sec-main
       :initialTable="table"
     )
   section.commit
-    button(type="button" @click="save").--mediumButton.primary 保存する
+    c-button(type="primary" :block="true" size="large" @click="save") 保存する
 </template>
 
 <script lang="ts">
@@ -15,11 +15,11 @@ import { Vue, Component, Ref } from 'vue-property-decorator'
 import { namespace, Action } from 'vuex-class'
 import firebase from 'firebase'
 
+import { CompareTableClass } from '../../assets/javascript/types/tableTypes'
+import { displayMonitorFactory } from '../../assets/javascript/factory/displayMonitorFactory'
 import CompareTableView from '~/components/organisms/CompareTableView.vue'
 
 import * as auth from '~/store/auth'
-import { CompareTableClass } from '../../assets/javascript/types/tableTypes'
-import { displayMonitorFactory } from '../../assets/javascript/factory/displayMonitorFactory'
 const Auth = namespace(auth.name)
 
 @Component({
@@ -32,7 +32,7 @@ export default class Post extends Vue {
 
   @Auth.State uid
 
-  save() {
+  save () {
     firebase
       .firestore()
       .collection('compare-data-v0_1_0')
@@ -40,7 +40,7 @@ export default class Post extends Vue {
         uid: this.uid,
         table: this.table.data,
       })
-      .then(docRef => {
+      .then((docRef) => {
         console.log('Document written with ID: ', docRef.id)
         this.$router.push({
           name: 'post-postId',
