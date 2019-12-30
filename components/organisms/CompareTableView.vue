@@ -166,9 +166,7 @@ export default class CompareTableView extends Vue {
   uddateRow (update: UpdateRowContent) {
     this.compares.data.rows = this.compares.data.rows.map((row) => {
       if (row.rowKey === update.rowKey && !!update.type) {
-        if (update.name) {
-          row.head.name = update.name
-        }
+        row.head.name = update.name
 
         row.head.type = update.type
         row.cells = row.cells.map((cell) => {
