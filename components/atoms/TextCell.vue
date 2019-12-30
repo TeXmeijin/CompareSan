@@ -1,10 +1,8 @@
 <template lang="pug">
   .TextCell
-    input(
-      type="text"
-      class="--stringField --head"
+    c-text-field(
       :value="cell.value"
-      @input="$emit('on-updated-cell-value', { ...cell, value: $event.target.value })"
+      @input="$emit('on-updated-cell-value', { ...cell, value: $event })"
     )
 </template>
 
@@ -25,5 +23,6 @@ export default class TextCellVue extends Vue {
 <style lang="scss" scoped>
 .TextCell {
   display: flex;
+  width: 100%;
 }
 </style>
