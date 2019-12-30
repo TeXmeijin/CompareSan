@@ -4,16 +4,16 @@
     .TableHeaderItem(v-for="header in tableHeader" :style="{ minWidth: cellWidth }")
       comparing-item(:comparing-item="header")
     .TableAddItem.--actionCell
-      button(type="button" @click="$emit('on-clicked-add-item')").--miniBtn 追加
+      c-button(size="small" @click="$emit('on-clicked-add-item')") 追加
 </template>
 
 <script lang="ts">
-import Vue, { PropOptions } from 'vue'
+import Vue from 'vue'
 
-import { TableHeader } from '../../assets/javascript/types/tableTypes'
 import { namespace } from 'vuex-class'
 
 import { Component, Prop } from 'vue-property-decorator'
+import { TableHeader } from '../../assets/javascript/types/tableTypes'
 import * as tableSize from '~/store/tableSize'
 const TableSize = namespace(tableSize.name)
 
@@ -32,7 +32,7 @@ export default class TableHeaderVue extends Vue {
   @TableSize.Getter headWidth
   @TableSize.Getter cellWidth
 
-  mounted() {}
+  mounted () {}
 }
 </script>
 

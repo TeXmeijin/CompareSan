@@ -65,17 +65,17 @@ export default Vue.extend({
 // オーバーレイのトランジション
 .modal-enter-active,
 .modal-leave-active {
-  transition: opacity 0.4s;
+  transition: opacity 0.2s;
 
   // オーバーレイに包含されているモーダルウィンドウのトランジション
   .ModalContents {
-    transition: opacity 0.4s, transform 0.4s;
+    transition: opacity 0.2s, transform 0.2s;
   }
 }
 
 // ディレイを付けるとモーダルウィンドウが消えた後にオーバーレイが消える
 .modal-leave-active {
-  transition: opacity 0.6s ease 0.4s;
+  transition: opacity 0.3s ease 0.2s;
 }
 
 .modal-enter,

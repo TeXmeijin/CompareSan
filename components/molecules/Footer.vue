@@ -1,9 +1,9 @@
 <template lang="pug">
   .footer
     .footer__addPoint.--actionCell(:style="{ minWidth: headWidth }")
-      button(type="button" @click="isShowingAddRowModal = true").--miniBtn 追加
+      c-button(@click="isShowingAddRowModal = true" size="small") 追加
     .--actionCell(v-for="comparingItem in header" :style="{ minWidth: cellWidth }")
-      button(type="button" @click="$emit('on-clicked-remove-item', comparingItem.comparingItemKey)").--miniBtn 削除
+      c-button(@click="$emit('on-clicked-remove-item', comparingItem.comparingItemKey)" size="small") 削除
     modal(
       :isShowing="isShowingAddRowModal"
       @on-closed="isShowingAddRowModal = false"
@@ -19,20 +19,22 @@
               v-for="type in CellTypeMaster"
             ) {{ type }}
         .Submit
-          button(
+          c-button(
             @click="onClickedAddRowSubmit"
             :disabled="!cellType"
-            class="--mediumButton"
+            size="medium"
+            type="primary"
+            :block="true"
           ) 行を追加
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch, Emit, Ref } from 'vue-property-decorator'
 
-import { TableHeader, CellType } from '../../assets/javascript/types/tableTypes';
+import { namespace } from 'vuex-class'
+import { TableHeader, CellType } from '../../assets/javascript/types/tableTypes'
 
 import * as tableSize from '~/store/tableSize'
-import { namespace } from 'vuex-class'
 const TableSize = namespace(tableSize.name)
 
 export interface AddRowContent {
@@ -42,7 +44,7 @@ export interface AddRowContent {
 @Component({
   components: {
     Modal: () => import('~/components/atoms/Modal.vue'),
-  }
+  },
 })
 export default class Footer extends Vue {
   @Prop({
@@ -59,7 +61,7 @@ export default class Footer extends Vue {
   @TableSize.Getter headWidth
   @TableSize.Getter cellWidth
 
-  public get CellTypeMaster(): string[] {
+  public get CellTypeMaster (): string[] {
     return [
       CellType.TEXT,
       CellType.TEXT_WITH_EVALUATION,
@@ -68,10 +70,10 @@ export default class Footer extends Vue {
     ]
   }
 
-  onClickedAddRowSubmit() {
+  onClickedAddRowSubmit () {
     this.isShowingAddRowModal = false
     this.$emit('on-clicked-add-row', {
-      type: this.cellType
+      type: this.cellType,
     } as AddRowContent)
   }
 }

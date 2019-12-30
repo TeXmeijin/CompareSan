@@ -44,7 +44,7 @@ export default {
   plugins: [
     '@/plugins/firebase',
     '@/plugins/auth.ts',
-    '@/plugins/vue-tables-2'
+    '@/plugins/globalComponents.js'
   ],
   /*
    ** Nuxt.js dev-modules
@@ -64,6 +64,8 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) {},
+
+    transpile: [/^vue-awesome/]
   }
 }

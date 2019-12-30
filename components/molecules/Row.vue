@@ -1,6 +1,9 @@
 <template lang="pug">
 .row
-  .head(:style="{ minWidth: headWidth }")
+  .head(
+    :style="{ minWidth: headWidth, minHeight: cellHeight }"
+    @click="isShowingUpdateModal = true"
+  )
     comparing-point(:comparing-item="head")
   .cell(:style="{ width: cellWidth }" v-for="cell in cells" :key="cell.comparingItemKey")
     cell(
@@ -9,32 +12,38 @@
       @on-updated-cell-evaluate="$emit('on-updated-cell-evaluate', $event)"
     )
   .row__action.--actionCell
-    button(type="button" @click="isShowingUpdateModal = true").--miniBtn 編集
-    button(type="button" @click="$emit('on-clicked-remove-row', row.rowKey)").--miniBtn 削除
+    c-button(
+      @click="$emit('on-clicked-remove-row', row.rowKey)"
+      size="small"
+    ) 削除
   modal(
     :isShowing="isShowingUpdateModal"
     @on-closed="isShowingUpdateModal = false"
   )
     .CellUpdate
-      span.Label セルの種類を選択
-      .SelectCellType
-        select(v-model="cellType").selector
-          option(
-            :key="type"
-            :value="type"
-            :selected="head.type === type"
-            v-for="type in CellTypeMaster"
-          ) {{ type }}
-      .Submit
-        button(
-          @click="onClickedSaveCellUpdate"
-          :disabled="!cellType"
-          class="--mediumButton"
-        ) 保存する
+      .CellUpdateForm
+        span.Label セルの種類を変える
+        .SelectCellType
+          select(v-model="cellType").selector
+            option(
+              :key="type"
+              :value="type"
+              :selected="head.type === type"
+              v-for="type in CellTypeMaster"
+            ) {{ type }}
+        .Submit
+          c-button(
+            @click="onClickedSaveCellUpdate"
+            :disabled="!cellType"
+            size="medium"
+            :block="true"
+          ) 保存する
 </template>
 
 <script lang="ts">
 import Vue, { PropOptions } from 'vue'
+import { Component, Prop } from 'vue-property-decorator'
+import { namespace } from 'vuex-class'
 import {
   Row,
   ComparingPoint,
@@ -43,16 +52,13 @@ import {
   CellType,
 } from '../../assets/javascript/types/tableTypes'
 
-import * as tableSize from '~/store/tableSize'
-import { Component, Prop } from 'vue-property-decorator'
-const TableSize = namespace(tableSize.name)
-
 import ComparingPointVue from '../atoms/ComparingPoint.vue'
 import CellVue from '../atoms/Cell.vue'
-import { namespace } from 'vuex-class'
+import * as tableSize from '~/store/tableSize'
+const TableSize = namespace(tableSize.name)
 
 export interface UpdateRowContent {
-  rowKey: string,
+  rowKey: string
   type: CellType | null
 }
 
@@ -81,13 +87,14 @@ export default class RowView extends Vue {
 
   @TableSize.Getter headWidth
   @TableSize.Getter cellWidth
+  @TableSize.Getter cellHeight
 
-  public get head(): ComparingPoint {
+  public get head (): ComparingPoint {
     return this.row.head
   }
-  public get cells(): Cell[] {
+  public get cells (): Cell[] {
     const removedKeys = this.tableHeader
-      .filter(head => {
+      .filter((head) => {
         return head.deleted_at !== undefined
       })
       .map(head => head.comparingItemKey)
@@ -96,12 +103,12 @@ export default class RowView extends Vue {
       return this.row.cells
     }
 
-    return this.row.cells.filter(cell => {
+    return this.row.cells.filter((cell) => {
       return !removedKeys.includes(cell.comparingItemKey)
     })
   }
 
-  public get CellTypeMaster(): string[] {
+  public get CellTypeMaster (): string[] {
     return [
       CellType.TEXT,
       CellType.TEXT_WITH_EVALUATION,
@@ -110,11 +117,11 @@ export default class RowView extends Vue {
     ]
   }
 
-  onClickedSaveCellUpdate() {
+  onClickedSaveCellUpdate () {
     this.isShowingUpdateModal = false
     const update: UpdateRowContent = {
       rowKey: this.row.rowKey,
-      type: this.cellType
+      type: this.cellType,
     }
     this.$emit('on-clicked-update-row', update)
   }

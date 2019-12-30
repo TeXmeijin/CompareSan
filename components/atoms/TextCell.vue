@@ -21,3 +21,9 @@ export default class TextCellVue extends Vue {
   cell: TextCell
 }
 </script>
+
+<style lang="scss" scoped>
+.TextCell {
+  display: flex;
+}
+</style>

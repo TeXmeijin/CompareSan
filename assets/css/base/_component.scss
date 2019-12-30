@@ -1,38 +1,3 @@
-.--miniBtn {
-  font-size: 0.7rem;
-  padding: 2px 12px;
-  text-align: center;
-  border: 1px solid $gray-light-3;
-  border-radius: 4px;
-  white-space: nowrap;
-}
-
-.--mediumButton {
-  font-size: 1rem;
-  font-weight: bold;
-  text-align: center;
-  padding: 12px 24px;
-  border-radius: 8px;
-  width: 100%;
-  border: 0;
-  display: block;
-  color: $primary;
-  background-color: $white;
-  border: 1px solid $primary;
-
-  &.primary {
-    background: $primary;
-    color: $white;
-    border: 0;
-  }
-
-  &:disabled {
-    color: $gray;
-    background: $gray-light-3;
-    border-color: $gray;
-  }
-}
-
 %cell {
   max-width: calc(100% - 24px);
   padding: 8px;
@@ -41,6 +6,7 @@
 
 .--stringField {
   @extend %cell;
+  display: flex;
   border: 1px solid $gray-light-3;
   border-radius: 2px;
 }
@@ -56,6 +22,8 @@
 }
 
 .BaseCell {
+  display: flex;
+  height: 100%;
   padding: 4px;
 }
 

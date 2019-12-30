@@ -6,6 +6,7 @@ interface TableSizeState {
   headWidth: number
   cellWidth: number
   headHeight: number
+  cellHeight: number
 }
 
 export const name = 'tableSize'
@@ -14,6 +15,7 @@ export const state = (): TableSizeState => ({
   headWidth: 120,
   cellWidth: 165,
   headHeight: 40,
+  cellHeight: 80,
 })
 
 export const getters: GetterTree<TableSizeState, RootState> = {
@@ -26,6 +28,9 @@ export const getters: GetterTree<TableSizeState, RootState> = {
   headHeight(): string {
     return `${state().headHeight}px`
   },
+  cellHeight(): string {
+    return `${state().cellHeight}px`
+  }
 }
 
 export const mutations: MutationTree<TableSizeState> = {}

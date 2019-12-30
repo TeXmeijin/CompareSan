@@ -2,9 +2,15 @@ module.exports = {
   extends: [
     '@nuxtjs/eslint-config-typescript'
   ],
-  "rules": {
-    "@typescript-eslint/no-unused-vars": "off",
-    "no-unused-vars": "off",
-    "semi": 'on'
+  rules: {
+    "indent": ["error", 2],
+    "no-console": "off",
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "never",
+      "functions": "never"
+    }]
   }
-}
+};
