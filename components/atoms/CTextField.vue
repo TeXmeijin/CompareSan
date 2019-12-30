@@ -20,7 +20,7 @@ export default class CTextField extends Vue {
 
   @Prop({
     type: Boolean,
-    default: true,
+    default: false,
   })
   block
 
@@ -61,9 +61,10 @@ export default class CTextField extends Vue {
   display: flex;
   border: 1px solid $gray-light-3;
   border-radius: 4px;
+  max-width: 100%;
 
   &.block {
-    max-width: 100%;
+    width: 100%;
   }
 }
 </style>
