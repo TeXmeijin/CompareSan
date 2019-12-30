@@ -71,6 +71,7 @@ const TableSize = namespace(tableSize.name)
 export interface UpdateRowContent {
   rowKey: string
   type: CellType | null
+  name: string
 }
 
 @Component({
@@ -139,6 +140,7 @@ export default class RowView extends Vue {
     const update: UpdateRowContent = {
       rowKey: this.row.rowKey,
       type: this.cellType,
+      name: this.cellName,
     }
     this.$emit('on-clicked-update-row', update)
   }

@@ -20,6 +20,7 @@ import {
 } from '../../assets/javascript/types/tableTypes'
 import { emptyTableFactory } from '../../assets/javascript/factory/emptyTableFactory'
 import { FirestoreCompareTableRepository } from '../../assets/javascript/Repository/FirestoreCompareTableRepository'
+import ICompareTableRepository from '../../assets/javascript/Repository/ICompareTableRepository'
 import CompareTableView from '~/components/organisms/CompareTableView.vue'
 
 import * as auth from '~/store/auth'
@@ -45,12 +46,15 @@ export default class EditPost extends Vue {
     const table = snapshot.table as CompareTable
 
     this.table.data = table
+    this.repository = new FirestoreCompareTableRepository()
   }
 
   @Auth.State uid
 
+  repository: ICompareTableRepository
+
   save () {
-    new FirestoreCompareTableRepository()
+    this.repository
       .update(this.$route.params.postId, this.uid, this.table.data)
       .then(() => {})
   }

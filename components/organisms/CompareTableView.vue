@@ -27,15 +27,12 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
 import {
-  CompareTable,
   CompareTableClass,
   TableHeader,
   Row,
   ComparingItem,
   TextWithEvaluationCell,
   Summary,
-  Cell,
-  CellType,
   TextCell,
 } from '../../assets/javascript/types/tableTypes'
 import RowVue, { UpdateRowContent } from '../molecules/Row.vue'
@@ -169,6 +166,10 @@ export default class CompareTableView extends Vue {
   uddateRow (update: UpdateRowContent) {
     this.compares.data.rows = this.compares.data.rows.map((row) => {
       if (row.rowKey === update.rowKey && !!update.type) {
+        if (update.name) {
+          row.head.name = update.name
+        }
+
         row.head.type = update.type
         row.cells = row.cells.map((cell) => {
           if (update.type) {

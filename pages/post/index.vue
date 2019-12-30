@@ -17,6 +17,7 @@ import { namespace } from 'vuex-class'
 import { CompareTableClass } from '../../assets/javascript/types/tableTypes'
 import { displayMonitorFactory } from '../../assets/javascript/factory/displayMonitorFactory'
 import { FirestoreCompareTableRepository } from '../../assets/javascript/Repository/FirestoreCompareTableRepository'
+import ICompareTableRepository from '../../assets/javascript/Repository/ICompareTableRepository'
 import CompareTableView from '~/components/organisms/CompareTableView.vue'
 
 import * as auth from '~/store/auth'
@@ -32,18 +33,22 @@ export default class Post extends Vue {
 
   @Auth.State uid
 
+  repository: ICompareTableRepository
+
+  created () {
+    this.repository = new FirestoreCompareTableRepository()
+  }
+
   save () {
-    new FirestoreCompareTableRepository()
-      .create(this.uid, this.table.data)
-      .then((docRef) => {
-        console.log('Document written with ID: ', docRef.id)
-        this.$router.push({
-          name: 'post-postId',
-          params: {
-            postId: docRef.id,
-          },
-        })
+    this.repository.create(this.uid, this.table.data).then((docRef) => {
+      console.log('Document written with ID: ', docRef.id)
+      this.$router.push({
+        name: 'post-postId',
+        params: {
+          postId: docRef.id,
+        },
       })
+    })
   }
 }
 </script>
