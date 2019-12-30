@@ -11,12 +11,12 @@ main.sec-main
 </template>
 
 <script lang="ts">
-import { Vue, Component, Ref } from 'vue-property-decorator'
-import { namespace, Action } from 'vuex-class'
-import firebase from 'firebase'
+import { Vue, Component } from 'vue-property-decorator'
+import { namespace } from 'vuex-class'
 
 import { CompareTableClass } from '../../assets/javascript/types/tableTypes'
 import { displayMonitorFactory } from '../../assets/javascript/factory/displayMonitorFactory'
+import { FirestoreCompareTableRepository } from '../../assets/javascript/Repository/FirestoreCompareTableRepository'
 import CompareTableView from '~/components/organisms/CompareTableView.vue'
 
 import * as auth from '~/store/auth'
@@ -33,13 +33,8 @@ export default class Post extends Vue {
   @Auth.State uid
 
   save () {
-    firebase
-      .firestore()
-      .collection('compare-data-v0_1_0')
-      .add({
-        uid: this.uid,
-        table: this.table.data,
-      })
+    new FirestoreCompareTableRepository()
+      .create(this.uid, this.table.data)
       .then((docRef) => {
         console.log('Document written with ID: ', docRef.id)
         this.$router.push({

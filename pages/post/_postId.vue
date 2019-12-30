@@ -11,26 +11,19 @@ main.sec-main
 </template>
 
 <script lang="ts">
-import { Vue, Component, Ref } from 'vue-property-decorator'
-import { namespace, Action } from 'vuex-class'
-import firebase from 'firebase'
+import { Vue, Component } from 'vue-property-decorator'
+import { namespace } from 'vuex-class'
 
 import {
   CompareTableClass,
   CompareTable,
 } from '../../assets/javascript/types/tableTypes'
 import { emptyTableFactory } from '../../assets/javascript/factory/emptyTableFactory'
+import { FirestoreCompareTableRepository } from '../../assets/javascript/Repository/FirestoreCompareTableRepository'
 import CompareTableView from '~/components/organisms/CompareTableView.vue'
 
 import * as auth from '~/store/auth'
 const Auth = namespace(auth.name)
-
-enum InputType {
-  StringField,
-  StringArea,
-  Url,
-  Select,
-}
 
 @Component({
   components: {
@@ -41,13 +34,9 @@ export default class EditPost extends Vue {
   table: CompareTableClass = emptyTableFactory()
 
   public async created (): Promise<void> {
-    const savedData = await firebase
-      .firestore()
-      .collection('compare-data-v0_1_0')
-      .doc(this.$route.params.postId)
-      .get()
-
-    const snapshot = savedData.data()
+    const snapshot = await new FirestoreCompareTableRepository().findById(
+      this.$route.params.postId
+    )
 
     if (!snapshot) {
       return
@@ -61,14 +50,8 @@ export default class EditPost extends Vue {
   @Auth.State uid
 
   save () {
-    firebase
-      .firestore()
-      .collection('compare-data-v0_1_0')
-      .doc(this.$route.params.postId)
-      .set({
-        uid: this.uid,
-        table: this.table.data,
-      })
+    new FirestoreCompareTableRepository()
+      .update(this.$route.params.postId, this.uid, this.table.data)
       .then(() => {})
   }
 }
