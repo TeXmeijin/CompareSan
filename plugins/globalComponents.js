@@ -6,3 +6,6 @@ Vue.component('c-button', () => import(
 Vue.component('c-text-field', () => import(
   '~/components/atoms/CTextField.vue'
 ))
+Vue.component('c-checkbox', () => import(
+  '~/components/atoms/CCheckBox.vue'
+))

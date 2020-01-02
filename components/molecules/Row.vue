@@ -15,7 +15,7 @@
     :isShowing="isShowingUpdateModal"
     @on-closed="isShowingUpdateModal = false"
   )
-    .ModalForm
+    .Form
       .FormContent
         span.Label 名前
         .FormItem

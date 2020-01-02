@@ -10,7 +10,7 @@
       :isShowing="isShowingModal"
       @on-closed="isShowingModal = false"
     )
-      .ModalForm
+      .Form
         .FormContent
           span.Label URL
           .FormItem

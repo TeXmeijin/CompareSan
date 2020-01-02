@@ -1,10 +1,10 @@
-import { CompareTable } from '../types/tableTypes'
+import { CompareArticle } from '../types/articleTypes'
 
 interface Result {
   id: string
 }
 export default interface ICompareTableRepository {
-  create: (uid: string, table: CompareTable) => Promise<Result>
-  update: (postId: string, uid: string, table: CompareTable) => Promise<any>
+  create: (article: CompareArticle) => Promise<Result>
+  update: (postId: string, article: CompareArticle) => Promise<any>
   findById: (postId: string) => Promise<any>
 }

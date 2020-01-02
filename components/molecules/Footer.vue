@@ -6,7 +6,7 @@
       :isShowing="isShowingAddRowModal"
       @on-closed="cellType = null; isShowingAddRowModal = false"
     )
-      .ModalForm
+      .Form
         .FormContent
           span.Label セルの種類を選択
           .FormItem

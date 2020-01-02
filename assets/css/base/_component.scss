@@ -23,7 +23,7 @@
   min-height: 36px;
 }
 
-.ModalForm {
+.Form {
   padding: 8px 12px;
 
   .Label {
@@ -31,7 +31,9 @@
   }
 
   .FormContent {
-    padding: 12px 0;
+    padding: 16px 0;
+    display: flex;
+    flex-direction: column;
 
     &:not(:first-child) {
       border-top: 1px solid $gray-light-3;

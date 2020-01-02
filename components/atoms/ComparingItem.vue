@@ -7,7 +7,7 @@
       :isShowing="isShowingModal"
       @on-closed="isShowingModal = false"
     )
-      .ModalForm
+      .Form
         .FormContent
           span.Label 商品の名前
           .FormItem

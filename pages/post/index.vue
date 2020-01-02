@@ -6,8 +6,32 @@ main.sec-main
     compare-table-view(
       :initialTable="table"
     )
+  section.Form
+    .FormContent
+      span.Label タイトル[必須]
+      c-text-field(
+        v-model="title"
+        :block="true"
+      ).FormItem
+    .FormContent
+      span.Label メモ（詳しい内容/補足など）
+      textarea(
+        v-model="content"
+        rows="5"
+      ).TextArea.FormItem
+    .FormContent
+      c-checkbox(
+        v-model="isPublic"
+        label="比較内容を公開する"
+      )
   section.commit
-    c-button(type="primary" :block="true" size="large" @click="save") 保存する
+    c-button(
+      type="primary"
+      :block="true"
+      size="large"
+      @click="save"
+      :disabled="!CanPost"
+    ) 保存する
 </template>
 
 <script lang="ts">
@@ -35,20 +59,37 @@ export default class Post extends Vue {
 
   repository: ICompareTableRepository
 
+  title: string = ''
+  content: string = ''
+  isPublic: boolean = true
+
   created () {
     this.repository = new FirestoreCompareTableRepository()
   }
 
   save () {
-    this.repository.create(this.uid, this.table.data).then((docRef) => {
-      console.log('Document written with ID: ', docRef.id)
-      this.$router.push({
-        name: 'post-postId',
-        params: {
-          postId: docRef.id,
-        },
+    this.repository
+      .create({
+        uid: this.uid,
+        table: this.table.data,
+        title: this.title,
+        content: this.content,
+        is_public: this.isPublic,
+        created_at: Date.now(),
       })
-    })
+      .then((docRef) => {
+        console.log('Document written with ID: ', docRef.id)
+        this.$router.push({
+          name: 'post-postId',
+          params: {
+            postId: docRef.id,
+          },
+        })
+      })
+  }
+
+  public get CanPost (): boolean {
+    return !!this.title
   }
 }
 </script>
@@ -71,7 +112,7 @@ export default class Post extends Vue {
   }
 
   .dataTable {
-    padding: 24px 12px;
+    padding: 24px 12px 8px;
     overflow-x: scroll;
     color: $body;
   }
@@ -79,5 +120,11 @@ export default class Post extends Vue {
   .commit {
     padding: 12px;
   }
+}
+
+.TextArea {
+  font-size: 1rem;
+  border: 1px solid $gray-light-3;
+  border-radius: 4px;
 }
 </style>

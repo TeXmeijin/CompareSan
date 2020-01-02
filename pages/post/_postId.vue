@@ -53,9 +53,20 @@ export default class EditPost extends Vue {
 
   repository: ICompareTableRepository
 
+  title: string = ''
+  content: string = ''
+  isPublic: boolean = true
+
   save () {
     this.repository
-      .update(this.$route.params.postId, this.uid, this.table.data)
+      .update(this.$route.params.postId, {
+        uid: this.uid,
+        table: this.table.data,
+        title: this.title,
+        content: this.content,
+        is_public: this.isPublic,
+        created_at: Date.now(),
+      })
       .then(() => {})
   }
 }
