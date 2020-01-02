@@ -17,10 +17,10 @@ import { namespace } from 'vuex-class'
 import {
   CompareTableClass,
   CompareTable,
-} from '../../assets/javascript/types/tableTypes'
-import { emptyTableFactory } from '../../assets/javascript/factory/emptyTableFactory'
-import { FirestoreCompareTableRepository } from '../../assets/javascript/Repository/FirestoreCompareTableRepository'
-import ICompareTableRepository from '../../assets/javascript/Repository/ICompareTableRepository'
+} from '~/assets/javascript/types/tableTypes'
+import { emptyTableFactory } from '~/assets/javascript/factory/emptyTableFactory'
+import { FirestoreCompareTableRepository } from '~/assets/javascript/Repository/FirestoreCompareTableRepository'
+import ICompareTableRepository from '~/assets/javascript/Repository/ICompareTableRepository'
 import CompareTableView from '~/components/organisms/CompareTableView.vue'
 
 import * as auth from '~/store/auth'
@@ -36,7 +36,8 @@ export default class EditPost extends Vue {
 
   public async created (): Promise<void> {
     const snapshot = await new FirestoreCompareTableRepository().findById(
-      this.$route.params.postId
+      this.$route.params.compareId,
+      parseInt(this.$route.params.categoryId)
     )
 
     if (!snapshot) {

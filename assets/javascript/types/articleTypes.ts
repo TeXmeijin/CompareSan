@@ -1,9 +1,9 @@
 import { CompareTable } from './tableTypes'
-import { CompareCategory } from './masterCategories'
+
 export type CompareArticle = {
   uid: string
   table: CompareTable
-  category?: CompareCategory
+  categoryId?: number
   title: string
   content: string
   is_public: boolean
