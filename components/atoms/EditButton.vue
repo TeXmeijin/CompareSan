@@ -1,5 +1,6 @@
 <template lang="pug">
   button.EditButton(
+    type="button"
     @click="$emit('click')"
   )
     v-icon(
