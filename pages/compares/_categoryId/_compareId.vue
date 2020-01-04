@@ -1,27 +1,27 @@
 <template lang="pug">
 main.sec-main
-  section.heading
-    h1.heading__head 比較を編集する
-  section.dataTable(v-if="!table.isEmpty()")
-    compare-table-view(
-      :initialTable="table"
-    )
-  section.commit
-    c-button(type="primary" size="large" :block="true" @click="save") 保存する
+  template(v-if="article")
+    section.heading
+      h1.heading__head {{ article.title }}
+    section.dataTable(v-if="!article.table.isEmpty()")
+      h2.subHeading 比較内容
+      compare-table-view(
+        :initialTable="article.table"
+      )
+    section.content
+      h2.subHeading 比較メモ
+      p {{ article.content }}
 </template>
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 
-import {
-  CompareTableClass,
-  CompareTable,
-} from '~/assets/javascript/types/tableTypes'
-import { emptyTableFactory } from '~/assets/javascript/factory/emptyTableFactory'
+import { CompareArticle } from '../../../assets/javascript/types/articleTypes'
+import { CompareTableClass } from '../../../assets/javascript/types/tableTypes'
 import { FirestoreCompareTableRepository } from '~/assets/javascript/Repository/FirestoreCompareTableRepository'
 import ICompareTableRepository from '~/assets/javascript/Repository/ICompareTableRepository'
-import CompareTableView from '~/components/organisms/CompareTableView.vue'
+import CompareTableView from '~/components/organisms/ReadOnly/ReadOnlyCompareTableView.vue'
 
 import * as auth from '~/store/auth'
 const Auth = namespace(auth.name)
@@ -32,7 +32,7 @@ const Auth = namespace(auth.name)
   },
 })
 export default class EditPost extends Vue {
-  table: CompareTableClass = emptyTableFactory()
+  article: CompareArticle | null = null
 
   public async created (): Promise<void> {
     const snapshot = await new FirestoreCompareTableRepository().findById(
@@ -44,9 +44,12 @@ export default class EditPost extends Vue {
       return
     }
 
-    const table = snapshot.table as CompareTable
+    const table = new CompareTableClass()
+    table.data = snapshot.table
+    snapshot.table = table
 
-    this.table.data = table
+    this.article = snapshot as CompareArticle
+
     this.repository = new FirestoreCompareTableRepository()
   }
 
@@ -54,22 +57,18 @@ export default class EditPost extends Vue {
 
   repository: ICompareTableRepository
 
-  title: string = ''
-  content: string = ''
-  isPublic: boolean = true
-
-  save () {
-    this.repository
-      .update(this.$route.params.postId, {
-        uid: this.uid,
-        table: this.table.data,
-        title: this.title,
-        content: this.content,
-        is_public: this.isPublic,
-        created_at: Date.now(),
-      })
-      .then(() => {})
-  }
+  // save () {
+  //   this.repository
+  //     .update(this.$route.params.postId, {
+  //       uid: this.uid,
+  //       table: this.table.data,
+  //       title: this.title,
+  //       content: this.content,
+  //       is_public: this.isPublic,
+  //       created_at: Date.now(),
+  //     })
+  //     .then(() => {})
+  // }
 }
 </script>
 
@@ -80,20 +79,34 @@ export default class EditPost extends Vue {
   padding: 40px 0;
   min-height: 100vh;
 
+  @include mq {
+    width: 600px;
+    margin: 0 auto;
+  }
+
   .heading {
-    text-align: center;
     padding: 0 12px;
 
     .heading__head {
       font-weight: bold;
-      font-size: 1.4rem;
+      font-size: 1.6rem;
     }
+  }
+
+  .subHeading {
+    font-weight: bold;
+    font-size: 1.3rem;
+    padding: 8px 0;
   }
 
   .dataTable {
     padding: 24px 12px;
     overflow-x: scroll;
     color: $body;
+  }
+
+  .content {
+    padding: 24px 12px;
   }
 
   .commit {

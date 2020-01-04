@@ -11,13 +11,13 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
 import { namespace } from 'vuex-class'
-import { Summary } from '../../assets/javascript/types/tableTypes'
+import { Summary } from '~/assets/javascript/types/tableTypes'
 
 import * as tableSize from '~/store/tableSize'
 const TableSize = namespace(tableSize.name)
 
 @Component
-export default class SummaryVue extends Vue {
+export default class ReadOnlySummaryVue extends Vue {
   @Prop({
     type: Object,
     required: true,
@@ -35,12 +35,13 @@ export default class SummaryVue extends Vue {
 <style lang="scss" scoped>
 .summary {
   display: flex;
+  border-top: 1px solid $gray-light-2;
+  background: $gray-light-4;
 
   .summary__heading {
     height: 100%;
     font-weight: bold;
     font-size: 0.9rem;
-    background: $gray-light-3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -50,7 +51,6 @@ export default class SummaryVue extends Vue {
     height: 100%;
     font-weight: bold;
     letter-spacing: 2px;
-    background: $gray-light-3;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -74,3 +74,22 @@ export type Summary = {
   comparingItemKey: string
   value: number
 }
+
+export const MasterEvaluateItemList = [
+  {
+    level: 1,
+    levelString: EvaluateString.WORST,
+  },
+  {
+    level: 2,
+    levelString: EvaluateString.BAD,
+  },
+  {
+    level: 3,
+    levelString: EvaluateString.BETTER,
+  },
+  {
+    level: 4,
+    levelString: EvaluateString.BEST,
+  },
+]

@@ -112,4 +112,11 @@ export default class CompareForm extends Vue {
 .commit {
   padding: 12px;
 }
+
+.TextArea {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid $gray-light-3;
+  border-radius: 4px;
+}
 </style>

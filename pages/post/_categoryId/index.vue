@@ -50,19 +50,20 @@ export default class Post extends Vue {
     this.repository = new FirestoreCompareTableRepository()
   }
 
-  save (article: CompareArticle) {
+  async save (article: CompareArticle) {
     if (this.category) {
       article.categoryId = this.category.id
+    } else {
+      return
     }
-    this.repository.create(article).then((docRef) => {
-      console.log('Document written with ID: ', docRef.id)
-      this.$router.push({
-        name: 'compares-categoryId-compareId',
-        params: {
-          categoryId: this.category!.id,
-          compareId: docRef.id,
-        },
-      })
+    const docRef = await this.repository.create(article)
+    console.log('Document written with ID: ', docRef.id)
+    this.$router.push({
+      name: 'compares-categoryId-compareId',
+      params: {
+        categoryId: `${this.category!.id}`,
+        compareId: docRef.id,
+      },
     })
   }
 
@@ -88,11 +89,5 @@ export default class Post extends Vue {
       font-size: 1.4rem;
     }
   }
-}
-
-.TextArea {
-  font-size: 1rem;
-  border: 1px solid $gray-light-3;
-  border-radius: 4px;
 }
 </style>

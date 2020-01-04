@@ -17,12 +17,11 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Watch, Emit, Ref } from 'vue-property-decorator'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import {
-  Cell,
   TextWithEvaluationCell,
   Evaluate,
-  EvaluateString,
+  MasterEvaluateItemList,
 } from '../../assets/javascript/types/tableTypes'
 
 @Component
@@ -33,25 +32,8 @@ export default class TextWithEvaluateCellVue extends Vue {
   })
   cell: TextWithEvaluationCell
 
-  public get evaluateItemList (): Evaluate[] {
-    return [
-      {
-        level: 1,
-        levelString: EvaluateString.WORST,
-      },
-      {
-        level: 2,
-        levelString: EvaluateString.BAD,
-      },
-      {
-        level: 3,
-        levelString: EvaluateString.BETTER,
-      },
-      {
-        level: 4,
-        levelString: EvaluateString.BEST,
-      },
-    ]
+  get evaluateItemList (): Evaluate[] {
+    return MasterEvaluateItemList
   }
 }
 </script>
