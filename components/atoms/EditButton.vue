@@ -27,5 +27,7 @@ export default Vue.extend({
   display: flex;
   align-items: center;
   color: $gray-light-1;
+  border: 0;
+  background: transparent;
 }
 </style>

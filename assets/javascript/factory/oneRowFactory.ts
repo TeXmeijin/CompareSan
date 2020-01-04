@@ -4,20 +4,21 @@ import { oneCellFactory } from './oneCellFactory'
 
 export const oneRowFactory = (
   instance: CompareTableClass,
-  type: CellType = CellType.TEXT
+  type: CellType = CellType.TEXT,
+  name: string = '比較ポイント'
 ): Row => {
   const cells: Cell[] = []
 
   const row = {
     head: {
-      name: '比較ポイント',
+      name,
       type,
     },
     cells,
     rowKey: generateRandom(),
   }
 
-  instance.data.header.forEach(oneHeader => {
+  instance.data.header.forEach((oneHeader) => {
     row.cells.push(oneCellFactory(row, oneHeader.comparingItemKey))
   })
 

@@ -11,7 +11,7 @@
         :row="row"
         :table-header="tableColumns"
         @on-clicked-remove-row="removeRow($event)"
-        @on-clicked-update-row="uddateRow($event)"
+        @on-clicked-update-row="updateRow($event)"
         @on-updated-cell-value="updatedCellValue($event, index)"
         @on-updated-cell-evaluate="updatedCellEvaluate($event, index)"
         v-for="(row, index) in tableRows"
@@ -182,7 +182,7 @@ export default class CompareTableView extends Vue {
       return row
     })
   }
-  uddateRow (update: UpdateRowContent) {
+  updateRow (update: UpdateRowContent) {
     this.compares.data.rows = this.compares.data.rows.map((row) => {
       if (row.rowKey === update.rowKey && !!update.type) {
         row.head.name = update.name
