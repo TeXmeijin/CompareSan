@@ -1,6 +1,7 @@
 import { CompareTable } from './tableTypes'
 
 export type CompareArticle = {
+  id?: string
   uid: string
   table: CompareTable
   categoryId?: number

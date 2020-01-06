@@ -47,6 +47,7 @@ export default {
    */
   plugins: [
     '@/plugins/globalComponents.js',
+    '@/plugins/firebase/firebase.ts',
   ],
   /*
    ** Nuxt.js dev-modules

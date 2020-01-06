@@ -44,11 +44,7 @@ export default class EditPost extends Vue {
       return
     }
 
-    const table = new CompareTableClass()
-    table.data = snapshot.table
-    snapshot.table = table
-
-    this.article = snapshot as CompareArticle
+    this.article = snapshot
 
     this.repository = new FirestoreCompareTableRepository()
   }

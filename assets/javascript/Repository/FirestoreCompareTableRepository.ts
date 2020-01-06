@@ -1,15 +1,27 @@
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
-import { CompareTable } from '../types/tableTypes'
 import { CompareArticle } from '../types/articleTypes'
+import { CompareTableClass } from '../types/tableTypes'
 import ICompareTableRepository from './ICompareTableRepository'
-import init from '~/plugins/firebase/firebase'
+
+const convertFirestoreDocumentDataToCompareArticle = (
+  snapshot: firebase.firestore.DocumentData | undefined,
+  id?: string
+): CompareArticle | undefined => {
+  if (!snapshot) {
+    return undefined
+  }
+  const table = new CompareTableClass()
+  table.data = snapshot.table
+  snapshot.table = table
+  if (id) {
+    snapshot.id = id
+  }
+  return snapshot as CompareArticle
+}
 
 export class FirestoreCompareTableRepository
 implements ICompareTableRepository {
-  constructor () {
-    init()
-  }
   create (
     article: CompareArticle
   ): Promise<firebase.firestore.DocumentReference> {
@@ -44,7 +56,7 @@ implements ICompareTableRepository {
   async findById (
     compareId: string,
     categoryId?: number
-  ): Promise<(firebase.firestore.DocumentData) | undefined> {
+  ): Promise<(CompareArticle) | undefined> {
     const savedData = await firebase
       .firestore()
       .collection('compare-data-v0_1_1')
@@ -59,6 +71,22 @@ implements ICompareTableRepository {
       }
     }
 
-    return data
+    return convertFirestoreDocumentDataToCompareArticle(data)
+  }
+  async listByUid (uid: string): Promise<CompareArticle[]> {
+    const snapshotList = await firebase
+      .firestore()
+      .collection('compare-data-v0_1_1')
+      .where('uid', '==', uid)
+      .get()
+
+    const data = snapshotList.docs
+
+    return data.map((snapshot) => {
+      return convertFirestoreDocumentDataToCompareArticle(
+        snapshot.data(),
+        snapshot.id
+      )!
+    })
   }
 }

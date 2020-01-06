@@ -1,8 +1,10 @@
 import * as firebase from 'firebase/app'
 import 'firebase/auth'
+import 'firebase/firestore'
+import { Context } from '@nuxt/types/app'
 
-export default function () {
-  const store = $nuxt.$store
+export default function (app: Context) {
+  const store = app.store
   if (process.browser) {
     const setUser = (user: firebase.User | null) => {
       if (!user) {
