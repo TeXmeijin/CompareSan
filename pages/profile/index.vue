@@ -35,7 +35,7 @@ export default class TheHeader extends Vue {
   compareList: CompareArticle[] = []
 
   articleDetailUrl (article: CompareArticle): string {
-    return `/compares/${article.categoryId}/${article.id}`
+    return `/compares/${article.categoryId}/${article.id}/edit`
   }
 }
 </script>

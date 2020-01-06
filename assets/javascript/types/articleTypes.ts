@@ -1,9 +1,9 @@
-import { CompareTable } from './tableTypes'
+import { CompareTable, CompareTableClass } from './tableTypes'
 
 export type CompareArticle = {
   id?: string
   uid: string
-  table: CompareTable
+  table: CompareTableClass
   categoryId?: number
   title: string
   content: string
