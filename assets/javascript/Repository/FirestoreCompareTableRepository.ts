@@ -30,7 +30,7 @@ implements ICompareTableRepository {
       .collection('compare-data-v0_1_1')
       .add({
         uid: article.uid,
-        table: article.table,
+        table: article.table.data,
         title: article.title,
         categoryId: article.categoryId,
         content: article.content,
@@ -45,7 +45,7 @@ implements ICompareTableRepository {
       .doc(postId)
       .set({
         uid: article.uid,
-        table: article.table,
+        table: article.table.data,
         title: article.title,
         categoryId: article.categoryId || null,
         content: article.content,
@@ -55,7 +55,8 @@ implements ICompareTableRepository {
   }
   async findById (
     compareId: string,
-    categoryId?: number
+    categoryId?: number,
+    uid?: string
   ): Promise<(CompareArticle) | undefined> {
     const savedData = await firebase
       .firestore()
@@ -67,6 +68,12 @@ implements ICompareTableRepository {
 
     if (categoryId !== undefined && categoryId >= 0 && data) {
       if (data.categoryId !== categoryId) {
+        return
+      }
+    }
+
+    if (uid !== undefined && data) {
+      if (data.uid !== uid) {
         return
       }
     }

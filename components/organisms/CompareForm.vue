@@ -86,9 +86,11 @@ export default class CompareForm extends Vue {
   }
 
   get article (): CompareArticle {
+    const table = new CompareTableClass()
+    table.data = this.formTable.data
     return {
       uid: this.uid,
-      table: this.formTable.data,
+      table,
       title: this.formTitle,
       content: this.formContent,
       is_public: this.formIsPublic,

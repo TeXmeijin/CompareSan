@@ -17,8 +17,7 @@ main.sec-main
 import { Vue, Component } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 
-import { CompareArticle } from '../../../assets/javascript/types/articleTypes'
-import { CompareTableClass } from '../../../assets/javascript/types/tableTypes'
+import { CompareArticle } from '~/assets/javascript/types/articleTypes'
 import { FirestoreCompareTableRepository } from '~/assets/javascript/Repository/FirestoreCompareTableRepository'
 import ICompareTableRepository from '~/assets/javascript/Repository/ICompareTableRepository'
 import CompareTableView from '~/components/organisms/ReadOnly/ReadOnlyCompareTableView.vue'
