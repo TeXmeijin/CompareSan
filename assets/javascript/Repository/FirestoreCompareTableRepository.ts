@@ -36,6 +36,7 @@ implements ICompareTableRepository {
         content: article.content,
         is_public: article.is_public,
         created_at: new Date(),
+        deleted_at: null,
       })
   }
   update (postId: string, article: CompareArticle): Promise<void> {
@@ -51,6 +52,7 @@ implements ICompareTableRepository {
         content: article.content,
         is_public: article.is_public,
         created_at: article.created_at,
+        deleted_at: null,
       })
   }
   async findById (
@@ -85,6 +87,7 @@ implements ICompareTableRepository {
       .firestore()
       .collection('compare-data-v0_1_1')
       .where('uid', '==', uid)
+      .where('deleted_at', '==', null)
       .get()
 
     const data = snapshotList.docs
@@ -95,5 +98,21 @@ implements ICompareTableRepository {
         snapshot.id
       )!
     })
+  }
+  async deleteArticle (article: CompareArticle): Promise<void> {
+    return firebase
+      .firestore()
+      .collection('compare-data-v0_1_1')
+      .doc(article.id!)
+      .set({
+        uid: article.uid,
+        table: article.table.data,
+        title: article.title,
+        categoryId: article.categoryId || null,
+        content: article.content,
+        is_public: article.is_public,
+        created_at: article.created_at,
+        deleted_at: Date.now(),
+      })
   }
 }

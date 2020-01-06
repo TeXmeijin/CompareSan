@@ -10,17 +10,20 @@ article.Profile
           v-for="article in compareList"
           :key="article.id"
         )
-          a(:href="articleDetailUrl(article)").Card
-            h2.Card__title {{ article.title }}
+          .Card
+            a(:href="articleDetailUrl(article)")
+              h2.Card__title {{ article.title }}
             p.Card__content(
               v-if="article.content"
             ) {{ article.content.substr(0, 30) }}
             .Card__actions
+              a(:href="articleDetailUrl(article)")
+                c-button(
+                  size="small"
+                ) 編集
               c-button(
                 size="small"
-              ) 編集
-              c-button(
-                size="small"
+                @click="onClickedDeleteButton(article)"
               ) 削除
     section.Auth
       .Logout
@@ -30,6 +33,17 @@ article.Profile
           block
           @click="onClickedLogout"
         ) ログアウトする
+  modal(
+    :isShowing="isShowingDeleteModal"
+    @on-closed="isShowingDeleteModal = false; deleteTarget = null"
+  )
+    template(v-if="deleteTarget")
+      .DeleteModal
+        span.DeleteComfirmMessage {{ deleteTarget.title }}を削除しますか？
+        c-button(
+          block
+          @click="deleteArticle"
+        ) はい
 </template>
 
 <script lang="ts">
@@ -37,21 +51,33 @@ import { Vue, Component, Watch } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import { CompareArticle } from '../../assets/javascript/types/articleTypes'
 import { FirestoreCompareTableRepository } from '../../assets/javascript/Repository/FirestoreCompareTableRepository'
+import ICompareTableRepository from '../../assets/javascript/Repository/ICompareTableRepository'
 import * as auth from '~/store/auth'
 const Auth = namespace(auth.name)
 
-@Component
-export default class TheHeader extends Vue {
+@Component({
+  components: {
+    Modal: () => import('~/components/atoms/Modal.vue'),
+  },
+})
+export default class Profile extends Vue {
   @Auth.State user
   @Auth.State uid
 
   @Auth.Action logout
 
+  isShowingDeleteModal = false
+  deleteTarget: CompareArticle | null = null
+
+  compareRepository: ICompareTableRepository
+
   @Watch('uid')
   async function () {
-    this.compareList = await new FirestoreCompareTableRepository().listByUid(
-      this.uid
-    )
+    this.compareList = await this.compareRepository.listByUid(this.uid)
+  }
+
+  created () {
+    this.compareRepository = new FirestoreCompareTableRepository()
   }
 
   async onClickedLogout () {
@@ -63,6 +89,19 @@ export default class TheHeader extends Vue {
 
   articleDetailUrl (article: CompareArticle): string {
     return `/compares/${article.categoryId}/${article.id}/edit`
+  }
+
+  onClickedDeleteButton (article: CompareArticle) {
+    this.deleteTarget = article
+    this.isShowingDeleteModal = true
+  }
+
+  async deleteArticle () {
+    this.isShowingDeleteModal = false
+    await this.compareRepository.deleteArticle(this.deleteTarget!)
+    this.compareList = this.compareList.filter((compare) => {
+      return compare.id !== this.deleteTarget!.id
+    })
   }
 }
 </script>
@@ -125,6 +164,17 @@ export default class TheHeader extends Vue {
         }
       }
     }
+  }
+}
+
+.DeleteModal {
+  padding: 16px 0;
+
+  .DeleteComfirmMessage {
+    display: block;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
   }
 }
 </style>
