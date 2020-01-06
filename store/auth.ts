@@ -44,17 +44,12 @@ export const actions: ActionTree<AuthState, RootState> = {
     const provider = new firebase.auth.TwitterAuthProvider()
     firebase.auth().signInWithRedirect(provider)
   },
-  logout: ({ commit }, uid: string) => {
-    firebase.auth().signOut()
+  logout: async ({ commit }) => {
+    await firebase.auth().signOut()
 
     commit('setUid', null)
     commit('setUser', null)
     commit('setCredential', null)
-    firebase
-      .firestore()
-      .collection('users')
-      .doc(uid)
-      .set({})
   },
   setCredential: ({ commit }, { uid, twitterId, credential }) => {
     const db = firebase.firestore()
