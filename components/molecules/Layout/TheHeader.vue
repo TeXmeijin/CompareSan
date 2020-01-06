@@ -1,16 +1,14 @@
 <template lang="pug">
   header.Header
     a(href="/").ServiceLogo
-      span.ServiceAbstract いろんな商品を自分で比較するツール
-      span.ServiceName 比較さん
+      img(:src="require('@/assets/img/brand/compare-san-logo-v0_4.svg')").ServiceLogo_image
     .Spacer
     template(v-if="user")
       figure.Avatar
         img(:src="user.photoURL").AvatarImage
         figcaption プロフィール
     template(v-else)
-      a(href="/login").Login ログイン
-      a(href="/signup").SignUp 新規登録
+      a(href="/login").Login 比較をはじめる
 </template>
 
 <script lang="ts">
@@ -28,27 +26,20 @@ export default class TheHeader extends Vue {
 .Header {
   display: flex;
   align-items: center;
-  padding: 4px 12px;
+  padding: 6px 12px;
   border-bottom: 1px solid $gray-light-4;
-  box-shadow: 1px 0 2px 1px $gray-light-3;
-  margin-bottom: 2px;
+  box-shadow: 1px 2px 2px 1px $gray-light-3;
+  margin-bottom: 3px;
 
   .ServiceLogo {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 4px;
     text-decoration: none;
+    height: 48px;
 
-    .ServiceAbstract {
-      font-size: 0.7rem;
-      margin-bottom: 4px;
-    }
-
-    .ServiceName {
-      font-weight: bold;
-      font-size: 1.6rem;
-      color: $primary;
+    .ServiceLogo_image {
+      max-height: 100%;
     }
   }
 
@@ -72,14 +63,14 @@ export default class TheHeader extends Vue {
 
   .Login {
     margin: 0 4px;
-  }
-
-  .SignUp {
     border-radius: 4px;
     font-weight: bold;
-    color: $white;
-    background: $primary;
-    padding: 4px 8px;
+    color: $primary;
+    background: $white;
+    border: 1px solid $primary;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    text-decoration: none;
   }
 }
 </style>
