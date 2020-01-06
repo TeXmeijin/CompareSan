@@ -7,7 +7,7 @@
       a(:href="profileUrl")
         figure.Avatar
           img(:src="user.photoURL").AvatarImage
-          figcaption プロフィール
+          figcaption 比較一覧
     template(v-else)
       a(href="/login").Login 比較をはじめる
 </template>
