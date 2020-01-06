@@ -7,4 +7,5 @@ export default interface ICompareTableRepository {
   create: (article: CompareArticle) => Promise<Result>
   update: (postId: string, article: CompareArticle) => Promise<any>
   findById: (postId: string) => Promise<any>
+  listByUid: (uid: string) => Promise<CompareArticle[]>
 }

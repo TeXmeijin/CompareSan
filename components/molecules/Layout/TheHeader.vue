@@ -4,9 +4,10 @@
       img(:src="require('@/assets/img/brand/compare-san-logo-v0_4.svg')").ServiceLogo_image
     .Spacer
     template(v-if="user")
-      figure.Avatar
-        img(:src="user.photoURL").AvatarImage
-        figcaption プロフィール
+      a(:href="profileUrl")
+        figure.Avatar
+          img(:src="user.photoURL").AvatarImage
+          figcaption プロフィール
     template(v-else)
       a(href="/login").Login 比較をはじめる
 </template>
@@ -19,6 +20,10 @@ const Auth = namespace(auth.name)
 @Component
 export default class TheHeader extends Vue {
   @Auth.State user
+
+  get profileUrl (): string {
+    return `/profile`
+  }
 }
 </script>
 

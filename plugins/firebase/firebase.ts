@@ -16,7 +16,7 @@ const firebaseSetUp = () => {
   }
 }
 
-export default function init () {
+export default function ({ app }) {
   firebaseSetUp()
-  auth()
+  auth(app)
 }
