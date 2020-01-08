@@ -34,8 +34,9 @@ import { simpleTableFactory } from '~/assets/javascript/factory/simpleTableFacto
     CompareForm: () => import('~/components/organisms/CompareForm.vue'),
   },
   validate ({ params }) {
-    // 数値でなければならない
-    return /^\d+$/.test(params.categoryId)
+    // 生きたカテゴリIDじゃないと404にする
+    const category = GetMasterCategoryById(parseInt(params.categoryId))
+    return /^\d+$/.test(params.categoryId) && category !== null
   },
 })
 export default class Post extends Vue {
