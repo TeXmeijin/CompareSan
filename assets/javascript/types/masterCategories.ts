@@ -1,4 +1,5 @@
 import { displayMonitorTableFactory } from '../factory/displayMonitorTableFactory'
+import { simpleTableFactory } from '../factory/simpleTableFactory'
 import { CompareTableClass } from './tableTypes'
 export interface CompareCategory {
   id: number
@@ -11,6 +12,12 @@ function GetMasterCategories (): {
   [key: string]: CompareCategory
   } {
   return {
+    'default': {
+      id: 0,
+      name: '検討している商品',
+      description: '',
+      factory: simpleTableFactory,
+    },
     'display-monitor': {
       id: 1,
       name: 'ディスプレイモニター',

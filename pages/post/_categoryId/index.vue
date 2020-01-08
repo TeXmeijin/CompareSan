@@ -21,7 +21,7 @@ import { Vue, Component } from 'vue-property-decorator'
 import {
   GetMasterCategoryById,
   CompareCategory,
-} from '../../../assets/javascript/types/masterCategories'
+} from '~/assets/javascript/types/masterCategories'
 import { CompareTableClass } from '~/assets/javascript/types/tableTypes'
 import { FirestoreCompareTableRepository } from '~/assets/javascript/Repository/FirestoreCompareTableRepository'
 import ICompareTableRepository from '~/assets/javascript/Repository/ICompareTableRepository'
@@ -32,6 +32,11 @@ import { simpleTableFactory } from '~/assets/javascript/factory/simpleTableFacto
 @Component({
   components: {
     CompareForm: () => import('~/components/organisms/CompareForm.vue'),
+  },
+  validate ({ params }) {
+    // 生きたカテゴリIDじゃないと404にする
+    const category = GetMasterCategoryById(parseInt(params.categoryId))
+    return /^\d+$/.test(params.categoryId) && category !== null
   },
 })
 export default class Post extends Vue {
