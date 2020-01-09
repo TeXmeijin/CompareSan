@@ -8,13 +8,13 @@ export interface CompareCategory {
   factory: () => CompareTableClass
 }
 
-function GetMasterCategories (): {
+export function GetMasterCategories (): {
   [key: string]: CompareCategory
   } {
   return {
     'default': {
       id: 0,
-      name: '検討している商品',
+      name: 'カテゴリなし',
       description: '',
       factory: simpleTableFactory,
     },

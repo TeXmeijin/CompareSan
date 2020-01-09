@@ -21,7 +21,7 @@ export default Vue.extend({
     },
   },
   methods: {
-    onClickedBackground() {
+    onClickedBackground () {
       this.$emit('on-closed')
     },
   },
@@ -60,6 +60,7 @@ export default Vue.extend({
   background: $body;
   color: $white;
   border-radius: 50%;
+  border: 0;
 }
 
 // オーバーレイのトランジション

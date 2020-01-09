@@ -105,6 +105,12 @@ export default Vue.extend({
     border: 0;
   }
 
+  &.gray {
+    background: $gray;
+    color: $white;
+    border: 0;
+  }
+
   &.error-outlined {
     color: $error;
     border-color: $error;

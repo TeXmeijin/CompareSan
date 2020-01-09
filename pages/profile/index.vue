@@ -28,7 +28,7 @@ article.Profile
     section.Auth
       .Logout
         c-button(
-          type="primary"
+          type="gray"
           size="large"
           block
           @click="onClickedLogout"
