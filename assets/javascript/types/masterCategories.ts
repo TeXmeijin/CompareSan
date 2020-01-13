@@ -12,7 +12,7 @@ export function GetMasterCategories (): {
   [key: string]: CompareCategory
   } {
   return {
-    'default': {
+    default: {
       id: 0,
       name: 'カテゴリなし',
       description: '',
@@ -23,6 +23,24 @@ export function GetMasterCategories (): {
       name: 'ディスプレイモニター',
       description: '',
       factory: displayMonitorTableFactory,
+    },
+    humidifier: {
+      id: 2,
+      name: '加湿器',
+      description: '',
+      factory: simpleTableFactory,
+    },
+    'vacuum-cleaner': {
+      id: 3,
+      name: '掃除機',
+      description: '',
+      factory: simpleTableFactory,
+    },
+    'toaster': {
+      id: 4,
+      name: 'トースター',
+      description: '',
+      factory: simpleTableFactory,
     },
   }
 }

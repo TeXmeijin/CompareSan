@@ -8,15 +8,20 @@
         scale="3"
       )
       span.Label 比較する
-    template(v-if="isDisplayingPostMenu")
-      .PostMenu
-        span.Heading 比較する商品を選択する
-        .Item(
-          v-for="category in categories"
-          :key="category.id"
-        )
-          span.Name {{ category.name }}
-          span.Description {{ category.description }}
+    transition(
+      name="postMenu"
+      appear
+    )
+      template(v-if="isDisplayingPostMenu")
+        .PostMenu
+          span.Heading 比較する商品をえらぶ
+          a.Item(
+            :href="`/post/${category.id}`"
+            v-for="category in categories"
+            :key="category.id"
+          )
+            span.Name {{ category.name }}
+            span.Description {{ category.description }}
 </template>
 
 <script lang="ts">
@@ -54,6 +59,7 @@ export default class TheFooter extends Vue {
   bottom: 0;
   display: flex;
   justify-content: center;
+  z-index: $zIndexOfFixedFooter;
 
   border-top: 1px solid $gray-light-3;
 
@@ -82,13 +88,50 @@ export default class TheFooter extends Vue {
   .PostMenu {
     position: fixed;
     max-height: 300px;
-    width: 300px;
+    width: calc(100% - 48px);
+    padding: 16px 12px;
     overflow-y: scroll;
     background: $white;
-    border-radius: 4px;
-    z-index: 10;
+    border: 2px solid $primary;
+    border-radius: 8px;
+    z-index: $zIndexOfNewPostMenu;
     bottom: 90px;
-    left: calc(50% - 150px);
+    left: calc(50% - (100% - 48px) / 2);
+
+    .Heading {
+      display: block;
+      font-weight: bold;
+      text-align: center;
+      font-size: 1.4rem;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+    }
+
+    .Item {
+      display: block;
+      color: $gray-light-1;
+      padding: 8px 0;
+      text-decoration: underline;
+
+      @include mq {
+        transition: background 0.2s;
+        &:hover {
+          background: $gray-light-4;
+        }
+      }
+    }
   }
+}
+
+// オーバーレイのトランジション
+.postMenu-enter-active,
+.postMenu-leave-active {
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.postMenu-enter,
+.postMenu-leave-to {
+    opacity: 0;
+    transform: translateY(20px);
 }
 </style>
