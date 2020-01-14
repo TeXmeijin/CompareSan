@@ -22,27 +22,29 @@ const convertFirestoreDocumentDataToCompareArticle = (
 
 export class FirestoreCompareTableRepository
 implements ICompareTableRepository {
+  getOrm () {
+    return firebase.firestore().collection('compares')
+  }
+  getVersion () {
+    return 'v0.1.3'
+  }
   create (
     article: CompareArticle
   ): Promise<firebase.firestore.DocumentReference> {
-    return firebase
-      .firestore()
-      .collection('compare-data-v0_1_1')
-      .add({
-        uid: article.uid,
-        table: article.table.data,
-        title: article.title,
-        categoryId: article.categoryId,
-        content: article.content,
-        is_public: article.is_public,
-        created_at: new Date(),
-        deleted_at: null,
-      })
+    return this.getOrm().add({
+      uid: article.uid,
+      table: article.table.data,
+      title: article.title,
+      categoryId: article.categoryId,
+      content: article.content,
+      is_public: article.is_public,
+      created_at: new Date(),
+      deleted_at: null,
+      version: this.getVersion(),
+    })
   }
   update (postId: string, article: CompareArticle): Promise<void> {
-    return firebase
-      .firestore()
-      .collection('compare-data-v0_1_1')
+    return this.getOrm()
       .doc(postId)
       .set({
         uid: article.uid,
@@ -53,6 +55,7 @@ implements ICompareTableRepository {
         is_public: article.is_public,
         created_at: article.created_at,
         deleted_at: null,
+        version: this.getVersion(),
       })
   }
   async findById (
@@ -60,9 +63,7 @@ implements ICompareTableRepository {
     categoryId?: number,
     uid?: string
   ): Promise<(CompareArticle) | undefined> {
-    const savedData = await firebase
-      .firestore()
-      .collection('compare-data-v0_1_1')
+    const savedData = await this.getOrm()
       .doc(compareId)
       .get()
 
@@ -83,9 +84,7 @@ implements ICompareTableRepository {
     return convertFirestoreDocumentDataToCompareArticle(data)
   }
   async listByUid (uid: string): Promise<CompareArticle[]> {
-    const snapshotList = await firebase
-      .firestore()
-      .collection('compare-data-v0_1_1')
+    const snapshotList = await this.getOrm()
       .where('uid', '==', uid)
       .where('deleted_at', '==', null)
       .get()
@@ -100,18 +99,9 @@ implements ICompareTableRepository {
     })
   }
   async deleteArticle (article: CompareArticle): Promise<void> {
-    return firebase
-      .firestore()
-      .collection('compare-data-v0_1_1')
+    return this.getOrm()
       .doc(article.id!)
-      .set({
-        uid: article.uid,
-        table: article.table.data,
-        title: article.title,
-        categoryId: article.categoryId || null,
-        content: article.content,
-        is_public: article.is_public,
-        created_at: article.created_at,
+      .update({
         deleted_at: Date.now(),
       })
   }

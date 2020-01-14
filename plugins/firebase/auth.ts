@@ -14,17 +14,6 @@ export default function (app: Context) {
 
       store.commit('auth/setUser', user.providerData[0])
       store.commit('auth/setUid', user.uid)
-      firebase
-        .firestore()
-        .collection('users')
-        .doc(user.uid)
-        .onSnapshot(
-          (doc) => {
-            const credential = doc.data()
-            store.commit('auth/setCredential', credential)
-          },
-          _ => _
-        )
       return true
     }
     firebase
@@ -32,16 +21,17 @@ export default function (app: Context) {
       .getRedirectResult()
       .then((result) => {
         const user = result.user
-        if (!user || !setUser(user)) {
-          return
+        setUser(user)
+        if (user !== null) {
+          firebase
+            .firestore()
+            .collection('users')
+            .doc(user.uid)
+            .set({
+              name: user.providerData[0]!.displayName,
+              created_at: Date.now(),
+            })
         }
-
-        const credential = result.credential
-        store.dispatch('auth/setCredential', {
-          uid: user.uid,
-          twitterId: user.providerData[0]!.uid,
-          credential,
-        })
       })
     firebase.auth().onAuthStateChanged(setUser)
   }
