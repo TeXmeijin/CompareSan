@@ -8,7 +8,7 @@
         .ModalContents
           slot
           slot(name="closeButton")
-            button.CloseButton(@click="onClickedBackground") ✕
+            button(type="button" @click="onClickedBackground").CloseButton ✕
 </template>
 
 <script lang="ts">

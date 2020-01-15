@@ -62,7 +62,6 @@ export default class Post extends Vue {
       return
     }
     const docRef = await this.repository.create(article)
-    console.log('Document written with ID: ', docRef.id)
     this.$router.push({
       name: 'compares-categoryId-compareId',
       params: {

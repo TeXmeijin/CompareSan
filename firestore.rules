@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwnerOrPublic() {
+      return resource.data.is_public || request.auth.uid == resource.data.uid;
+    }
+
+    match /users/{userId} {
+      allow read: if true;
+      allow update, delete: if request.auth.uid == userId;
+      allow create: if request.auth.uid != null;
+    }
+
+    match /compares/{document=**} {
+      allow read: if isOwnerOrPublic();
+      allow update, delete: if request.auth.uid == resource.data.uid;
+      allow create: if request.auth.uid != null;
+    }
+  }
+}

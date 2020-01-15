@@ -22,10 +22,9 @@ export default class Index extends Vue {
 
   @Auth.State user;
   @Auth.State uid;
-  @Auth.State credential;
 
   public get isLogined (): boolean {
-    return !!this.user && !!this.uid && !!this.credential
+    return !!this.user && !!this.uid
   }
 }
 </script>
