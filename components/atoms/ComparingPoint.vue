@@ -30,8 +30,6 @@ export default Vue.extend({
 .ComparingPoint {
   position: relative;
   padding: 12px 0;
-  border-radius: 4px;
-  background: $gray-light-3;
   margin-right: 4px;
   text-align: center;
   flex: 1;
@@ -40,7 +38,7 @@ export default Vue.extend({
   justify-content: center;
 
   &__text {
-    font-weight: bold;
+    font-size: 0.9rem;
   }
 
   &__editBtn {

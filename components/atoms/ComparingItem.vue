@@ -79,8 +79,7 @@ export default class ComparingItemVue extends Vue {
 <style lang="scss" scoped>
 .ComparingItem {
   position: relative;
-  padding: 12px;
-  border-radius: 4px;
+  padding: 24px 4px;
   text-align: center;
   flex: 1;
   display: flex;

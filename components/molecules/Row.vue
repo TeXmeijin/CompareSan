@@ -1,7 +1,7 @@
 <template lang="pug">
 .row
   .head(
-    :style="{ minWidth: headWidth, minHeight: cellHeight }"
+    :style="{ width: headWidth, minHeight: cellHeight }"
     @click="isShowingUpdateModal = true"
   )
     comparing-point(:comparing-item="head")
@@ -154,14 +154,21 @@ export default class RowView extends Vue {
 .row {
   display: flex;
 
+  &:nth-child(even) {
+    background: $gray-light-4;
+  }
+
   .cell {
+    padding: 8px 4px;
     display: flex;
     align-items: center;
   }
 
   .head {
+    padding: 8px 0;
     display: flex;
-    padding: 4px 0;
+    padding: 4px 8px;
+    border-right: 1px solid $gray-light-2;
   }
 
   &__action {

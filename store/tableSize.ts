@@ -12,25 +12,25 @@ interface TableSizeState {
 export const name = 'tableSize'
 
 export const state = (): TableSizeState => ({
-  headWidth: 120,
+  headWidth: 140,
   cellWidth: 165,
   headHeight: 40,
   cellHeight: 80,
 })
 
 export const getters: GetterTree<TableSizeState, RootState> = {
-  headWidth(): string {
+  headWidth (): string {
     return `${state().headWidth}px`
   },
-  cellWidth(): string {
+  cellWidth (): string {
     return `${state().cellWidth}px`
   },
-  headHeight(): string {
+  headHeight (): string {
     return `${state().headHeight}px`
   },
-  cellHeight(): string {
+  cellHeight (): string {
     return `${state().cellHeight}px`
-  }
+  },
 }
 
 export const mutations: MutationTree<TableSizeState> = {}

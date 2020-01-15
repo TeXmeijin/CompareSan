@@ -4,6 +4,7 @@
     :class="styleClass"
     :value="value"
     @input="$emit('input', $event.target.value)"
+    placeholder="ここに入力"
   )
 </template>
 
@@ -65,6 +66,11 @@ export default class CTextField extends Vue {
 
   &.block {
     width: 100%;
+  }
+
+  &::placeholder {
+    font-size: 0.8rem;
+    font-style: italic;
   }
 }
 </style>
