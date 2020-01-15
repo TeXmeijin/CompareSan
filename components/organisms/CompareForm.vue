@@ -106,8 +106,11 @@ export default class CompareForm extends Vue {
 
 <style lang="scss" scoped>
 .dataTable {
-  padding: 24px 12px 8px;
-  overflow-x: scroll;
+  padding: 24px 0 8px;
+  @include mq {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
   color: $body;
 }
 

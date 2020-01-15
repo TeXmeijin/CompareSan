@@ -1,7 +1,7 @@
 <template lang="pug">
 .row
   .head(
-    :style="{ width: headWidth, minHeight: cellHeight }"
+    :style="{ width: headWidth, minWidth: headWidth, minHeight: cellHeight }"
     @click="isShowingUpdateModal = true"
   )
     comparing-point(:comparing-item="head")
