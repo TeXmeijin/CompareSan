@@ -6,14 +6,15 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-      allow read;
+      allow read: if true;
       allow update, delete: if request.auth.uid == userId;
       allow create: if request.auth.uid != null;
     }
 
-    match /compares {
+    match /compares/{document=**} {
       allow read: if isOwnerOrPublic();
-      allow write: if request.auth.uid == resource.data.uid;
+      allow update, delete: if request.auth.uid == resource.data.uid;
+      allow create: if request.auth.uid != null;
     }
   }
 }
