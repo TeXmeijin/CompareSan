@@ -2,6 +2,11 @@
   .Root
     div(@click="isShowingModal = true").ComparingItem
       span.ComparingItem__text {{ name }}
+      span.ComparingItem__text ￥{{ price || '-' }}
+      a(
+        :href="url"
+        v-if="url"
+      ).ComparingItem__url {{ url }}
       edit-button.ComparingItem__editBtn
     modal(
       :isShowing="isShowingModal"
@@ -9,10 +14,24 @@
     )
       .Form
         .FormContent
-          span.Label 商品の名前
+          span.Label 名前（型番）
           .FormItem
             c-text-field(
               v-model="name"
+              block
+            )
+        .FormContent
+          span.Label お値段
+          .FormItem
+            c-text-field(
+              v-model="price"
+              block
+            )
+        .FormContent
+          span.Label 販売URL
+          .FormItem
+            c-text-field(
+              v-model="url"
               block
             )
         .FormContent.--no-border.--dense
@@ -41,6 +60,8 @@ import { ComparingItem } from '../../assets/javascript/types/tableTypes'
 export interface UpdateItemContent {
   itemKey: string
   name: string
+  price: number
+  url: string
 }
 
 @Component({
@@ -58,9 +79,13 @@ export default class ComparingItemVue extends Vue {
 
   isShowingModal = false
   name = ''
+  price = 0
+  url = ''
 
   created () {
     this.name = this.comparingItem.name
+    this.price = this.comparingItem.price || 0
+    this.url = this.comparingItem.url || ''
   }
 
   onClickedHeaderUpdate () {
@@ -68,6 +93,8 @@ export default class ComparingItemVue extends Vue {
     this.$emit('on-clicked-update-item', {
       itemKey: this.comparingItem.comparingItemKey,
       name: this.name,
+      price: this.price,
+      url: this.url,
     } as UpdateItemContent)
   }
   onClickedHeaderDelete () {
@@ -84,11 +111,22 @@ export default class ComparingItemVue extends Vue {
   text-align: center;
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
   &__text {
     font-weight: bold;
+  }
+
+  &__url {
+    font-size: 0.8rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow-x: hidden;
+    text-decoration: underline;
+    color: $primary;
   }
 
   &__editBtn {
