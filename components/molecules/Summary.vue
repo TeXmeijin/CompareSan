@@ -1,5 +1,5 @@
 <template lang="pug">
-  .summary
+  .summary(:style="{ width: `${rowWidth}px` }")
     .summary__heading.--textReadOnly(:style="{ minWidth: headWidth }")
       span 評価合計
     template(v-for="(evaluate, key) in summaries")
@@ -27,8 +27,16 @@ export default class SummaryVue extends Vue {
   }
 
   @TableSize.Getter headWidth
+  @TableSize.Getter headWidthRaw
   @TableSize.Getter cellWidth
-  @TableSize.Getter headHeight
+  @TableSize.Getter cellWidthRaw
+  @TableSize.Getter cellHeight
+
+  public get rowWidth (): number {
+    return (
+      this.headWidthRaw + this.cellWidthRaw * Object.keys(this.summaries).length
+    )
+  }
 }
 </script>
 

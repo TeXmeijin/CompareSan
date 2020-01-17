@@ -1,7 +1,9 @@
 <template lang="pug">
   .footer
-    .footer__addPoint.--actionCell(:style="{ minWidth: headWidth }")
-      c-button(@click="isShowingAddRowModal = true" size="small") 追加
+    action-button(
+      :style="{ minWidth: headWidth }"
+      @click="isShowingAddRowModal = true"
+    ).footer__addPoint 比較ポイントを追加
     modal(
       :isShowing="isShowingAddRowModal"
       @on-closed="cellType = null; isShowingAddRowModal = false"
@@ -84,5 +86,10 @@ export default class Footer extends Vue {
 .footer {
   display: flex;
   align-items: center;
+  padding: 16px 0;
+
+  &__addPoint {
+    padding: 0 8px;
+  }
 }
 </style>

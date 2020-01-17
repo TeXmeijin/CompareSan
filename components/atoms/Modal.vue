@@ -48,6 +48,10 @@ export default Vue.extend({
   background: $white;
   border-radius: 4px;
   z-index: 3;
+
+  @include mq('sp') {
+    min-width: calc(100vw - 48px);
+  }
 }
 
 .CloseButton {
