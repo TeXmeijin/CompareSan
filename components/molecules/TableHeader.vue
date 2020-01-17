@@ -7,8 +7,10 @@
         @on-clicked-remove-item="$emit('on-clicked-remove-item', $event)"
         @on-clicked-update-item="$emit('on-clicked-update-item', $event)"
       )
-    .TableAddItem.--actionCell
-      c-button(size="small" @click="$emit('on-clicked-add-item')") 追加
+    .TableAddItem(
+      :style="{ minWidth: headWidth }"
+    )
+      action-button(@click="$emit('on-clicked-add-item')") 商品を追加
 </template>
 
 <script lang="ts">
@@ -46,6 +48,10 @@ export default class TableHeaderVue extends Vue {
   .TableHeaderItem {
     text-align: center;
     font-weight: bold;
+  }
+
+  .TableAddItem {
+    padding: 0 8px;
   }
 }
 </style>

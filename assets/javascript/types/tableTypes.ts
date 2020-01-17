@@ -28,8 +28,8 @@ export type ComparingPoint = {
 
 export enum CellType {
   URL = 'URL',
-  TEXT = 'Text',
-  TEXT_WITH_EVALUATION = 'Text with Evaluation',
+  TEXT = '説明',
+  TEXT_WITH_EVALUATION = '自己評価(◎〜×)',
   IMAGE = 'Image',
 }
 

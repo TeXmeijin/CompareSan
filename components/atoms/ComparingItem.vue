@@ -1,6 +1,6 @@
 <template lang="pug">
-  .ComparingItem
-    div(@click="isShowingModal = true")
+  .Root
+    div(@click="isShowingModal = true").ComparingItem
       span.ComparingItem__text {{ name }}
       edit-button.ComparingItem__editBtn
     modal(
@@ -13,6 +13,7 @@
           .FormItem
             c-text-field(
               v-model="name"
+              block
             )
         .FormContent.--no-border.--dense
           .Submit
@@ -99,5 +100,9 @@ export default class ComparingItemVue extends Vue {
     align-items: center;
     color: $gray-light-1;
   }
+}
+
+.Submit {
+  text-align: left;
 }
 </style>

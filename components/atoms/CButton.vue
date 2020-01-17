@@ -28,6 +28,10 @@ export default Vue.extend({
       type: Boolean,
       default: false,
     },
+    circle: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     computedClass () {
@@ -47,6 +51,9 @@ export default Vue.extend({
       }
       if (this.size === 'large') {
         style['--large'] = true
+      }
+      if (this.circle) {
+        style['--circle'] = true
       }
       return style
     },
@@ -97,6 +104,17 @@ export default Vue.extend({
     text-align: center;
     padding: 12px 24px;
     border-radius: 8px;
+  }
+
+  &.--circle {
+    padding: 0;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &.primary {
