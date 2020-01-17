@@ -59,8 +59,6 @@ export default class Post extends Vue {
       this.uid
     )
 
-    console.log(article)
-
     if (!article) {
       return
     }

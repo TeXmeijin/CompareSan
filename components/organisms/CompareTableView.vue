@@ -158,6 +158,8 @@ export default class CompareTableView extends Vue {
       1,
       ((item) => {
         item.name = content.name
+        item.price = content.price
+        item.url = content.url
         return item
       })(this.compares.data.header[index])
     )

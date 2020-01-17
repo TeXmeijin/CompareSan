@@ -15,7 +15,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 export default class CTextField extends Vue {
   @Prop({
     default: '',
-    type: String,
+    type: [String, Number],
   })
   value
 

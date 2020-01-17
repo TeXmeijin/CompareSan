@@ -16,6 +16,8 @@ export class CompareTableClass {
 export type ComparingItem = {
   name: string
   comparingItemKey: string
+  price?: number
+  url?: string
   deleted_at?: number
 }
 
