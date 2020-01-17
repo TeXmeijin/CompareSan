@@ -1,5 +1,5 @@
 <template lang="pug">
-  .summary(:style="{height: headHeight}")
+  .summary
     .summary__heading.--textReadOnly(:style="{ minWidth: headWidth }")
       span 評価合計
     template(v-for="(evaluate, key) in summaries")
@@ -35,22 +35,20 @@ export default class SummaryVue extends Vue {
 <style lang="scss" scoped>
 .summary {
   display: flex;
+  background: $gray-light-3;
+  padding: 8px 0;
 
   .summary__heading {
-    height: 100%;
-    font-weight: bold;
     font-size: 0.9rem;
-    background: $gray-light-3;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
   .summary__evaluate {
-    height: 100%;
     font-weight: bold;
+    font-size: 1.2rem;
     letter-spacing: 2px;
-    background: $gray-light-3;
     display: flex;
     align-items: center;
     justify-content: center;

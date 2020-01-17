@@ -1,7 +1,7 @@
 <template lang="pug">
-.row
+.row(:style="{ width: `${rowWidth}px` }")
   .head(
-    :style="{ minWidth: headWidth, minHeight: cellHeight }"
+    :style="{ width: headWidth, minWidth: headWidth, minHeight: cellHeight }"
     @click="isShowingUpdateModal = true"
   )
     comparing-point(:comparing-item="head")
@@ -97,7 +97,9 @@ export default class RowView extends Vue {
   cellName = ''
 
   @TableSize.Getter headWidth
+  @TableSize.Getter headWidthRaw
   @TableSize.Getter cellWidth
+  @TableSize.Getter cellWidthRaw
   @TableSize.Getter cellHeight
 
   created () {
@@ -105,6 +107,9 @@ export default class RowView extends Vue {
     this.cellName = this.row.head.name
   }
 
+  public get rowWidth (): number {
+    return this.headWidthRaw + this.cellWidthRaw * this.row.cells.length
+  }
   public get head (): ComparingPoint {
     return this.row.head
   }
@@ -154,14 +159,21 @@ export default class RowView extends Vue {
 .row {
   display: flex;
 
+  &:nth-child(even) {
+    background: $gray-light-4;
+  }
+
   .cell {
+    padding: 8px 4px;
     display: flex;
     align-items: center;
   }
 
   .head {
+    padding: 8px 0;
     display: flex;
-    padding: 4px 0;
+    padding: 4px 8px;
+    border-right: 1px solid $gray-light-2;
   }
 
   &__action {

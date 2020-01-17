@@ -204,35 +204,6 @@ export default class CompareTableView extends Vue {
 <style lang="scss" scoped>
 .table {
   background: $white;
-
-  .heading {
-    border-bottom: 1px solid $gray-light-3;
-
-    .heading__header {
-      padding: 12px 2px 0;
-
-      &:first-child {
-        min-width: 96px;
-      }
-
-      &:last-child {
-        min-width: 96px;
-      }
-    }
-  }
-
-  .data {
-    display: flex;
-    align-items: center;
-
-    .data__value {
-      padding: 2px;
-
-      .--head {
-        width: 96px;
-        font-weight: bold;
-      }
-    }
-  }
+  overflow-x: scroll;
 }
 </style>
