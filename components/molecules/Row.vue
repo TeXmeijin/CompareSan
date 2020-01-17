@@ -1,5 +1,5 @@
 <template lang="pug">
-.row
+.row(:style="{ width: `${rowWidth}px` }")
   .head(
     :style="{ width: headWidth, minWidth: headWidth, minHeight: cellHeight }"
     @click="isShowingUpdateModal = true"
@@ -97,7 +97,9 @@ export default class RowView extends Vue {
   cellName = ''
 
   @TableSize.Getter headWidth
+  @TableSize.Getter headWidthRaw
   @TableSize.Getter cellWidth
+  @TableSize.Getter cellWidthRaw
   @TableSize.Getter cellHeight
 
   created () {
@@ -105,6 +107,9 @@ export default class RowView extends Vue {
     this.cellName = this.row.head.name
   }
 
+  public get rowWidth (): number {
+    return this.headWidthRaw + this.cellWidthRaw * this.row.cells.length
+  }
   public get head (): ComparingPoint {
     return this.row.head
   }

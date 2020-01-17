@@ -31,6 +31,18 @@ export const getters: GetterTree<TableSizeState, RootState> = {
   cellHeight (): string {
     return `${state().cellHeight}px`
   },
+  headWidthRaw (): number {
+    return state().headWidth
+  },
+  cellWidthRaw (): number {
+    return state().cellWidth
+  },
+  headHeightRaw (): number {
+    return state().headHeight
+  },
+  cellHeightRaw (): number {
+    return state().cellHeight
+  },
 }
 
 export const mutations: MutationTree<TableSizeState> = {}
