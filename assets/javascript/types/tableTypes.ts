@@ -32,7 +32,6 @@ export enum CellType {
   URL = 'URL',
   TEXT = '説明',
   TEXT_WITH_EVALUATION = '自己評価(◎〜×)',
-  IMAGE = 'Image',
 }
 
 export interface Cell {
@@ -75,6 +74,7 @@ export type Row = {
 export type Summary = {
   comparingItemKey: string
   value: number
+  price?: number
 }
 
 export const MasterEvaluateItemList = [

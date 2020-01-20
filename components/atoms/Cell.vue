@@ -29,7 +29,7 @@ export default class CellVue extends Vue {
   })
   cell: Cell
 
-  public get cellComponentName (): string {
+  get cellComponentName (): string {
     if (this.cell.type === CellType.TEXT) {
       return 'text-cell'
     }

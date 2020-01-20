@@ -1,9 +1,11 @@
 <template lang="pug">
   .TextEvaluationCell
+    .MiniLabel 仕様
     c-text-field(
       :value="cell.value"
       @input="$emit('on-updated-cell-value', { ...cell, value: $event })"
     )
+    .MiniLabel 自己評価(◎, ○, △, ×)
     select(
       :value="cell.evaluate"
       @input="$emit('on-updated-cell-evaluate', { ...cell, evaluate: $event.target.value })"
@@ -48,7 +50,13 @@ export default class TextWithEvaluateCellVue extends Vue {
   position: relative;
 }
 
+.MiniLabel {
+  margin-top: 6px;
+  font-size: 0.6rem;
+  text-align: right;
+}
+
 .selector {
-  margin-top: 8px;
+  margin-top: 2px;
 }
 </style>

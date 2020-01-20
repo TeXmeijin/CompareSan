@@ -46,20 +46,20 @@ export default class CompareTableView extends Vue {
     this.compares = this.initialTable
   }
 
-  public get tableRows (): Array<Row> {
+  get tableRows (): Array<Row> {
     return this.compares.data.rows.filter((row) => {
       return row.deleted_at === undefined
     })
   }
-  public get tableColumns (): TableHeader {
+  get tableColumns (): TableHeader {
     return this.compares.data.header
   }
-  public get softDeletedTableHeader (): TableHeader {
+  get softDeletedTableHeader (): TableHeader {
     return this.compares.data.header.filter((header) => {
       return header.deleted_at === undefined
     })
   }
-  public get summaries (): {
+  get summaries (): {
     [key: string]: Summary
     } {
     const result = {}
