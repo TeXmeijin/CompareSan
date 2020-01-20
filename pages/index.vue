@@ -13,7 +13,9 @@
       ).CatchLogo__image
     .CatchAction
       .ActionButton
-        button.ActionButton__button さっそく比較する >
+        button(
+          @click="onClickedStartCompare"
+        ).ActionButton__button さっそく比較する >
   .Feature
     .Feature__message どの商品を買うか迷ったとき、
       br
@@ -65,9 +67,11 @@
         img(
           :src="require('~/assets/img/top/smartphone_share.jpg')"
         ).FeaturePointImage--share__image
-      .FeaturePointAction
-        .ActionButton
-          button.ActionButton__button さっそく比較する >
+  .Lets
+    .LetsMessage
+      .LetsMessage__text さあ、「比較する」を押して
+        br
+        | 買いたい商品の比較をはじめましょう！
 </template>
 
 <script lang="ts">
@@ -87,6 +91,10 @@ export default class Index extends Vue {
 
   public get isLogined (): boolean {
     return !!this.user && !!this.uid
+  }
+
+  onClickedStartCompare () {
+    this.$nuxt.$emit('onClickedOpeningModal')
   }
 }
 </script>
@@ -294,6 +302,44 @@ export default class Index extends Vue {
 
     .FeaturePointAction {
       margin-top: 24px;
+    }
+  }
+
+  .Lets {
+    display: flex;
+    justify-content: center;
+    padding: 12px 0 24px;
+
+    .LetsMessage {
+      border: 2px solid $primary;
+      border-radius: 8px;
+      padding: 16px;
+      position: relative;
+
+      &:before {
+        position: absolute;
+        content: '';
+        bottom: -19px;
+        left: calc(50% - 10px);
+        border-top: 18px solid $primary;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+      }
+
+      &:after {
+        position: absolute;
+        content: '';
+        bottom: -15px;
+        left: calc(50% - 10px);
+        border-top: 18px solid $white;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+      }
+
+      .LetsMessage__text {
+        font-weight: bold;
+        text-align: center;
+      }
     }
   }
 }
