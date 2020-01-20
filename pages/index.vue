@@ -13,8 +13,8 @@
       ).CatchLogo__image
     .CatchAction
       .ActionButton
-        button(
-          @click="onClickedStartCompare"
+        nuxt-link(
+          to="/post"
         ).ActionButton__button さっそく比較する >
   .Feature
     .Feature__message どの商品を買うか迷ったとき、
@@ -91,10 +91,6 @@ export default class Index extends Vue {
 
   public get isLogined (): boolean {
     return !!this.user && !!this.uid
-  }
-
-  onClickedStartCompare () {
-    this.$nuxt.$emit('onClickedOpeningModal')
   }
 }
 </script>
