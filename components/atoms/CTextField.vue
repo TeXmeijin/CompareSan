@@ -43,7 +43,7 @@ export default class CTextField extends Vue {
   })
   large
 
-  public get styleClass () {
+  get styleClass () {
     return {
       TextField: true,
       medium: this.medium,

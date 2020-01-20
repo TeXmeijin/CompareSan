@@ -1,9 +1,5 @@
 <template lang="pug">
 form
-  section.dataTable
-    compare-table-view(
-      :initialTable="formTable"
-    )
   section.Form
     .FormContent
       span.Label タイトル[必須]
@@ -11,6 +7,12 @@ form
         v-model="formTitle"
         :block="true"
       ).FormItem
+  section.Form
+    span.Label 比較内容
+  compare-table-view(
+    :initialTable="formTable"
+  )
+  section.Form
     .FormContent
       span.Label メモ（詳しい内容/補足など）
       textarea(
@@ -106,7 +108,7 @@ export default class CompareForm extends Vue {
 
 <style lang="scss" scoped>
 .dataTable {
-  padding: 24px 0 8px;
+  padding: 8px 0;
   @include mq {
     padding-left: 12px;
     padding-right: 12px;

@@ -66,10 +66,10 @@ export default class ReadOnlyRowView extends Vue {
     this.cellName = this.row.head.name
   }
 
-  public get head (): ComparingPoint {
+  get head (): ComparingPoint {
     return this.row.head
   }
-  public get cells (): Cell[] {
+  get cells (): Cell[] {
     const removedKeys = this.tableHeader
       .filter((head) => {
         return head.deleted_at !== undefined
@@ -85,11 +85,10 @@ export default class ReadOnlyRowView extends Vue {
     })
   }
 
-  public get CellTypeMaster (): string[] {
+  get CellTypeMaster (): string[] {
     return [
       CellType.TEXT,
       CellType.TEXT_WITH_EVALUATION,
-      CellType.IMAGE,
       CellType.URL,
     ]
   }

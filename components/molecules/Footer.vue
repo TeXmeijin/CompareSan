@@ -63,13 +63,8 @@ export default class Footer extends Vue {
   @TableSize.Getter headWidth
   @TableSize.Getter cellWidth
 
-  public get CellTypeMaster (): string[] {
-    return [
-      CellType.TEXT,
-      CellType.TEXT_WITH_EVALUATION,
-      CellType.IMAGE,
-      CellType.URL,
-    ]
+  get CellTypeMaster (): string[] {
+    return [CellType.TEXT, CellType.TEXT_WITH_EVALUATION, CellType.URL]
   }
 
   onClickedAddRowSubmit () {

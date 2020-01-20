@@ -90,12 +90,16 @@ export default class Post extends Vue {
 .sec-main {
   background: $white;
   color: $body;
-  padding: 40px 0;
+  padding: 0 0 40px;
   min-height: 100vh;
 
   .heading {
     text-align: center;
-    padding: 0 12px;
+    padding: 32px 12px;
+    background-image: url(~assets/img/top/catch_background.svg);
+    background-position: center calc(100% + 24px);
+    background-size: cover;
+    background-repeat: no-repeat;
 
     .heading__head {
       font-weight: bold;

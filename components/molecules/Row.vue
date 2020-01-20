@@ -107,13 +107,13 @@ export default class RowView extends Vue {
     this.cellName = this.row.head.name
   }
 
-  public get rowWidth (): number {
+  get rowWidth (): number {
     return this.headWidthRaw + this.cellWidthRaw * this.row.cells.length
   }
-  public get head (): ComparingPoint {
+  get head (): ComparingPoint {
     return this.row.head
   }
-  public get cells (): Cell[] {
+  get cells (): Cell[] {
     const removedKeys = this.tableHeader
       .filter((head) => {
         return head.deleted_at !== undefined
@@ -129,13 +129,8 @@ export default class RowView extends Vue {
     })
   }
 
-  public get CellTypeMaster (): string[] {
-    return [
-      CellType.TEXT,
-      CellType.TEXT_WITH_EVALUATION,
-      CellType.IMAGE,
-      CellType.URL,
-    ]
+  get CellTypeMaster (): string[] {
+    return [CellType.TEXT, CellType.TEXT_WITH_EVALUATION, CellType.URL]
   }
 
   onClickedRowUpdate () {
@@ -164,7 +159,7 @@ export default class RowView extends Vue {
   }
 
   .cell {
-    padding: 8px 4px;
+    padding: 8px;
     display: flex;
     align-items: center;
   }
