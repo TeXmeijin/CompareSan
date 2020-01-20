@@ -77,6 +77,10 @@ export default class Profile extends Vue {
   }
 
   created () {
+    if (!this.user) {
+      this.$router.push(`/login`)
+    }
+
     this.compareRepository = new FirestoreCompareTableRepository()
   }
 

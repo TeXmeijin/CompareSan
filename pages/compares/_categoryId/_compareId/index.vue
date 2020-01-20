@@ -22,15 +22,12 @@ import { FirestoreCompareTableRepository } from '~/assets/javascript/Repository/
 import ICompareTableRepository from '~/assets/javascript/Repository/ICompareTableRepository'
 import CompareTableView from '~/components/organisms/ReadOnly/ReadOnlyCompareTableView.vue'
 
-import * as auth from '~/store/auth'
-const Auth = namespace(auth.name)
-
 @Component({
   components: {
     CompareTableView,
   },
 })
-export default class EditPost extends Vue {
+export default class ViewCompare extends Vue {
   article: CompareArticle | null = null
 
   public async created (): Promise<void> {
@@ -48,22 +45,7 @@ export default class EditPost extends Vue {
     this.repository = new FirestoreCompareTableRepository()
   }
 
-  @Auth.State uid
-
   repository: ICompareTableRepository
-
-  // save () {
-  //   this.repository
-  //     .update(this.$route.params.postId, {
-  //       uid: this.uid,
-  //       table: this.table.data,
-  //       title: this.title,
-  //       content: this.content,
-  //       is_public: this.isPublic,
-  //       created_at: Date.now(),
-  //     })
-  //     .then(() => {})
-  // }
 }
 </script>
 

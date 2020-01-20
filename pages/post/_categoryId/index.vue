@@ -18,6 +18,7 @@ main.sec-main
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 
+import { namespace } from 'vuex-class'
 import {
   GetMasterCategoryById,
   CompareCategory,
@@ -28,6 +29,8 @@ import ICompareTableRepository from '~/assets/javascript/Repository/ICompareTabl
 
 import { CompareArticle } from '~/assets/javascript/types/articleTypes'
 import { simpleTableFactory } from '~/assets/javascript/factory/simpleTableFactory'
+import * as auth from '~/store/auth'
+const Auth = namespace(auth.name)
 
 @Component({
   components: {
@@ -44,11 +47,17 @@ export default class Post extends Vue {
 
   repository: ICompareTableRepository
 
+  @Auth.State user
+
   title: string = ''
   content: string = ''
   isPublic: boolean = true
 
   created () {
+    if (!this.user) {
+      this.$router.push(`/login?category_id=${this.$route.params.categoryId}`)
+    }
+
     if (this.category) {
       this.table = this.category.factory()
     }
