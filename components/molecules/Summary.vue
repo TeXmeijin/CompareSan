@@ -1,5 +1,5 @@
 <template lang="pug">
-  .summary(:style="{ width: `${rowWidth}px` }")
+  .SummaryArea(:style="{ width: `${rowWidth}px` }")
     .summary__row
       .summary__heading.--textReadOnly(:style="{ minWidth: headWidth }")
         span 評価合計
@@ -73,39 +73,3 @@ export default class SummaryVue extends Vue {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-.summary {
-  background: $gray-light-3;
-  padding: 8px 0;
-
-  .summary__row {
-    display: flex;
-  }
-
-  .summary__heading {
-    font-size: 0.9rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .summary__evaluate {
-    font-weight: bold;
-    font-size: 1.8rem;
-    letter-spacing: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .summary__price {
-    font-weight: bold;
-    font-size: 1.3rem;
-    letter-spacing: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-}
-</style>

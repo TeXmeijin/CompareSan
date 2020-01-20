@@ -1,10 +1,10 @@
 <template lang="pug">
-.ReadOnlyRow
+.ReadOnlyRow(:style="{ width: `${rowWidth}px` }")
   .head(
     :style="{ minWidth: headWidth, minHeight: cellHeight }"
   )
     comparing-point(:comparing-item="head")
-  .cell(:style="{ width: cellWidth }" v-for="cell in cells" :key="cell.comparingItemKey")
+  .cell(:style="{ minWidth: cellWidth }" v-for="cell in cells" :key="cell.comparingItemKey")
     cell(
       :cell="cell"
     )
@@ -58,8 +58,14 @@ export default class ReadOnlyRowView extends Vue {
   cellName = ''
 
   @TableSize.Getter headWidth
+  @TableSize.Getter headWidthRaw
   @TableSize.Getter cellWidth
+  @TableSize.Getter cellWidthRaw
   @TableSize.Getter cellHeight
+
+  get rowWidth (): number {
+    return this.headWidthRaw + this.cellWidthRaw * this.row.cells.length
+  }
 
   created () {
     this.cellType = this.row.head.type
@@ -84,36 +90,12 @@ export default class ReadOnlyRowView extends Vue {
       return !removedKeys.includes(cell.comparingItemKey)
     })
   }
-
-  get CellTypeMaster (): string[] {
-    return [
-      CellType.TEXT,
-      CellType.TEXT_WITH_EVALUATION,
-      CellType.URL,
-    ]
-  }
-
-  onClickedRowUpdate () {
-    this.isShowingUpdateModal = false
-    const update: UpdateRowContent = {
-      rowKey: this.row.rowKey,
-      type: this.cellType,
-      name: this.cellName,
-    }
-    this.$emit('on-clicked-update-row', update)
-  }
-
-  onClickedRowDelete () {
-    this.isShowingUpdateModal = false
-    this.$emit('on-clicked-remove-row', this.row.rowKey)
-  }
 }
 </script>
 
 <style lang="scss" scoped>
 .ReadOnlyRow {
   display: flex;
-  border-top: 1px dashed $gray-light-2;
 
   &:nth-child(even) {
     background: $gray-light-4;

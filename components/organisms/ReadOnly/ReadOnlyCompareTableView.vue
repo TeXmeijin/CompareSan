@@ -81,6 +81,7 @@ export default class CompareTableView extends Vue {
       result[item.comparingItemKey] = {
         comparingItemKey: item.comparingItemKey,
         value: sum,
+        price: item.price,
       }
     })
     return result
