@@ -1,22 +1,22 @@
 <template lang="pug">
   footer.Footer
-    a.Home(
-      href="/"
+    nuxt-link.Home(
+      to="/"
     )
       v-icon(
         name="home"
         scale="2"
       )
     .Post
-      button(
-        @click="$nuxt.$emit('onClickedOpeningModal')"
+      nuxt-link(
+        to="/post"
       ).PostButton
         v-icon(
           name="balance-scale"
           scale="3"
         )
         span.Label 比較する
-    a(href="/profile").Profile
+    nuxt-link(to="/profile").Profile
       v-icon(
         name="regular/user"
         scale="2"
