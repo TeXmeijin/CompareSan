@@ -25,7 +25,7 @@ const config: Configuration = {
    ** Headers of the page
    */
   head: {
-    title: process.env.npm_package_name || '',
+    title: '比較さん | 家電を自分で比較検討できるツール',
     meta: [
       {
         charset: 'utf-8',
@@ -45,6 +45,10 @@ const config: Configuration = {
         rel: 'icon',
         type: 'image/x-icon',
         href: '/favicon.ico',
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Roboto&display=swap',
       },
     ],
   },

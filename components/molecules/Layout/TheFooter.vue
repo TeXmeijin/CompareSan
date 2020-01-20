@@ -9,7 +9,7 @@
       )
     .Post
       button(
-        @click="isDisplayingPostMenu = !isDisplayingPostMenu"
+        @click="$nuxt.$emit('onClickedOpeningModal')"
       ).PostButton
         v-icon(
           name="balance-scale"
@@ -21,20 +21,6 @@
         name="regular/user"
         scale="2"
       )
-    transition(
-      name="postMenu"
-      appear
-    )
-      template(v-if="isDisplayingPostMenu")
-        .PostMenu
-          span.Heading 比較する商品をえらぶ
-          a.Item(
-            :href="`/post/${category.id}`"
-            v-for="category in categories"
-            :key="category.id"
-          )
-            span.Name {{ category.name }}
-            span.Description {{ category.description }}
 </template>
 
 <script lang="ts">
@@ -42,32 +28,14 @@ import 'vue-awesome/icons/home'
 import 'vue-awesome/icons/regular/user'
 import 'vue-awesome/icons/balance-scale'
 import Icon from 'vue-awesome/components/Icon.vue'
-import { Vue, Component, Prop, Watch, Emit, Ref } from 'vue-property-decorator'
-import { namespace } from 'vuex-class'
-import {
-  GetMasterCategories,
-  CompareCategory,
-} from '../../../assets/javascript/types/masterCategories'
-import * as auth from '~/store/auth'
-const Auth = namespace(auth.name)
+import { Vue, Component } from 'vue-property-decorator'
 
 @Component({
   components: {
     'v-icon': Icon,
   },
 })
-export default class TheFooter extends Vue {
-  isDisplayingPostMenu = false
-
-  @Auth.State user
-
-  get categories (): CompareCategory[] {
-    const categories = GetMasterCategories()
-    return Object.keys(categories).map((key) => {
-      return categories[key]
-    })
-  }
-}
+export default class TheFooter extends Vue {}
 </script>
 
 <style lang="scss" scoped>
@@ -124,40 +92,6 @@ export default class TheFooter extends Vue {
     }
   }
 
-  .PostMenu {
-    position: fixed;
-    max-height: 300px;
-    width: calc(100% - 48px);
-    padding: 16px 12px;
-    overflow-y: scroll;
-    background: $white;
-    border: 2px solid $primary;
-    border-radius: 8px;
-    z-index: $zIndexOfNewPostMenu;
-    bottom: 90px;
-    left: calc(50% - (100% - 48px) / 2);
-    .Heading {
-      display: block;
-      font-weight: bold;
-      text-align: center;
-      font-size: 1.4rem;
-      padding-bottom: 8px;
-      margin-bottom: 12px;
-    }
-
-    .Item {
-      display: block;
-      color: $gray-light-1;
-      padding: 8px 0;
-      text-decoration: underline;
-      @include mq {
-        transition: background 0.2s;
-        &:hover {
-          background: $gray-light-4;
-        }
-      }
-    }
-  }
   .Avatar {
     display: flex;
     flex-direction: column;
@@ -171,17 +105,5 @@ export default class TheFooter extends Vue {
       margin-bottom: 4px;
     }
   }
-}
-
-// オーバーレイのトランジション
-.postMenu-enter-active,
-.postMenu-leave-active {
-  transition: opacity 0.3s, transform 0.3s;
-}
-
-.postMenu-enter,
-.postMenu-leave-to {
-  opacity: 0;
-  transform: translateY(20px);
 }
 </style>
