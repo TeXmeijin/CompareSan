@@ -1,12 +1,27 @@
-import path from 'path'
 import axios from 'axios'
 
 import { Configuration } from '@nuxt/types'
-const environment = process.env.NODE_ENV || 'development'
-const env = require(`./env.${environment}.js`)
+
+require('dotenv').config()
+const {
+  APIKEY,
+  AUTHDOMAIN,
+  DATABASEURL,
+  PROJECTID,
+  STORAGEBUCKET,
+  APPID,
+  MESSAGINGSENDERID,
+} = process.env as { [key: string]: string }
 
 const config: Configuration = {
-  env,
+  env: {
+    APIKEY,
+    AUTHDOMAIN,
+    DATABASEURL,
+    PROJECTID,
+    STORAGEBUCKET,
+    MESSAGINGSENDERID,
+  },
   mode: 'spa',
   srcDir: 'client/',
   generate: {
