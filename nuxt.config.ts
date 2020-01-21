@@ -1,3 +1,4 @@
+import path from 'path'
 import axios from 'axios'
 
 import { Configuration } from '@nuxt/types'
@@ -7,6 +8,7 @@ const env = require(`./env.${environment}.js`)
 const config: Configuration = {
   env,
   mode: 'spa',
+  srcDir: 'client/',
   generate: {
     routes () {
       return axios
@@ -118,8 +120,6 @@ const config: Configuration = {
 
     transpile: [/^vue-awesome/],
   },
-
-  ignore: ['functions/**/*.ts'],
 }
 
 export default config
