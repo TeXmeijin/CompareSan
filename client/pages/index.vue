@@ -80,9 +80,16 @@
     padding: 48px 0 0;
     background-image: url(~assets/img/top/catch_background.svg);
     background-position: center center;
-    background-size: cover;
     background-repeat: repeat;
     margin-bottom: 24px;
+
+    @include mq('sp') {
+      background-size: cover;
+    }
+
+    @include mq {
+      background-size: contain;
+    }
   }
 
   .CatchMessage {
@@ -150,10 +157,11 @@
   .ActionButton {
     display: flex;
     justify-content: center;
-    width: 100%;
+    @include mq('sp') {
+      width: 100%;
+    }
 
     &__button {
-      flex: 1;
       font-weight: bold;
       color: $white;
       background: $primary;
@@ -162,11 +170,24 @@
       text-align: center;
       border-radius: 8px;
       box-shadow: 1px 2px 2px 1px $gray-light-2;
+
+      @include mq('sp') {
+        flex: 1;
+      }
+      @include mq {
+        padding: 16px 48px;
+        max-width: 320px;
+      }
     }
   }
 
   .Feature {
     padding: 32px 12px;
+
+    @include mq {
+      max-width: 520px;
+      margin: 0 auto;
+    }
 
     &:nth-child(odd) {
       background: $gray-light-4;
@@ -175,6 +196,10 @@
     &__message {
       font-weight: bold;
       font-size: 1.3rem;
+
+      @include mq {
+        text-align: center;
+      }
     }
 
     .FeatureDescription {
@@ -186,6 +211,11 @@
 
       .FeaturePoint--compareTable {
         margin-top: 16px;
+
+        @include mq {
+          display: flex;
+          justify-content: center;
+        }
       }
 
       &--default {
