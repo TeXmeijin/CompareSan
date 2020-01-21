@@ -1,12 +1,29 @@
 import axios from 'axios'
 
 import { Configuration } from '@nuxt/types'
-const environment = process.env.NODE_ENV || 'development'
-const env = require(`./env.${environment}.js`)
+
+require('dotenv').config()
+const {
+  APIKEY,
+  AUTHDOMAIN,
+  DATABASEURL,
+  PROJECTID,
+  STORAGEBUCKET,
+  APPID,
+  MESSAGINGSENDERID,
+} = process.env as { [key: string]: string }
 
 const config: Configuration = {
-  env,
+  env: {
+    APIKEY,
+    AUTHDOMAIN,
+    DATABASEURL,
+    PROJECTID,
+    STORAGEBUCKET,
+    MESSAGINGSENDERID,
+  },
   mode: 'spa',
+  srcDir: 'client/',
   generate: {
     routes () {
       return axios
@@ -101,8 +118,25 @@ const config: Configuration = {
       },
     },
 
+    babel: {
+      presets ({ isServer }) {
+        return [
+          [
+            require.resolve('@nuxt/babel-preset-app'),
+            // require.resolve('@nuxt/babel-preset-app-edge'), // For nuxt-edge users
+            {
+              buildTarget: isServer ? 'server' : 'client',
+              corejs: { version: 3 },
+            },
+          ],
+        ]
+      },
+    },
+
     transpile: [/^vue-awesome/],
   },
+
+  ignore: ['functions/**/*.ts'],
 }
 
 export default config

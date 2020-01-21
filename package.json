@@ -15,15 +15,14 @@
   "dependencies": {
     "@nuxt/typescript-runtime": "^0.3.8",
     "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/google-analytics": "^2.2.0",
     "core-js": "^3.6.4",
     "eslint-plugin-vue": "^6.1.1",
     "firebase": "^6.6.2",
     "nuxt": "^2.10.2",
     "vue-awesome": "^4.0.2",
-    "vue-material-design-icons": "^3.4.0",
     "vue-property-decorator": "^8.2.1",
-    "vue-tables-2": "^1.5.46",
     "vuex-class": "^0.3.2"
   },
   "devDependencies": {
