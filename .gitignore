@@ -92,7 +92,6 @@ sw.*
 
 # firebase
 env.*
-!env.sample.js
 !env.production.js
 .firebaserc
 hosting.*
