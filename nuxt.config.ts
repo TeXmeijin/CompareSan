@@ -120,6 +120,8 @@ const config: Configuration = {
 
     transpile: [/^vue-awesome/],
   },
+
+  ignore: ['functions/**/*.ts'],
 }
 
 export default config
