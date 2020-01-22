@@ -1,6 +1,9 @@
 import axios from 'axios'
-
 import { Configuration } from '@nuxt/types'
+
+const PreloadWebpackPlugin = require('preload-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 require('dotenv').config()
 const {
@@ -98,6 +101,28 @@ const config: Configuration = {
    ** Build configuration
    */
   build: {
+    plugins: [
+      new HtmlWebpackPlugin(),
+      new MiniCssExtractPlugin({
+        filename: '[name].css',
+        chunkFilename: '[id].css',
+      }),
+      new PreloadWebpackPlugin({
+        rel: 'preload',
+        as (entry) {
+          if (/\.css$/.test(entry)) {
+            return 'style'
+          }
+          if (/\.woff$/.test(entry)) {
+            return 'font'
+          }
+          if (/\.png$/.test(entry)) {
+            return 'image'
+          }
+          return 'script'
+        },
+      }),
+    ],
     /*
      ** You can extend webpack config here
      */
@@ -106,9 +131,6 @@ const config: Configuration = {
       pages: true,
       commons: true,
     },
-
-    optimizeCSS: true,
-    extractCSS: true,
 
     terser: {
       terserOptions: {
