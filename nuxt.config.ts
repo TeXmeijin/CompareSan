@@ -1,6 +1,11 @@
 import axios from 'axios'
 
 import { Configuration } from '@nuxt/types'
+import {
+  GetMasterCategories,
+  CompareCategory,
+} from './client/assets/javascript/types/masterCategories'
+import { CompareArticle } from './client/assets/javascript/types/articleTypes'
 
 require('dotenv').config()
 const {
@@ -26,16 +31,27 @@ const config: Configuration = {
   srcDir: 'client/',
   generate: {
     routes () {
-      return axios
-        .get(
+      return Promise.all([
+        axios.get(
           'https://asia-northeast1-comparesan.cloudfunctions.net/getPublicComparesPathData'
-        )
-        .then((response: any) => {
-          const articles = response.data
-          return articles.map((article) => {
+        ),
+        new Promise<{
+          [key: string]: CompareCategory
+        }>((resolve) => {
+          resolve(GetMasterCategories())
+        }),
+      ]).then(([articleResponse, categories]) => {
+        const articles = articleResponse.data as CompareArticle[]
+        return articles
+          .map((article) => {
             return `/compares/${article.categoryId!}/${article.id}`
           })
-        })
+          .concat(
+            Object.keys(categories).map((key) => {
+              return `/post/${categories[key].id}`
+            })
+          )
+      })
     },
   },
   /*
