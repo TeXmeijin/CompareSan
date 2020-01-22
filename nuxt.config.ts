@@ -25,6 +25,7 @@ const config: Configuration = {
     DATABASEURL,
     PROJECTID,
     STORAGEBUCKET,
+    APPID,
     MESSAGINGSENDERID,
   },
   mode: 'spa',
