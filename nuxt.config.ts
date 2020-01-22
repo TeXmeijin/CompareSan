@@ -1,11 +1,12 @@
 import axios from 'axios'
-
 import { Configuration } from '@nuxt/types'
 import {
   GetMasterCategories,
   CompareCategory,
 } from './client/assets/javascript/types/masterCategories'
 import { CompareArticle } from './client/assets/javascript/types/articleTypes'
+
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 require('dotenv').config()
 const {
@@ -115,6 +116,7 @@ const config: Configuration = {
    ** Build configuration
    */
   build: {
+    plugins: [new HtmlWebpackPlugin()],
     /*
      ** You can extend webpack config here
      */
@@ -123,9 +125,6 @@ const config: Configuration = {
       pages: true,
       commons: true,
     },
-
-    optimizeCSS: true,
-    extractCSS: true,
 
     terser: {
       terserOptions: {
