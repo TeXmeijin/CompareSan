@@ -76,12 +76,12 @@ export default class Profile extends Vue {
     this.compareList = await this.compareRepository.listByUid(this.uid)
   }
 
-  created () {
-    if (!this.user) {
-      this.$router.push(`/login`)
-    }
-
+  async created () {
     this.compareRepository = new FirestoreCompareTableRepository()
+
+    if (this.uid) {
+      this.compareList = await this.compareRepository.listByUid(this.uid)
+    }
   }
 
   async onClickedLogout () {

@@ -98,7 +98,7 @@ implements ICompareTableRepository {
       )!
     })
   }
-  async deleteArticle (article: CompareArticle): Promise<void> {
+  deleteArticle (article: CompareArticle): Promise<void> {
     return this.getOrm()
       .doc(article.id!)
       .update({
