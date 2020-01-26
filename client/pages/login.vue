@@ -62,6 +62,10 @@ export default class Index extends Vue {
 
     &__button {
       display: flex;
+      height: 60px;
+      border: 0;
+      padding: 0;
+      background: transparent;
     }
 
     &__image {

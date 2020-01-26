@@ -5,7 +5,7 @@
       :value="cell.value"
       @input="$emit('on-updated-cell-value', { ...cell, value: $event })"
     )
-    .MiniLabel 自己評価(◎, ○, △, ×)
+    .MiniLabel 自己評価
     select(
       :value="cell.evaluate"
       @input="$emit('on-updated-cell-evaluate', { ...cell, evaluate: $event.target.value })"

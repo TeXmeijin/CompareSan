@@ -93,6 +93,11 @@ export default class Post extends Vue {
   padding: 0 0 40px;
   min-height: 100vh;
 
+  @include mq {
+    width: 1000px;
+    margin: 0 auto;
+  }
+
   .heading {
     text-align: center;
     padding: 32px 12px;

@@ -1,6 +1,12 @@
 import axios from 'axios'
-
 import { Configuration } from '@nuxt/types'
+import {
+  GetMasterCategories,
+  CompareCategory,
+} from './client/assets/javascript/types/masterCategories'
+import { CompareArticle } from './client/assets/javascript/types/articleTypes'
+
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 require('dotenv').config()
 const {
@@ -20,22 +26,34 @@ const config: Configuration = {
     DATABASEURL,
     PROJECTID,
     STORAGEBUCKET,
+    APPID,
     MESSAGINGSENDERID,
   },
   mode: 'spa',
   srcDir: 'client/',
   generate: {
     routes () {
-      return axios
-        .get(
+      return Promise.all([
+        axios.get(
           'https://asia-northeast1-comparesan.cloudfunctions.net/getPublicComparesPathData'
-        )
-        .then((response: any) => {
-          const articles = response.data
-          return articles.map((article) => {
+        ),
+        new Promise<{
+          [key: string]: CompareCategory
+        }>((resolve) => {
+          resolve(GetMasterCategories())
+        }),
+      ]).then(([articleResponse, categories]) => {
+        const articles = articleResponse.data as CompareArticle[]
+        return articles
+          .map((article) => {
             return `/compares/${article.categoryId!}/${article.id}`
           })
-        })
+          .concat(
+            Object.keys(categories).map((key) => {
+              return `/post/${categories[key].id}`
+            })
+          )
+      })
     },
   },
   /*
@@ -98,6 +116,7 @@ const config: Configuration = {
    ** Build configuration
    */
   build: {
+    plugins: [new HtmlWebpackPlugin()],
     /*
      ** You can extend webpack config here
      */
@@ -106,9 +125,6 @@ const config: Configuration = {
       pages: true,
       commons: true,
     },
-
-    optimizeCSS: true,
-    extractCSS: true,
 
     terser: {
       terserOptions: {

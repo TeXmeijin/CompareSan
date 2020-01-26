@@ -3,7 +3,7 @@
   @click="$emit('input', !value)"
 )
   v-icon(
-    :name="value ? 'check-square' : 'regular/check-square'"
+    :name="value ? 'check-square' : 'regular/square'"
   ).Icon
   span.Label {{ label }}
 </template>
@@ -12,7 +12,7 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
 import 'vue-awesome/icons/check-square'
-import 'vue-awesome/icons/regular/check-square'
+import 'vue-awesome/icons/regular/square'
 import Icon from 'vue-awesome/components/Icon.vue'
 
 @Component({
