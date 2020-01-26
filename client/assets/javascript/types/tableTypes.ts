@@ -30,8 +30,8 @@ export type ComparingPoint = {
 
 export enum CellType {
   URL = 'URL',
-  TEXT = '説明',
-  TEXT_WITH_EVALUATION = '自己評価(◎〜×)',
+  TEXT = '仕様',
+  TEXT_WITH_EVALUATION = '仕様と自己評価',
 }
 
 export interface Cell {
@@ -58,10 +58,10 @@ export type Evaluate = {
 }
 
 export enum EvaluateString {
-  WORST = '✕',
-  BAD = '△',
-  BETTER = '◯',
-  BEST = '◎',
+  WORST = '×悪い',
+  BAD = '△微妙',
+  BETTER = '○良い',
+  BEST = '◎最高',
 }
 
 export type Row = {
