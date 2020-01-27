@@ -1,11 +1,12 @@
-import { displayMonitorTableFactory } from '../factory/displayMonitorTableFactory'
-import { simpleTableFactory } from '../factory/simpleTableFactory'
-import { CompareTableClass } from './tableTypes'
+import { SimpleTableFactory } from '../factory/tableFactories/simpleTableFactory'
+import { baseFactory } from '../factory/tableFactories/baseFactory'
+import { DisplayMonitorTableFactory } from '../factory/tableFactories/displayMonitorTableFactory'
 export interface CompareCategory {
   id: number
   name: string
   description: string
-  factory: () => CompareTableClass
+  factory: baseFactory
+  image?: any
 }
 
 export function GetMasterCategories (): {
@@ -16,31 +17,35 @@ export function GetMasterCategories (): {
       id: 0,
       name: 'カテゴリなし',
       description: '',
-      factory: simpleTableFactory,
+      factory: new SimpleTableFactory(),
     },
     'display-monitor': {
       id: 1,
       name: 'ディスプレイモニター',
       description: '',
-      factory: displayMonitorTableFactory,
+      factory: new DisplayMonitorTableFactory(),
+      image: require('~/assets/img/product_image/image_display_monitor.jpg'),
     },
     humidifier: {
       id: 2,
-      name: '加湿器',
+      name: 'デジタルカメラ',
       description: '',
-      factory: simpleTableFactory,
+      factory: new SimpleTableFactory(),
+      image: require('~/assets/img/product_image/image_digital_camera.jpg'),
     },
     'vacuum-cleaner': {
       id: 3,
       name: '掃除機',
       description: '',
-      factory: simpleTableFactory,
+      factory: new SimpleTableFactory(),
+      image: require('~/assets/img/product_image/image_vacuum.jpg'),
     },
-    'toaster': {
+    toaster: {
       id: 4,
       name: 'トースター',
       description: '',
-      factory: simpleTableFactory,
+      factory: new SimpleTableFactory(),
+      image: require('~/assets/img/product_image/image_toaster.jpg'),
     },
   }
 }

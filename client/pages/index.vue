@@ -154,33 +154,6 @@
     margin-bottom: -16px;
   }
 
-  .ActionButton {
-    display: flex;
-    justify-content: center;
-    @include mq('sp') {
-      width: 100%;
-    }
-
-    &__button {
-      font-weight: bold;
-      color: $white;
-      background: $primary;
-      font-size: 1.3rem;
-      padding: 16px 0;
-      text-align: center;
-      border-radius: 8px;
-      box-shadow: 1px 2px 2px 1px $gray-light-2;
-
-      @include mq('sp') {
-        flex: 1;
-      }
-      @include mq {
-        padding: 16px 48px;
-        max-width: 320px;
-      }
-    }
-  }
-
   .Feature {
     padding: 32px 12px;
 

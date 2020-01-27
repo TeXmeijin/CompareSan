@@ -20,6 +20,6 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .Main {
-  padding-bottom: 80px;
+  padding-bottom: 60px;
 }
 </style>
