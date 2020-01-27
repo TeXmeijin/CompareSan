@@ -76,6 +76,8 @@
 
 <style lang="scss">
 .TopPage {
+  padding-bottom: 32px;
+
   .Catch {
     padding: 48px 0 0;
     background-image: url(~assets/img/top/catch_background.svg);
