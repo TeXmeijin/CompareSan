@@ -174,6 +174,11 @@ export default class Post extends Vue {
     }
   }
   onClickedSelectProduct (category: CompareCategory) {
+    if (!this.uid) {
+      this.$router.push('/login')
+      return
+    }
+
     this.index = 2
     this.selectedCategory = category.id
     if (this.selectedCategory === null) {
