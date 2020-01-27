@@ -84,7 +84,6 @@ export default Vue.extend({
   components: {
     'v-icon': Icon,
   },
-  layout: 'withoutFooter',
   data () {
     return {
       index: 1,

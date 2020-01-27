@@ -1,11 +1,11 @@
-import { displayMonitorTableFactory } from '../factory/displayMonitorTableFactory'
-import { simpleTableFactory } from '../factory/simpleTableFactory'
-import { CompareTableClass } from './tableTypes'
+import { SimpleTableFactory } from '../factory/tableFactories/simpleTableFactory'
+import { baseFactory } from '../factory/tableFactories/baseFactory'
+import { DisplayMonitorTableFactory } from '../factory/tableFactories/displayMonitorTableFactory'
 export interface CompareCategory {
   id: number
   name: string
   description: string
-  factory: () => CompareTableClass
+  factory: baseFactory
 }
 
 export function GetMasterCategories (): {
@@ -16,31 +16,31 @@ export function GetMasterCategories (): {
       id: 0,
       name: 'カテゴリなし',
       description: '',
-      factory: simpleTableFactory,
+      factory: new SimpleTableFactory(),
     },
     'display-monitor': {
       id: 1,
-      name: 'テスト',
+      name: 'ディスプレイモニター',
       description: '',
-      factory: displayMonitorTableFactory,
+      factory: new DisplayMonitorTableFactory(),
     },
     humidifier: {
       id: 2,
-      name: 'テスト',
+      name: '加湿器',
       description: '',
-      factory: simpleTableFactory,
+      factory: new SimpleTableFactory(),
     },
     'vacuum-cleaner': {
       id: 3,
-      name: 'テスト',
+      name: '掃除機',
       description: '',
-      factory: simpleTableFactory,
+      factory: new SimpleTableFactory(),
     },
     toaster: {
       id: 4,
-      name: 'テスト',
+      name: 'トースター',
       description: '',
-      factory: simpleTableFactory,
+      factory: new SimpleTableFactory(),
     },
   }
 }

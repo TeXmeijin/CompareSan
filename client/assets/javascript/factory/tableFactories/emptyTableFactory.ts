@@ -1,4 +1,4 @@
-import { CompareTableClass } from '../types/tableTypes'
+import { CompareTableClass } from '../../types/tableTypes'
 export function emptyTableFactory (): CompareTableClass {
   const table = {
     header: [],

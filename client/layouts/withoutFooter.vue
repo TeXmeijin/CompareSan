@@ -1,5 +1,6 @@
 <template lang="pug">
   main.Main
+    the-header
     nuxt
 </template>
 

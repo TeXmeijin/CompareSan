@@ -17,6 +17,7 @@ main.sec-main
 import { Vue, Component, Watch } from 'vue-property-decorator'
 
 import { namespace } from 'vuex-class'
+import { emptyTableFactory } from '~/assets/javascript/factory/tableFactories/emptyTableFactory'
 import {
   GetMasterCategoryById,
   CompareCategory,
@@ -28,7 +29,6 @@ import ICompareTableRepository from '~/assets/javascript/Repository/ICompareTabl
 import { CompareArticle } from '~/assets/javascript/types/articleTypes'
 
 import * as auth from '~/store/auth'
-import { emptyTableFactory } from '~/assets/javascript/factory/emptyTableFactory'
 const Auth = namespace(auth.name)
 
 @Component({

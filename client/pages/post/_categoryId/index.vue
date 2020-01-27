@@ -28,7 +28,7 @@ import { FirestoreCompareTableRepository } from '~/assets/javascript/Repository/
 import ICompareTableRepository from '~/assets/javascript/Repository/ICompareTableRepository'
 
 import { CompareArticle } from '~/assets/javascript/types/articleTypes'
-import { simpleTableFactory } from '~/assets/javascript/factory/simpleTableFactory'
+import { SimpleTableFactory } from '~/assets/javascript/factory/tableFactories/simpleTableFactory'
 import * as auth from '~/store/auth'
 const Auth = namespace(auth.name)
 
@@ -43,7 +43,7 @@ const Auth = namespace(auth.name)
   },
 })
 export default class Post extends Vue {
-  table: CompareTableClass = simpleTableFactory()
+  table: CompareTableClass = new SimpleTableFactory().factory()
 
   repository: ICompareTableRepository
 
@@ -59,7 +59,7 @@ export default class Post extends Vue {
     }
 
     if (this.category) {
-      this.table = this.category.factory()
+      this.table = this.category.factory.factory()
     }
     this.repository = new FirestoreCompareTableRepository()
   }
