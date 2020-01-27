@@ -12,7 +12,7 @@
       )
         figure.ImageContainer
           img(
-            :src="category.image || require('~/assets/img/product_image/image_display_monitor.jpg')"
+            :src="getCategoryImage(category.id)"
           ).Image
         span.Name.-afterImage {{ category.name }}
       .BackAction
@@ -155,7 +155,30 @@ export default class Post extends Vue {
     return this.categories.find(el => el.id === this.selectedCategory)!.name
   }
 
+  getCategoryImage (id: number) {
+    switch (id) {
+    case 1:
+      return require('~/assets/img/product_image/image_display_monitor.jpg')
+
+    case 2:
+      return require('~/assets/img/product_image/image_digital_camera.jpg')
+
+    case 3:
+      return require('~/assets/img/product_image/image_vacuum.jpg')
+
+    case 4:
+      return require('~/assets/img/product_image/image_toaster.jpg')
+
+    default:
+      break
+    }
+  }
   onClickedSelectProduct (category: CompareCategory) {
+    if (!this.uid) {
+      this.$router.push('/login')
+      return
+    }
+
     this.index = 2
     this.selectedCategory = category.id
     if (this.selectedCategory === null) {

@@ -81,6 +81,8 @@ export default class Profile extends Vue {
 
     if (this.uid) {
       this.compareList = await this.compareRepository.listByUid(this.uid)
+    } else {
+      this.$router.push('/login')
     }
   }
 
@@ -112,7 +114,7 @@ export default class Profile extends Vue {
 
 <style lang="scss" scoped>
 .Profile {
-  padding: 0 12px;
+  padding: 0 12px 80px;
 }
 
 .Heading {

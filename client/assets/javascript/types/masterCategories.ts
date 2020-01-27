@@ -24,28 +24,24 @@ export function GetMasterCategories (): {
       name: 'ディスプレイモニター',
       description: '',
       factory: new DisplayMonitorTableFactory(),
-      image: require('~/assets/img/product_image/image_display_monitor.jpg'),
     },
     humidifier: {
       id: 2,
       name: 'デジタルカメラ',
       description: '',
       factory: new SimpleTableFactory(),
-      image: require('~/assets/img/product_image/image_digital_camera.jpg'),
     },
     'vacuum-cleaner': {
       id: 3,
       name: '掃除機',
       description: '',
       factory: new SimpleTableFactory(),
-      image: require('~/assets/img/product_image/image_vacuum.jpg'),
     },
     toaster: {
       id: 4,
       name: 'トースター',
       description: '',
       factory: new SimpleTableFactory(),
-      image: require('~/assets/img/product_image/image_toaster.jpg'),
     },
   }
 }
