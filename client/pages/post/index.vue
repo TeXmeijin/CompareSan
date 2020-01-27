@@ -1,74 +1,74 @@
 <template lang="pug">
-  .PostChoicePage
-    transition(
-      name="first"
-    )
-      .MenuBase(v-if="index === 1" :key="index")
-        span.Heading ○○をえらぶ
+.Wrapper
+  .PostChoicePage(:style="pageClass")
+    .MenuBase
+      span.Heading ○○をえらぶ
+      .Item(
+        @click="index = 2"
+        v-for="category in categories"
+        :key="category.id"
+      )
+        figure.ImageContainer
+          img(
+            :src="require('~/assets/img/product_image/image_display_monitor.jpg')"
+          ).Image
+        span.Name.-afterImage {{ category.name }}
+    .MenuBase
+      span.Heading ○○をえらぶ
+      p.Confirm
+        span ※XXXXXXXXXXXXXXXXXXX
+        span ※XXXXXXXXXXXXXXXXXXX
+      template(v-for="(state, index) in checkState")
         .Item(
-          @click="index = 2"
-          v-for="category in categories"
-          :key="category.id"
+          :class="{'-unChecked': !state}"
+          @click="checkState.splice(index, 1, !checkState[index])"
         )
-          figure.ImageContainer
-            img(
-              :src="require('~/assets/img/product_image/image_display_monitor.jpg')"
-            ).Image
-          span.Name.-afterImage {{ category.name }}
-    transition(
-      name="second"
-    )
-      .MenuBase(v-if="index === 2" :key="index")
-        span.Heading ○○をえらぶ
-        p.Confirm
-          span ※XXXXXXXXXXXXXXXXXXX
-          span ※XXXXXXXXXXXXXXXXXXX
-        template(v-for="(state, index) in checkState")
-          .Item(
-            :class="{'-unChecked': !state}"
-            @click="checkState.splice(index, 1, !checkState[index])"
-          )
-            .ItemInner
-              span.Name テスト
-              v-icon(
-                name="check-circle"
-                scale="2.2"
-                :class="{'-checked': !!state}"
-              ).CheckIcon
-        .NextButton
-          .ActionButton
-            button.ActionButton__button(
-              @click="index = 3"
-            ) 次へ >
-    transition(
-      name="second"
-    )
-      .MenuBase(v-if="index === 3" :key="index")
-        span.Heading ○○を入力
-        p.Confirm
-          span ※XXXXXXXXXXXXXXXXXXX
-        .Item(
-          v-for="productInfo in productInfoList"
-          :key="productInfo.key"
-        )
-          .Form
-            .FormContent.--no-border.--dense
-              span.Label 名前
-              c-text-field(
-                v-model="productInfo.name"
-                block
-              )
-            .FormContent.--no-border.--dense
-              span.Label 価格
-              c-text-field(
-                v-model="productInfo.price"
-                block
-              )
-        .NextButton
-          .ActionButton
-            button.ActionButton__button(
-              @click=""
-            ) SUBMIT
+          .ItemInner
+            span.Name テスト
+            v-icon(
+              name="check-circle"
+              scale="2.2"
+              :class="{'-checked': !!state}"
+            ).CheckIcon
+      .NextButton
+        .ActionButton
+          button.ActionButton__button(
+            @click="index = 3"
+          ) 次へ >
+      .BackAction
+        span(
+          @click="index -= 1"
+        ) < 戻る
+    .MenuBase
+      span.Heading ○○を入力
+      p.Confirm
+        span ※XXXXXXXXXXXXXXXXXXX
+      .Item(
+        v-for="productInfo in productInfoList"
+        :key="productInfo.key"
+      )
+        .Form
+          .FormContent.--no-border.--dense
+            span.Label 名前
+            c-text-field(
+              v-model="productInfo.name"
+              block
+            )
+          .FormContent.--no-border.--dense
+            span.Label 価格
+            c-text-field(
+              v-model="productInfo.price"
+              block
+            )
+      .NextButton
+        .ActionButton
+          button.ActionButton__button(
+            @click=""
+          ) SUBMIT
+      .BackAction
+        span(
+          @click="index -= 1"
+        ) < 戻る
 </template>
 
 <script lang="ts">
@@ -112,19 +112,31 @@ export default Vue.extend({
           return categories[key]
         })
     },
+    pageClass (): any {
+      return {
+        transform: `translateX(${-1 * (this.index - 1) * 100}vw)`,
+      }
+    },
   },
 })
 </script>
 
 <style lang="scss">
+.Wrapper {
+  overflow: hidden;
+}
 .PostChoicePage {
+  display: flex;
+  width: 300vw;
   min-height: 100vh;
   position: relative;
+
+  transition: transform 0.5s ease-in-out;
 
   .MenuBase {
     box-sizing: border-box;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     padding: 84px 16px;
     background: $gray-light-4;
 
@@ -218,22 +230,5 @@ export default Vue.extend({
       flex: 1;
     }
   }
-}
-
-.first-enter-active,
-.first-leave-active,
-.second-enter-active,
-.second-leave-active {
-  position: absolute;
-  transition: 0.5s ease-in-out;
-}
-
-.first-leave-to,
-.second-leave-to {
-  transform: translateX(-100vw);
-}
-
-.second-enter {
-  transform: translateX(100vw);
 }
 </style>
