@@ -20,25 +20,25 @@ export function GetMasterCategories (): {
     },
     'display-monitor': {
       id: 1,
-      name: 'ディスプレイモニター',
+      name: 'テスト',
       description: '',
       factory: displayMonitorTableFactory,
     },
     humidifier: {
       id: 2,
-      name: '加湿器',
+      name: 'テスト',
       description: '',
       factory: simpleTableFactory,
     },
     'vacuum-cleaner': {
       id: 3,
-      name: '掃除機',
+      name: 'テスト',
       description: '',
       factory: simpleTableFactory,
     },
-    'toaster': {
+    toaster: {
       id: 4,
-      name: 'トースター',
+      name: 'テスト',
       description: '',
       factory: simpleTableFactory,
     },
