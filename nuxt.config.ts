@@ -108,7 +108,7 @@ const config: Configuration = {
   /*
    ** Nuxt.js modules
    */
-  modules: ['@nuxtjs/style-resources'],
+  modules: ['@nuxtjs/style-resources', 'vue-scrollto/nuxt'],
   styleResources: {
     scss: ['~/assets/css/main.scss'],
   },

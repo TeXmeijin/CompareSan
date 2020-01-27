@@ -34,7 +34,7 @@ export class SimpleTableFactory implements baseFactory {
 
   public comparePoints = [
     {
-      name: '',
+      name: 'デザイン',
       key: 'default',
     },
   ]

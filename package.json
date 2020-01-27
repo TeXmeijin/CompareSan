@@ -23,6 +23,7 @@
     "nuxt": "^2.10.2",
     "vue-awesome": "^4.0.2",
     "vue-property-decorator": "^8.2.1",
+    "vue-scrollto": "^2.17.1",
     "vuex-class": "^0.3.2"
   },
   "devDependencies": {

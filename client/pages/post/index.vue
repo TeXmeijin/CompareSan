@@ -2,7 +2,9 @@
 .Wrapper
   .PostChoicePage(:style="pageClass")
     .MenuBase
-      span.Heading ○○をえらぶ
+      span.Heading 比較したい家電を
+        br
+        | 選んでください
       .Item(
         @click="onClickedSelectProduct(category)"
         v-for="category in categories"
@@ -10,14 +12,22 @@
       )
         figure.ImageContainer
           img(
-            :src="require('~/assets/img/product_image/image_display_monitor.jpg')"
+            :src="category.image || require('~/assets/img/product_image/image_display_monitor.jpg')"
           ).Image
         span.Name.-afterImage {{ category.name }}
+      .BackAction
+        nuxt-link(
+          to="/"
+        ) < トップに戻る
     .MenuBase
-      span.Heading ○○をえらぶ
+      span.Heading {{ selectedProductName }}を
+        br
+        | 比較するポイントを
+        br
+        | 選んでください
       p.Confirm
-        span ※XXXXXXXXXXXXXXXXXXX
-        span ※XXXXXXXXXXXXXXXXXXX
+        span ※あとから比較するポイントを追加できます
+        span ※価格は比較ポイントとは別で設定します
       template(v-for="(comparePoint, index) in comparePoints")
         .Item(
           :class="{'-unChecked': !checkState[index]}"
@@ -40,9 +50,13 @@
           @click="index -= 1"
         ) < 戻る
     .MenuBase
-      span.Heading ○○を入力
+      span.Heading いま比較している
+        br
+        | {{ selectedProductName }}の
+        br
+        | 情報を入力してください
       p.Confirm
-        span ※XXXXXXXXXXXXXXXXXXX
+        span ※あとから変更することも可能です
       .Item(
         v-for="productInfo in productInfoList"
         :key="productInfo.key"
@@ -64,7 +78,7 @@
         .ActionButton
           button.ActionButton__button(
             @click="submit"
-          ) SUBMIT
+          ) 以上の内容で比較をはじめる
       .BackAction
         span(
           @click="index -= 1"
@@ -74,7 +88,7 @@
 <script lang="ts">
 import 'vue-awesome/icons/check-circle'
 import Icon from 'vue-awesome/components/Icon.vue'
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
 import { ComparePoint } from '../../assets/javascript/factory/tableFactories/baseFactory'
 import {
@@ -92,6 +106,9 @@ const Auth = namespace(auth.name)
   },
 })
 export default class Post extends Vue {
+  // TODO: scrollToメソッドの型定義が面倒だった。要リファクタ
+  '$scrollTo': any
+
   index = 1
 
   @Auth.State uid
@@ -101,17 +118,22 @@ export default class Post extends Vue {
   comparePoints = [] as ComparePoint[]
   productInfoList = [
     {
-      name: 'テスト１',
+      name: '商品１',
       price: 0,
       key: 'first',
     },
     {
-      name: 'テスト２',
+      name: '商品２',
       price: 0,
       key: 'second',
     },
   ]
   repository = new FirestoreCompareTableRepository()
+
+  @Watch('index')
+  scrollToTop () {
+    this.$scrollTo('body')
+  }
 
   get categories (): CompareCategory[] {
     const categories = GetMasterCategories()
@@ -125,6 +147,12 @@ export default class Post extends Vue {
     return {
       transform: `translateX(${-1 * (this.index - 1) * 100}vw)`,
     }
+  }
+  get selectedProductName (): string {
+    if (this.selectedCategory === null) {
+      return '商品'
+    }
+    return this.categories.find(el => el.id === this.selectedCategory)!.name
   }
 
   onClickedSelectProduct (category: CompareCategory) {
@@ -191,7 +219,7 @@ export default class Post extends Vue {
     box-sizing: border-box;
     width: 100vw;
     min-height: 100vh;
-    padding: 84px 16px;
+    padding: 56px 16px 80px;
     background: $gray-light-4;
 
     .Heading {
