@@ -59,7 +59,7 @@ export default class Post extends Vue {
     }
 
     if (this.category) {
-      this.table = this.category.factory.factory()
+      this.table = this.category.factory.factory({})
     }
     this.repository = new FirestoreCompareTableRepository()
   }

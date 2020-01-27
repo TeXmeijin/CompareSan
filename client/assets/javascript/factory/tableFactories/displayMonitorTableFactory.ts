@@ -1,28 +1,54 @@
 import { CompareTableClass, CellType } from '../../types/tableTypes'
 import { generateRandom } from '../../utils/GenerateRandom'
 import { oneRowFactory } from '../oneRowFactory'
-import { baseFactory } from './baseFactory'
+import { baseFactory, factoryParameter } from './baseFactory'
 
 export class DisplayMonitorTableFactory implements baseFactory {
-  factory () {
-    const table = {
-      header: [
-        {
-          name: 'モニターA',
-          comparingItemKey: generateRandom(),
-        },
-        {
-          name: 'モニターB',
-          comparingItemKey: generateRandom(),
-        },
-      ],
-      rows: [],
-    }
+  factory (params: factoryParameter = {}) {
+    const table = (() => {
+      if (params.productInfoList) {
+        return {
+          header: params.productInfoList.map((productInfo) => {
+            return {
+              name: productInfo.name,
+              price: productInfo.price,
+              comparingItemKey: generateRandom(),
+            }
+          }),
+          rows: [],
+        }
+      }
+      return {
+        header: [
+          {
+            name: 'モニターA',
+            comparingItemKey: generateRandom(),
+          },
+          {
+            name: 'モニターB',
+            comparingItemKey: generateRandom(),
+          },
+        ],
+        rows: [],
+      }
+    })()
 
     const instance = new CompareTableClass()
     instance.data = table
-    for (let index = 0; index < this.comparePoints.length; index++) {
-      const element = this.comparePoints[index]
+
+    const comparePoints = (() => {
+      if (params.comparePointKeys) {
+        return this.comparePoints.filter((el) => {
+          if (params.comparePointKeys) {
+            return params.comparePointKeys.findIndex(key => key === el.key) >= 0
+          }
+        })
+      }
+      return this.comparePoints
+    })()
+
+    for (let index = 0; index < comparePoints.length; index++) {
+      const element = comparePoints[index]
       instance.data.rows.push(
         oneRowFactory(instance, CellType.TEXT_WITH_EVALUATION, element.name)
       )

@@ -4,7 +4,7 @@
     .MenuBase
       span.Heading ○○をえらぶ
       .Item(
-        @click="index = 2"
+        @click="onClickedSelectProduct(category)"
         v-for="category in categories"
         :key="category.id"
       )
@@ -18,17 +18,17 @@
       p.Confirm
         span ※XXXXXXXXXXXXXXXXXXX
         span ※XXXXXXXXXXXXXXXXXXX
-      template(v-for="(state, index) in checkState")
+      template(v-for="(comparePoint, index) in comparePoints")
         .Item(
-          :class="{'-unChecked': !state}"
+          :class="{'-unChecked': !checkState[index]}"
           @click="checkState.splice(index, 1, !checkState[index])"
         )
           .ItemInner
-            span.Name テスト
+            span.Name {{ comparePoint.name }}
             v-icon(
               name="check-circle"
               scale="2.2"
-              :class="{'-checked': !!state}"
+              :class="{'-checked': !!checkState[index]}"
             ).CheckIcon
       .NextButton
         .ActionButton
@@ -63,7 +63,7 @@
       .NextButton
         .ActionButton
           button.ActionButton__button(
-            @click=""
+            @click="submit"
           ) SUBMIT
       .BackAction
         span(
@@ -72,52 +72,107 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import 'vue-awesome/icons/check-circle'
 import Icon from 'vue-awesome/components/Icon.vue'
-
+import { Vue, Component } from 'vue-property-decorator'
+import { namespace } from 'vuex-class'
+import { ComparePoint } from '../../assets/javascript/factory/tableFactories/baseFactory'
 import {
   CompareCategory,
   GetMasterCategories,
 } from '../../assets/javascript/types/masterCategories'
-export default Vue.extend({
+import { FirestoreCompareTableRepository } from '../../assets/javascript/Repository/FirestoreCompareTableRepository'
+
+import * as auth from '~/store/auth'
+const Auth = namespace(auth.name)
+
+@Component({
   components: {
     'v-icon': Icon,
   },
-  data () {
-    return {
-      index: 1,
-      checkState: [true, true, true, false, false, false],
-      productInfoList: [
-        {
-          name: 'テスト１',
-          price: 0,
-          key: 'first',
-        },
-        {
-          name: 'テスト２',
-          price: 0,
-          key: 'second',
-        },
-      ],
-    }
-  },
-  computed: {
-    categories (): CompareCategory[] {
-      const categories = GetMasterCategories()
-      return Object.keys(categories)
-        .slice(1)
-        .map((key) => {
-          return categories[key]
-        })
-    },
-    pageClass (): any {
-      return {
-        transform: `translateX(${-1 * (this.index - 1) * 100}vw)`,
-      }
-    },
-  },
 })
+export default class Post extends Vue {
+  index = 1
+
+  @Auth.State uid
+
+  selectedCategory = null as number | null
+  checkState = [] as boolean[]
+  comparePoints = [] as ComparePoint[]
+  productInfoList = [
+    {
+      name: 'テスト１',
+      price: 0,
+      key: 'first',
+    },
+    {
+      name: 'テスト２',
+      price: 0,
+      key: 'second',
+    },
+  ]
+  repository = new FirestoreCompareTableRepository()
+
+  get categories (): CompareCategory[] {
+    const categories = GetMasterCategories()
+    return Object.keys(categories)
+      .slice(1)
+      .map((key) => {
+        return categories[key]
+      })
+  }
+  get pageClass (): any {
+    return {
+      transform: `translateX(${-1 * (this.index - 1) * 100}vw)`,
+    }
+  }
+
+  onClickedSelectProduct (category: CompareCategory) {
+    this.index = 2
+    this.selectedCategory = category.id
+    if (this.selectedCategory === null) {
+      return null
+    }
+    this.comparePoints = this.categories.find(
+      el => el.id === this.selectedCategory
+    )!.factory.comparePoints
+    this.checkState = Array(this.comparePoints.length).fill(true)
+  }
+  async submit (): Promise<boolean> {
+    if (!this.selectedCategory) {
+      return false
+    }
+    // TODO: validate number
+    const table = this.categories
+      .find(el => el.id === this.selectedCategory)!
+      .factory.factory({
+        productInfoList: this.productInfoList,
+        comparePointKeys: this.comparePoints
+          .filter((_, index) => {
+            return this.checkState[index]
+          })
+          .map(el => el.key),
+      })
+
+    const docRef = await this.repository.create({
+      table,
+      title: '',
+      content: '',
+      is_public: true,
+      uid: this.uid,
+      created_at: Date.now(),
+      categoryId: this.selectedCategory,
+    })
+    this.$router.push({
+      name: 'compares-categoryId-compareId-edit',
+      params: {
+        categoryId: `${this.selectedCategory}`,
+        compareId: docRef.id,
+      },
+    })
+    return true
+  }
+}
 </script>
 
 <style lang="scss">
