@@ -49,10 +49,17 @@ export default class Post extends Vue {
 
   created () {
     this.repository = new FirestoreCompareTableRepository()
+    if (this.uid) {
+      this.readData()
+    }
   }
 
   @Watch('uid')
   async function () {
+    await this.readData
+  }
+
+  async readData () {
     const article = await this.repository.findById(
       this.$route.params.compareId,
       parseInt(this.$route.params.categoryId),
