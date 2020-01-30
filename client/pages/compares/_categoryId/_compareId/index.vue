@@ -15,12 +15,15 @@ main.sec-main
 
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
-import { namespace } from 'vuex-class'
 
+import { namespace } from 'vuex-class'
 import { CompareArticle } from '~/assets/javascript/types/articleTypes'
 import { FirestoreCompareTableRepository } from '~/assets/javascript/Repository/FirestoreCompareTableRepository'
 import ICompareTableRepository from '~/assets/javascript/Repository/ICompareTableRepository'
 import CompareTableView from '~/components/organisms/ReadOnly/ReadOnlyCompareTableView.vue'
+
+import * as auth from '~/store/auth'
+const Auth = namespace(auth.name)
 
 @Component({
   components: {
@@ -29,6 +32,8 @@ import CompareTableView from '~/components/organisms/ReadOnly/ReadOnlyCompareTab
 })
 export default class ViewCompare extends Vue {
   article: CompareArticle | null = null
+
+  @Auth.State user;
 
   public async created (): Promise<void> {
     const snapshot = await new FirestoreCompareTableRepository().findById(
