@@ -1,5 +1,5 @@
 <template lang="pug">
-.ReadOnlyRow
+.ReadOnlyRow(:style="{ width: `${rowWidth}px` }")
   .head(
     :style="{ minWidth: headWidth, minHeight: cellHeight }"
   )
@@ -58,7 +58,9 @@ export default class ReadOnlyRowView extends Vue {
   cellName = ''
 
   @TableSize.Getter headWidth
+  @TableSize.Getter headWidthRaw
   @TableSize.Getter cellWidth
+  @TableSize.Getter cellWidthRaw
   @TableSize.Getter cellHeight
 
   created () {
@@ -68,6 +70,9 @@ export default class ReadOnlyRowView extends Vue {
 
   get head (): ComparingPoint {
     return this.row.head
+  }
+  get rowWidth (): number {
+    return this.headWidthRaw + this.cellWidthRaw * this.row.cells.length
   }
   get cells (): Cell[] {
     const removedKeys = this.tableHeader
@@ -86,11 +91,7 @@ export default class ReadOnlyRowView extends Vue {
   }
 
   get CellTypeMaster (): string[] {
-    return [
-      CellType.TEXT,
-      CellType.TEXT_WITH_EVALUATION,
-      CellType.URL,
-    ]
+    return [CellType.TEXT, CellType.TEXT_WITH_EVALUATION, CellType.URL]
   }
 
   onClickedRowUpdate () {

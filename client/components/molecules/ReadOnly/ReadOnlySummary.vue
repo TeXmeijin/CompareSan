@@ -1,5 +1,5 @@
 <template lang="pug">
-  .summary(:style="{height: headHeight}")
+  .summary(:style="{height: headHeight, width: `${rowWidth}px` }")
     .summary__heading.--textReadOnly(:style="{ minWidth: headWidth }")
       span 評価合計
     template(v-for="(evaluate, key) in summaries")
@@ -27,8 +27,17 @@ export default class ReadOnlySummaryVue extends Vue {
   }
 
   @TableSize.Getter headWidth
-  @TableSize.Getter cellWidth
   @TableSize.Getter headHeight
+  @TableSize.Getter headWidthRaw
+  @TableSize.Getter cellWidth
+  @TableSize.Getter cellWidthRaw
+  @TableSize.Getter cellHeight
+
+  get rowWidth (): number {
+    return (
+      this.headWidthRaw + this.cellWidthRaw * Object.keys(this.summaries).length
+    )
+  }
 }
 </script>
 
