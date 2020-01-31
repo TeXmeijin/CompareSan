@@ -5,12 +5,6 @@ export type CompareTable = {
 
 export class CompareTableClass {
   data: CompareTable
-
-  isEmpty (): boolean {
-    return (
-      !this.data || this.data.rows.length === 0 || this.data.header.length === 0
-    )
-  }
 }
 
 export type ComparingItem = {

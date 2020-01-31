@@ -1,7 +1,6 @@
 import * as firebase from 'firebase/app'
 import 'firebase/firestore'
 import { CompareArticle } from '../types/articleTypes'
-import { CompareTableClass } from '../types/tableTypes'
 import ICompareTableRepository from './ICompareTableRepository'
 
 const convertFirestoreDocumentDataToCompareArticle = (
@@ -11,13 +10,20 @@ const convertFirestoreDocumentDataToCompareArticle = (
   if (!snapshot) {
     return undefined
   }
-  const table = new CompareTableClass()
-  table.data = snapshot.table
-  snapshot.table = table
   if (id) {
     snapshot.id = id
   }
-  return snapshot as CompareArticle
+  return {
+    id: snapshot.id,
+    uid: snapshot.uid,
+    table: snapshot.table,
+    title: snapshot.title,
+    categoryId: snapshot.categoryId,
+    content: snapshot.content,
+    is_public: snapshot.is_public,
+    created_at: snapshot.created_at,
+    deleted_at: snapshot.deleted_at,
+  }
 }
 
 export class FirestoreCompareTableRepository
@@ -33,7 +39,7 @@ implements ICompareTableRepository {
   ): Promise<firebase.firestore.DocumentReference> {
     return this.getOrm().add({
       uid: article.uid,
-      table: article.table.data,
+      table: article.table,
       title: article.title,
       categoryId: article.categoryId,
       content: article.content,
@@ -48,7 +54,7 @@ implements ICompareTableRepository {
       .doc(postId)
       .set({
         uid: article.uid,
-        table: article.table.data,
+        table: article.table,
         title: article.title,
         categoryId: article.categoryId || null,
         content: article.content,
@@ -62,7 +68,7 @@ implements ICompareTableRepository {
     compareId: string,
     categoryId?: number,
     uid?: string
-  ): Promise<(CompareArticle) | undefined> {
+  ): Promise<(firebase.firestore.DocumentData) | undefined> {
     const savedData = await this.getOrm()
       .doc(compareId)
       .get()
@@ -81,7 +87,7 @@ implements ICompareTableRepository {
       }
     }
 
-    return convertFirestoreDocumentDataToCompareArticle(data)
+    return data
   }
   async listByUid (uid: string): Promise<CompareArticle[]> {
     const snapshotList = await this.getOrm()

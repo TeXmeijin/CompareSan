@@ -4,7 +4,7 @@ main.sec-main
     h1.heading__head
       span 比較を編集する
   compare-form(
-    v-if="!table.isEmpty()"
+    v-if="table"
     :table="table"
     :title="title"
     :content="content"
@@ -49,14 +49,13 @@ export default class Post extends Vue {
 
   created () {
     this.repository = new FirestoreCompareTableRepository()
-    if (this.uid) {
-      this.readData()
-    }
   }
 
-  @Watch('uid')
+  @Watch('uid', {
+    immediate: true,
+  })
   async function () {
-    await this.readData
+    await this.readData()
   }
 
   async readData () {

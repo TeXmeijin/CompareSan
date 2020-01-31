@@ -29,7 +29,6 @@ const config: Configuration = {
     APPID,
     MESSAGINGSENDERID,
   },
-  mode: 'spa',
   srcDir: 'client/',
   generate: {
     routes () {

@@ -10,7 +10,7 @@ export default interface ICompareTableRepository {
     postId: string,
     categoryId?: number,
     uid?: string
-  ) => Promise<CompareArticle | undefined>
+  ) => Promise<firebase.firestore.DocumentData | undefined>
   listByUid: (uid: string) => Promise<CompareArticle[]>
   deleteArticle: (article: CompareArticle) => Promise<void>
 }

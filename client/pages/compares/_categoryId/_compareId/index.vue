@@ -3,7 +3,7 @@ main.sec-main
   template(v-if="article")
     section.heading
       h1.heading__head {{ article.title }}
-    section.dataTable(v-if="!article.table.isEmpty()")
+    section.dataTable(v-if="article.table")
       h2.subHeading 比較内容
       compare-table-view(
         :initialTable="article.table"
@@ -25,30 +25,53 @@ import CompareTableView from '~/components/organisms/ReadOnly/ReadOnlyCompareTab
 import * as auth from '~/store/auth'
 const Auth = namespace(auth.name)
 
+function convertFirestoreDocumentDataToCompareArticle (
+  snapshot: firebase.firestore.DocumentData | undefined,
+  id?: string
+): CompareArticle | undefined {
+  if (!snapshot) {
+    return undefined
+  }
+  if (id) {
+    snapshot.id = id
+  }
+  return {
+    id: snapshot.id,
+    uid: snapshot.uid,
+    table: snapshot.table,
+    title: snapshot.title,
+    categoryId: snapshot.categoryId,
+    content: snapshot.content,
+    is_public: snapshot.is_public,
+    created_at: snapshot.created_at,
+    deleted_at: snapshot.deleted_at,
+  }
+}
+
 @Component({
   components: {
     CompareTableView,
   },
-})
-export default class ViewCompare extends Vue {
-  article: CompareArticle | null = null
-
-  @Auth.State user;
-
-  public async created (): Promise<void> {
+  async asyncData ({ route }) {
     const snapshot = await new FirestoreCompareTableRepository().findById(
-      this.$route.params.compareId,
-      parseInt(this.$route.params.categoryId)
+      route.params.compareId,
+      parseInt(route.params.categoryId)
     )
 
     if (!snapshot) {
       return
     }
 
-    this.article = snapshot
+    return {
+      article: convertFirestoreDocumentDataToCompareArticle(snapshot),
+      repository: new FirestoreCompareTableRepository(),
+    }
+  },
+})
+export default class ViewCompare extends Vue {
+  article: CompareArticle | null = null
 
-    this.repository = new FirestoreCompareTableRepository()
-  }
+  @Auth.State user
 
   repository: ICompareTableRepository
 }

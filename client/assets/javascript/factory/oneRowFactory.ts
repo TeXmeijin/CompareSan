@@ -1,9 +1,9 @@
-import { Row, CompareTableClass, Cell, CellType } from '../types/tableTypes'
+import { Row, Cell, CellType, CompareTable } from '../types/tableTypes'
 import { generateRandom } from '../utils/GenerateRandom'
 import { oneCellFactory } from './oneCellFactory'
 
 export const oneRowFactory = (
-  instance: CompareTableClass,
+  instance: CompareTable,
   type: CellType = CellType.TEXT,
   name: string = '比較ポイント'
 ): Row => {
@@ -18,7 +18,7 @@ export const oneRowFactory = (
     rowKey: generateRandom(),
   }
 
-  instance.data.header.forEach((oneHeader) => {
+  instance.header.forEach((oneHeader) => {
     row.cells.push(oneCellFactory(row, oneHeader.comparingItemKey))
   })
 

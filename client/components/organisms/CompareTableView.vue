@@ -1,6 +1,6 @@
 <template lang="pug">
   section.table
-    template(v-if="!compares.isEmpty()")
+    template(v-if="compares")
       table-header(
         :table-header="softDeletedTableHeader"
         @on-clicked-add-item="addItem"
@@ -28,13 +28,13 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
 import {
-  CompareTableClass,
   TableHeader,
   Row,
   ComparingItem,
   TextWithEvaluationCell,
   Summary,
   TextCell,
+  CompareTable,
 } from '../../assets/javascript/types/tableTypes'
 import RowVue, { UpdateRowContent } from '../molecules/Row.vue'
 import TableHeaderVue from '../molecules/TableHeader.vue'
@@ -54,24 +54,24 @@ import { addItemUseCase } from '../../assets/javascript/useCase/addItemUseCase'
   },
 })
 export default class CompareTableView extends Vue {
-  @Prop({ type: Object, required: true }) initialTable: CompareTableClass
+  @Prop({ type: Object, required: true }) initialTable: CompareTable
 
-  compares: CompareTableClass = new CompareTableClass()
+  compares = {} as CompareTable
 
   public mounted () {
     this.compares = this.initialTable
   }
 
   get tableRows (): Array<Row> {
-    return this.compares.data.rows.filter((row) => {
+    return this.compares.rows.filter((row) => {
       return row.deleted_at === undefined
     })
   }
   get tableColumns (): TableHeader {
-    return this.compares.data.header
+    return this.compares.header
   }
   get softDeletedTableHeader (): TableHeader {
-    return this.compares.data.header.filter((header) => {
+    return this.compares.header.filter((header) => {
       return header.deleted_at === undefined
     })
   }
@@ -83,7 +83,7 @@ export default class CompareTableView extends Vue {
     }
     this.softDeletedTableHeader.forEach((item: ComparingItem) => {
       let sum = 0
-      this.compares.data.rows.forEach((row: Row) => {
+      this.compares.rows.forEach((row: Row) => {
         if (row.deleted_at !== undefined) {
           return
         }
@@ -105,7 +105,7 @@ export default class CompareTableView extends Vue {
     return result
   }
   updatedCellValue (cell: TextCell | TextWithEvaluationCell, index: number) {
-    const targetIndex = this.compares.data.rows[index].cells.findIndex(
+    const targetIndex = this.compares.rows[index].cells.findIndex(
       (searchCell) => {
         return searchCell.comparingItemKey === cell.comparingItemKey
       }
@@ -114,18 +114,18 @@ export default class CompareTableView extends Vue {
       return
     }
 
-    const target = this.compares.data.rows[index].cells[targetIndex] as
+    const target = this.compares.rows[index].cells[targetIndex] as
       | TextCell
       | TextWithEvaluationCell
 
     target.value = cell.value
 
-    const row = this.compares.data.rows[index]
+    const row = this.compares.rows[index]
     row.cells.splice(targetIndex, 1, Object.assign({}, target))
-    this.compares.data.rows.splice(index, 1, row)
+    this.compares.rows.splice(index, 1, row)
   }
   updatedCellEvaluate (cell: TextWithEvaluationCell, index: number) {
-    const targetIndex = this.compares.data.rows[index].cells.findIndex(
+    const targetIndex = this.compares.rows[index].cells.findIndex(
       (searchCell) => {
         return searchCell.comparingItemKey === cell.comparingItemKey
       }
@@ -134,21 +134,21 @@ export default class CompareTableView extends Vue {
       return
     }
 
-    const target = this.compares.data.rows[index].cells[
+    const target = this.compares.rows[index].cells[
       targetIndex
     ] as TextWithEvaluationCell
 
     target.evaluate = parseInt(`${cell.evaluate}`)
 
-    const row = this.compares.data.rows[index]
+    const row = this.compares.rows[index]
     row.cells.splice(targetIndex, 1, target)
-    this.compares.data.rows.splice(index, 1, row)
+    this.compares.rows.splice(index, 1, row)
   }
   addItem () {
     this.compares = addItemUseCase(this.compares)
   }
   updateItem (content: UpdateItemContent) {
-    const index = this.compares.data.header.findIndex((header) => {
+    const index = this.compares.header.findIndex((header) => {
       return header.comparingItemKey === content.itemKey
     })
 
@@ -156,7 +156,7 @@ export default class CompareTableView extends Vue {
       return
     }
 
-    this.compares.data.header.splice(
+    this.compares.header.splice(
       index,
       1,
       ((item) => {
@@ -164,11 +164,11 @@ export default class CompareTableView extends Vue {
         item.price = content.price
         item.url = content.url
         return item
-      })(this.compares.data.header[index])
+      })(this.compares.header[index])
     )
   }
   removeItem (itemKey: string) {
-    this.compares.data.header = this.compares.data.header.map((item) => {
+    this.compares.header = this.compares.header.map((item) => {
       if (item.comparingItemKey === itemKey) {
         item.deleted_at = Date.now()
       }
@@ -176,11 +176,11 @@ export default class CompareTableView extends Vue {
     })
   }
   addRow ({ type }) {
-    this.compares.data.rows.push(oneRowFactory(this.compares, type))
-    this.compares.data.rows = this.compares.data.rows.concat()
+    this.compares.rows.push(oneRowFactory(this.compares, type))
+    this.compares.rows = this.compares.rows.concat()
   }
   removeRow (rowKey: string) {
-    this.compares.data.rows = this.compares.data.rows.map((row) => {
+    this.compares.rows = this.compares.rows.map((row) => {
       if (row.rowKey === rowKey) {
         row.deleted_at = Date.now()
       }
@@ -188,7 +188,7 @@ export default class CompareTableView extends Vue {
     })
   }
   updateRow (update: UpdateRowContent) {
-    this.compares.data.rows = this.compares.data.rows.map((row) => {
+    this.compares.rows = this.compares.rows.map((row) => {
       if (row.rowKey === update.rowKey && !!update.type) {
         row.head.name = update.name
 

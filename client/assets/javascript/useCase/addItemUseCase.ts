@@ -1,16 +1,16 @@
-import { CompareTableClass } from '../types/tableTypes';
-import { generateRandom } from '../utils/GenerateRandom';
-import { oneItemFactory } from '../factory/oneItemFactory';
-import { oneCellFactory } from '../factory/oneCellFactory';
+import { CompareTable } from '../types/tableTypes'
+import { generateRandom } from '../utils/GenerateRandom'
+import { oneItemFactory } from '../factory/oneItemFactory'
+import { oneCellFactory } from '../factory/oneCellFactory'
 
-export const addItemUseCase = (instance: CompareTableClass): CompareTableClass => {
-  const comparingItemKey = generateRandom();
+export const addItemUseCase = (instance: CompareTable): CompareTable => {
+  const comparingItemKey = generateRandom()
 
-  instance.data.header.push(oneItemFactory(comparingItemKey));
+  instance.header.push(oneItemFactory(comparingItemKey))
 
-  instance.data.rows.forEach(row => {
-    row.cells.push(oneCellFactory(row, comparingItemKey));
-  });
+  instance.rows.forEach((row) => {
+    row.cells.push(oneCellFactory(row, comparingItemKey))
+  })
 
-  return instance;
-};
+  return instance
+}

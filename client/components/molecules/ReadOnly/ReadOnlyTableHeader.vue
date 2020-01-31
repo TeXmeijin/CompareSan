@@ -1,7 +1,7 @@
 <template lang="pug">
   .ReadOnlyTableHeader
     .emptyHeaderItem(:style="{ minWidth: headWidth }")
-    .TableHeaderItem(v-for="header in tableHeader" :style="{ minWidth: cellWidth }")
+    .TableHeaderItem(v-for="header in tableHeader" :style="{ width: cellWidth }")
       comparing-item(
         :comparing-item="header"
       )

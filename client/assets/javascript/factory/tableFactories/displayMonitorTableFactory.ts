@@ -50,7 +50,11 @@ export class DisplayMonitorTableFactory implements baseFactory {
     for (let index = 0; index < comparePoints.length; index++) {
       const element = comparePoints[index]
       instance.data.rows.push(
-        oneRowFactory(instance, CellType.TEXT_WITH_EVALUATION, element.name)
+        oneRowFactory(
+          instance.data,
+          CellType.TEXT_WITH_EVALUATION,
+          element.name
+        )
       )
     }
 
