@@ -40,7 +40,10 @@ import SummaryVue from '~/components/molecules/ReadOnly/ReadOnlySummary.vue'
 export default class CompareTableView extends Vue {
   @Prop({ type: Object, required: true }) initialTable: CompareTable
 
-  compares = {} as CompareTable
+  compares = {
+    header: [],
+    rows: [],
+  } as CompareTable
 
   public created () {
     this.compares = this.initialTable

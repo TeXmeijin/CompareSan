@@ -68,7 +68,7 @@ implements ICompareTableRepository {
     compareId: string,
     categoryId?: number,
     uid?: string
-  ): Promise<(firebase.firestore.DocumentData) | undefined> {
+  ): Promise<CompareArticle | undefined> {
     const savedData = await this.getOrm()
       .doc(compareId)
       .get()
@@ -87,7 +87,7 @@ implements ICompareTableRepository {
       }
     }
 
-    return data
+    return convertFirestoreDocumentDataToCompareArticle(data)
   }
   async listByUid (uid: string): Promise<CompareArticle[]> {
     const snapshotList = await this.getOrm()

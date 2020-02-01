@@ -30,31 +30,6 @@ const config: Configuration = {
     MESSAGINGSENDERID,
   },
   srcDir: 'client/',
-  generate: {
-    routes () {
-      return Promise.all([
-        axios.get(
-          'https://asia-northeast1-comparesan.cloudfunctions.net/getPublicComparesPathData'
-        ),
-        new Promise<{
-          [key: string]: CompareCategory
-        }>((resolve) => {
-          resolve(GetMasterCategories())
-        }),
-      ]).then(([articleResponse, categories]) => {
-        const articles = articleResponse.data as CompareArticle[]
-        return articles
-          .map((article) => {
-            return `/compares/${article.categoryId!}/${article.id}`
-          })
-          .concat(
-            Object.keys(categories).map((key) => {
-              return `/post/${categories[key].id}`
-            })
-          )
-      })
-    },
-  },
   /*
    ** Headers of the page
    */

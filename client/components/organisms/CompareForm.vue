@@ -37,7 +37,7 @@ form
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import { namespace } from 'vuex-class'
-import { CompareTableClass } from '../../assets/javascript/types/tableTypes'
+import { CompareTable } from '../../assets/javascript/types/tableTypes'
 import { CompareArticle } from '../../assets/javascript/types/articleTypes'
 import CompareTableView from '~/components/organisms/CompareTableView.vue'
 
@@ -54,8 +54,8 @@ export default class CompareForm extends Vue {
     type: Object,
     required: true,
   })
-  table: CompareTableClass
-  formTable: CompareTableClass
+  table: CompareTable
+  formTable: CompareTable
 
   @Prop({
     type: String,
@@ -90,7 +90,7 @@ export default class CompareForm extends Vue {
   get article (): CompareArticle {
     return {
       uid: this.uid,
-      table: this.formTable.data,
+      table: this.formTable,
       title: this.formTitle,
       content: this.formContent,
       is_public: this.formIsPublic,

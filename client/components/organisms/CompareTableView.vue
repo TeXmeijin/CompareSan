@@ -56,7 +56,10 @@ import { addItemUseCase } from '../../assets/javascript/useCase/addItemUseCase'
 export default class CompareTableView extends Vue {
   @Prop({ type: Object, required: true }) initialTable: CompareTable
 
-  compares = {} as CompareTable
+  compares = {
+    header: [],
+    rows: [],
+  } as CompareTable
 
   public mounted () {
     this.compares = this.initialTable

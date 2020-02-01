@@ -25,29 +25,6 @@ import CompareTableView from '~/components/organisms/ReadOnly/ReadOnlyCompareTab
 import * as auth from '~/store/auth'
 const Auth = namespace(auth.name)
 
-function convertFirestoreDocumentDataToCompareArticle (
-  snapshot: firebase.firestore.DocumentData | undefined,
-  id?: string
-): CompareArticle | undefined {
-  if (!snapshot) {
-    return undefined
-  }
-  if (id) {
-    snapshot.id = id
-  }
-  return {
-    id: snapshot.id,
-    uid: snapshot.uid,
-    table: snapshot.table,
-    title: snapshot.title,
-    categoryId: snapshot.categoryId,
-    content: snapshot.content,
-    is_public: snapshot.is_public,
-    created_at: snapshot.created_at,
-    deleted_at: snapshot.deleted_at,
-  }
-}
-
 @Component({
   components: {
     CompareTableView,
@@ -63,7 +40,7 @@ function convertFirestoreDocumentDataToCompareArticle (
     }
 
     return {
-      article: convertFirestoreDocumentDataToCompareArticle(snapshot),
+      article: snapshot,
       repository: new FirestoreCompareTableRepository(),
     }
   },
