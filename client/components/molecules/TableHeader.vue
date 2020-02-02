@@ -42,7 +42,8 @@ export default class TableHeaderVue extends Vue {
   @TableSize.Getter cellHeight
 
   get rowWidth (): number {
-    return this.headWidthRaw + this.cellWidthRaw * this.tableHeader.length
+    // 200は商品追加ボタンの幅
+    return this.headWidthRaw + this.cellWidthRaw * this.tableHeader.length + 200
   }
 }
 </script>
