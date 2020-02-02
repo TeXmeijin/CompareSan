@@ -4,7 +4,7 @@ main.sec-main
     h1.heading__head
       span 比較を編集する
   compare-form(
-    v-if="!table.isEmpty()"
+    v-if="table.header.length"
     :table="table"
     :title="title"
     :content="content"
@@ -17,12 +17,11 @@ main.sec-main
 import { Vue, Component, Watch } from 'vue-property-decorator'
 
 import { namespace } from 'vuex-class'
-import { emptyTableFactory } from '~/assets/javascript/factory/tableFactories/emptyTableFactory'
+import { CompareTable } from '../../../../assets/javascript/types/tableTypes'
 import {
   GetMasterCategoryById,
   CompareCategory,
 } from '~/assets/javascript/types/masterCategories'
-import { CompareTableClass } from '~/assets/javascript/types/tableTypes'
 import { FirestoreCompareTableRepository } from '~/assets/javascript/Repository/FirestoreCompareTableRepository'
 import ICompareTableRepository from '~/assets/javascript/Repository/ICompareTableRepository'
 
@@ -37,7 +36,10 @@ const Auth = namespace(auth.name)
   },
 })
 export default class Post extends Vue {
-  table: CompareTableClass = emptyTableFactory()
+  table = {
+    header: [],
+    rows: [],
+  } as CompareTable
 
   repository: ICompareTableRepository
 
@@ -47,16 +49,12 @@ export default class Post extends Vue {
 
   @Auth.State uid
 
-  created () {
-    this.repository = new FirestoreCompareTableRepository()
-    if (this.uid) {
-      this.readData()
-    }
-  }
-
-  @Watch('uid')
+  @Watch('uid', {
+    immediate: true,
+  })
   async function () {
-    await this.readData
+    this.repository = new FirestoreCompareTableRepository()
+    await this.readData()
   }
 
   async readData () {

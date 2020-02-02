@@ -20,10 +20,10 @@ export class SimpleTableFactory implements baseFactory {
 
     const instance = new CompareTableClass()
     instance.data = table
-    instance.data.rows.push(oneRowFactory(instance))
+    instance.data.rows.push(oneRowFactory(instance.data))
     instance.data.rows.push(
       oneRowFactory(
-        instance,
+        instance.data,
         CellType.TEXT_WITH_EVALUATION,
         this.comparePoints[0].name
       )

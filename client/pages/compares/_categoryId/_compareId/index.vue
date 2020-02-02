@@ -3,7 +3,7 @@ main.sec-main
   template(v-if="article")
     section.heading
       h1.heading__head {{ article.title }}
-    section.dataTable(v-if="!article.table.isEmpty()")
+    section.dataTable(v-if="article.table")
       h2.subHeading 比較内容
       compare-table-view(
         :initialTable="article.table"
@@ -29,26 +29,26 @@ const Auth = namespace(auth.name)
   components: {
     CompareTableView,
   },
-})
-export default class ViewCompare extends Vue {
-  article: CompareArticle | null = null
-
-  @Auth.State user;
-
-  public async created (): Promise<void> {
+  async asyncData ({ route }) {
     const snapshot = await new FirestoreCompareTableRepository().findById(
-      this.$route.params.compareId,
-      parseInt(this.$route.params.categoryId)
+      route.params.compareId,
+      parseInt(route.params.categoryId)
     )
 
     if (!snapshot) {
       return
     }
 
-    this.article = snapshot
+    return {
+      article: snapshot,
+      repository: new FirestoreCompareTableRepository(),
+    }
+  },
+})
+export default class ViewCompare extends Vue {
+  article: CompareArticle | null = null
 
-    this.repository = new FirestoreCompareTableRepository()
-  }
+  @Auth.State user
 
   repository: ICompareTableRepository
 }

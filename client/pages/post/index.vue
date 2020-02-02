@@ -206,7 +206,7 @@ export default class Post extends Vue {
       })
 
     const docRef = await this.repository.create({
-      table,
+      table: table.data,
       title: '',
       content: '',
       is_public: true,

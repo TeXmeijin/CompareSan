@@ -1,6 +1,6 @@
 <template lang="pug">
   section.table
-    template(v-if="!compares.isEmpty()")
+    template(v-if="compares")
       table-header(
         :table-header="softDeletedTableHeader"
       )
@@ -17,8 +17,8 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 
 import {
-  CompareTableClass,
   TableHeader,
+  CompareTable,
   Row,
   ComparingItem,
   TextWithEvaluationCell,
@@ -38,24 +38,27 @@ import SummaryVue from '~/components/molecules/ReadOnly/ReadOnlySummary.vue'
   },
 })
 export default class CompareTableView extends Vue {
-  @Prop({ type: Object, required: true }) initialTable: CompareTableClass
+  @Prop({ type: Object, required: true }) initialTable: CompareTable
 
-  compares: CompareTableClass = new CompareTableClass()
+  compares = {
+    header: [],
+    rows: [],
+  } as CompareTable
 
-  public mounted () {
+  public created () {
     this.compares = this.initialTable
   }
 
   get tableRows (): Array<Row> {
-    return this.compares.data.rows.filter((row) => {
+    return this.compares.rows.filter((row) => {
       return row.deleted_at === undefined
     })
   }
   get tableColumns (): TableHeader {
-    return this.compares.data.header
+    return this.compares.header
   }
   get softDeletedTableHeader (): TableHeader {
-    return this.compares.data.header.filter((header) => {
+    return this.compares.header.filter((header) => {
       return header.deleted_at === undefined
     })
   }
@@ -65,7 +68,7 @@ export default class CompareTableView extends Vue {
     const result = {}
     this.softDeletedTableHeader.forEach((item: ComparingItem) => {
       let sum = 0
-      this.compares.data.rows.forEach((row: Row) => {
+      this.compares.rows.forEach((row: Row) => {
         if (row.deleted_at !== undefined) {
           return
         }
