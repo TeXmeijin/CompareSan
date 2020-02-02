@@ -1,5 +1,5 @@
 <template lang="pug">
-  .TableHeader
+  .TableHeader(:style="{ width: `${rowWidth}px` }")
     .emptyHeaderItem(:style="{ minWidth: headWidth }")
     .TableHeaderItem(v-for="header in tableHeader" :style="{ width: cellWidth }")
       comparing-item(
@@ -36,7 +36,15 @@ export default class TableHeaderVue extends Vue {
   tableHeader: TableHeader
 
   @TableSize.Getter headWidth
+  @TableSize.Getter headWidthRaw
   @TableSize.Getter cellWidth
+  @TableSize.Getter cellWidthRaw
+  @TableSize.Getter cellHeight
+
+  get rowWidth (): number {
+    // 200は商品追加ボタンの幅
+    return this.headWidthRaw + this.cellWidthRaw * this.tableHeader.length + 200
+  }
 }
 </script>
 

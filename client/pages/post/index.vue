@@ -7,7 +7,7 @@
         | 選んでください
       .Item(
         @click="onClickedSelectProduct(category)"
-        v-for="category in categories"
+        v-for="category in categories.slice(1)"
         :key="category.id"
       )
         figure.ImageContainer
@@ -15,6 +15,10 @@
             :src="getCategoryImage(category.id)"
           ).Image
         span.Name.-afterImage {{ category.name }}
+      .OtherItem
+        span.OtherItem__link(
+          @click="onClickedOtherProduct()"
+        ) その他の家電を比較する
       .BackAction
         nuxt-link(
           to="/"
@@ -137,11 +141,9 @@ export default class Post extends Vue {
 
   get categories (): CompareCategory[] {
     const categories = GetMasterCategories()
-    return Object.keys(categories)
-      .slice(1)
-      .map((key) => {
-        return categories[key]
-      })
+    return Object.keys(categories).map((key) => {
+      return categories[key]
+    })
   }
   get pageClass (): any {
     return {
@@ -189,8 +191,12 @@ export default class Post extends Vue {
     )!.factory.comparePoints
     this.checkState = Array(this.comparePoints.length).fill(true)
   }
+  async onClickedOtherProduct () {
+    this.selectedCategory = 0
+    await this.submit()
+  }
   async submit (): Promise<boolean> {
-    if (!this.selectedCategory) {
+    if (this.selectedCategory === null) {
       return false
     }
     // TODO: validate number
@@ -317,6 +323,19 @@ export default class Post extends Vue {
         &.-checked {
           color: $accent;
         }
+      }
+    }
+
+    .OtherItem {
+      margin-top: 24px;
+      text-align: center;
+      padding: 16px 0;
+
+      &__link {
+        cursor: pointer;
+        font-weight: bold;
+        color: $gray-light-1;
+        text-decoration: underline;
       }
     }
 

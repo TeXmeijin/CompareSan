@@ -4,8 +4,8 @@ import { oneCellFactory } from './oneCellFactory'
 
 export const oneRowFactory = (
   instance: CompareTable,
-  type: CellType = CellType.TEXT,
-  name: string = '比較ポイント'
+  type: CellType = CellType.TEXT_WITH_EVALUATION,
+  name: string = '...'
 ): Row => {
   const cells: Cell[] = []
 

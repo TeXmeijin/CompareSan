@@ -8,9 +8,8 @@ main.sec-main
       compare-table-view(
         :initialTable="article.table"
       )
-    section.content
-      h2.subHeading 比較メモ
-      p {{ article.content }}
+    .content
+      section(v-html="$md.render(article.content.replace(/^# /, '## '))")
 </template>
 
 <script lang="ts">
@@ -62,7 +61,7 @@ export default class ViewCompare extends Vue {
   min-height: 100vh;
 
   @include mq {
-    width: 600px;
+    width: 800px;
     margin: 0 auto;
   }
 

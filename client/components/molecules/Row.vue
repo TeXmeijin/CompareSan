@@ -22,15 +22,6 @@
           c-text-field(
             v-model="cellName"
           )
-      .FormContent
-        span.Label セルの種類
-        .FormItem
-          select(v-model="cellType").selector
-            option(
-              :key="type"
-              :value="type"
-              v-for="type in CellTypeMaster"
-            ) {{ type }}
       .FormContent.--no-border.--dense
         .Submit
           c-button(

@@ -17,7 +17,7 @@
 .selector {
   border: 1px solid $gray-light-2;
   border-radius: 4px;
-  padding: 4px 8px;
+  padding: 8px;
   width: 100%;
   font-size: 1rem;
   min-height: 36px;
@@ -28,9 +28,17 @@
   text-align: left;
   padding: 8px 12px;
 
+  @include mq {
+    padding: 16px 12px;
+  }
+
   .Label {
     font-weight: bold;
     font-size: 0.9rem;
+
+    @include mq {
+      font-size: 1.1rem;
+    }
   }
 
   .FormContent {
@@ -38,6 +46,10 @@
 
     display: flex;
     flex-direction: column;
+
+    @include mq {
+      min-width: 300px;
+    }
 
     &:not(:first-child) {
       border-top: 1px solid $gray-light-3;
@@ -81,5 +93,29 @@
       padding: 16px 48px;
       max-width: 320px;
     }
+  }
+}
+
+.Markdown {
+  &__h2 {
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 8px 0;
+  }
+
+  &__h3 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 8px 0;
+  }
+
+  &__h4 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 8px 0;
+  }
+
+  &__p {
+    padding: 12px 0;
   }
 }

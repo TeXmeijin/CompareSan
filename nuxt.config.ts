@@ -1,10 +1,5 @@
-import axios from 'axios'
 import { Configuration } from '@nuxt/types'
-import {
-  GetMasterCategories,
-  CompareCategory,
-} from './client/assets/javascript/types/masterCategories'
-import { CompareArticle } from './client/assets/javascript/types/articleTypes'
+import MarkdownClasses from './client/plugins/markdown/MarkdownClass'
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
@@ -74,7 +69,11 @@ const config: Configuration = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['@/plugins/globalComponents.js', '@/plugins/firebase/firebase.ts'],
+  plugins: [
+    '@/plugins/globalComponents.js',
+    '@/plugins/firebase/firebase.ts',
+    { src: '~plugins/nuxt-simplemde-plugin.js', ssr: false },
+  ],
   /*
    ** Nuxt.js dev-modules
    */
@@ -82,9 +81,17 @@ const config: Configuration = {
   /*
    ** Nuxt.js modules
    */
-  modules: ['@nuxtjs/style-resources', 'vue-scrollto/nuxt'],
+  modules: [
+    '@nuxtjs/style-resources',
+    'vue-scrollto/nuxt',
+    '@nuxtjs/markdownit',
+  ],
   styleResources: {
     scss: ['~/assets/css/main.scss'],
+  },
+  markdownit: {
+    injected: true,
+    use: [['@toycode/markdown-it-class', MarkdownClasses]],
   },
   /*
    ** Build configuration
