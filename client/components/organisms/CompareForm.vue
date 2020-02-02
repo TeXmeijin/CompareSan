@@ -8,17 +8,18 @@ form
         :block="true"
       ).FormItem
   section.Form
-    span.Label 比較内容
+    span.Label 比較表
   compare-table-view(
     :initialTable="formTable"
   )
   section.Form
     .FormContent
-      span.Label メモ（詳しい内容/補足など）
-      textarea(
-        v-model="formContent"
-        rows="5"
-      ).TextArea.FormItem
+      span.Label 比較の内容（補足やメモなど）
+      client-only
+        vue-simplemde(
+          v-model="formContent"
+          :configs="{ spellChecker: false, }"
+        ).TextArea.FormItem
     .FormContent
       c-checkbox(
         v-model="formIsPublic"
@@ -92,6 +93,7 @@ export default class CompareForm extends Vue {
       uid: this.uid,
       table: this.formTable,
       title: this.formTitle,
+      // h1タグは禁止。勝手にh2に変換する
       content: this.formContent,
       is_public: this.formIsPublic,
       created_at: Date.now(),

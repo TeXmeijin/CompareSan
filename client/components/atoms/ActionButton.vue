@@ -13,6 +13,7 @@
   display: flex;
   align-items: center;
   color: $primary;
+  cursor: pointer;
 
   .label {
     margin-left: 4px;

@@ -73,19 +73,19 @@ export type Summary = {
 
 export const MasterEvaluateItemList = [
   {
-    level: 1,
+    level: -2,
     levelString: EvaluateString.WORST,
   },
   {
-    level: 2,
+    level: -1,
     levelString: EvaluateString.BAD,
   },
   {
-    level: 3,
+    level: 1,
     levelString: EvaluateString.BETTER,
   },
   {
-    level: 4,
+    level: 2,
     levelString: EvaluateString.BEST,
   },
 ]
