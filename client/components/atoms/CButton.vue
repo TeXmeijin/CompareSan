@@ -64,10 +64,10 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .Button {
   white-space: nowrap;
-  color: $primary;
   background-color: $white;
-  border: 1px solid $primary;
+  border: 1px solid lighten($color: $primary, $amount: 20%);
   border-radius: 4px;
+  color: $body;
 
   transition: background 0.2s;
 
@@ -86,7 +86,6 @@ export default Vue.extend({
     font-size: 0.7rem;
     padding: 2px 12px;
     text-align: center;
-    border: 1px solid $gray-light-3;
     border-radius: 4px;
   }
 
@@ -129,9 +128,12 @@ export default Vue.extend({
     border: 0;
   }
 
+  &.accent {
+    border-color: lighten($color: $accent, $amount: 10%);
+  }
+
   &.error-outlined {
-    color: $error;
-    border-color: $error;
+    border-color: lighten($color: $error, $amount: 20%);
   }
 }
 </style>

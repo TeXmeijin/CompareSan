@@ -1,7 +1,7 @@
 <template lang="pug">
   footer.Footer
     nuxt-link.Home(
-      to="/"
+      to="/compares"
     )
       v-icon(
         name="home"

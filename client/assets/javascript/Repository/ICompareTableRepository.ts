@@ -12,5 +12,7 @@ export default interface ICompareTableRepository {
     uid?: string
   ) => Promise<CompareArticle | undefined>
   listByUid: (uid: string) => Promise<CompareArticle[]>
+  listByPublic(): Promise<CompareArticle[]>
+  listByCategoryId(categoryId: number): Promise<CompareArticle[]>
   deleteArticle: (article: CompareArticle) => Promise<void>
 }

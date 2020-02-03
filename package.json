@@ -22,6 +22,7 @@
     "@nuxtjs/style-resources": "^1.0.0",
     "@toycode/markdown-it-class": "^1.2.1",
     "core-js": "^3.6.4",
+    "dayjs": "^1.8.19",
     "eslint-plugin-vue": "^6.1.1",
     "firebase": "^6.6.2",
     "nuxt": "^2.10.2",

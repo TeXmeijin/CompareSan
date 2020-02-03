@@ -6,25 +6,13 @@ article.Profile
           span.MainHeading__text {{ user.displayName }}さんの比較一覧
     section.List
       ul.CompareList
-        li.CompareListItem(
+        compare-list-item(
           v-for="article in compareList"
           :key="article.id"
+          :article="article"
+          :show-actions="true"
+          @on-clicked-deleted="deleteTarget = $event; isShowingDeleteModal = true"
         )
-          .Card
-            a(:href="articleDetailUrl(article)")
-              h2.Card__title {{ article.title }}
-            p.Card__content(
-              v-if="article.content"
-            ) {{ article.content.substr(0, 30) }}
-            .Card__actions
-              a(:href="articleDetailUrl(article)")
-                c-button(
-                  size="small"
-                ) 編集
-              c-button(
-                size="small"
-                @click="onClickedDeleteButton(article)"
-              ) 削除
     section.Auth
       .Logout
         c-button(
@@ -58,6 +46,8 @@ const Auth = namespace(auth.name)
 @Component({
   components: {
     Modal: () => import('~/components/atoms/Modal.vue'),
+    CompareListItem: () =>
+      import('~/components/organisms/Compare/CompareListItem.vue'),
   },
 })
 export default class Profile extends Vue {
@@ -71,19 +61,20 @@ export default class Profile extends Vue {
 
   compareRepository: ICompareTableRepository
 
-  @Watch('uid')
+  @Watch('uid', {
+    immediate: true,
+  })
   async function () {
-    this.compareList = await this.compareRepository.listByUid(this.uid)
+    this.compareRepository = new FirestoreCompareTableRepository()
+    if (this.uid) {
+      try {
+        this.compareList = await this.compareRepository.listByUid(this.uid)
+      } catch (error) {}
+    }
   }
 
-  async created () {
+  created () {
     this.compareRepository = new FirestoreCompareTableRepository()
-
-    if (this.uid) {
-      this.compareList = await this.compareRepository.listByUid(this.uid)
-    } else {
-      this.$router.push('/login')
-    }
   }
 
   async onClickedLogout () {
@@ -135,39 +126,8 @@ export default class Profile extends Vue {
 
   .CompareList {
     .CompareListItem {
-      display: flex;
-
       &:not(:first-child) {
         margin-top: 12px;
-      }
-
-      .Card {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid $gray-light-3;
-        border-radius: 4px;
-
-        &__title {
-          margin-bottom: 16px;
-          font-size: 1.2rem;
-        }
-
-        &__content {
-          font-size: 0.9rem;
-          color: $gray;
-        }
-
-        &__actions {
-          margin-top: 12px;
-          display: flex;
-          justify-content: flex-end;
-
-          .Button {
-            &:not(:first-child) {
-              margin-left: 8px;
-            }
-          }
-        }
       }
     }
   }
