@@ -14,14 +14,35 @@
   text-align: center;
 }
 
-.selector {
-  border: 1px solid $gray-light-2;
-  border-radius: 4px;
-  padding: 8px;
-  width: 100%;
-  font-size: 1rem;
-  min-height: 36px;
-  background: $white;
+.TheSelect {
+  position: relative;
+
+  &__icon {
+    position: absolute;
+    right: 8px;
+    top: calc(50% - 8px);
+    color: #7f878c;
+    pointer-events: none;
+  }
+
+  &__selector {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    outline: none;
+    text-indent: 0.01px;
+    text-overflow: '';
+    background: none transparent;
+    vertical-align: middle;
+    font-size: inherit;
+    color: inherit;
+    height: 40px;
+    padding: 8px 12px;
+    border: 1px solid $gray-light-c;
+    color: $gray-dark-1;
+    width: 100%;
+    border-radius: 3px;
+  }
 }
 
 .Form {

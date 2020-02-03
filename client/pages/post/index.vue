@@ -117,7 +117,7 @@ export default class Post extends Vue {
 
   @Auth.State uid
 
-  selectedCategory = null as number | null
+  selectedCategoryId = null as number | null
   checkState = [] as boolean[]
   comparePoints = [] as ComparePoint[]
   productInfoList = [
@@ -151,10 +151,10 @@ export default class Post extends Vue {
     }
   }
   get selectedProductName (): string {
-    if (this.selectedCategory === null) {
+    if (this.selectedCategoryId === null) {
       return '商品'
     }
-    return this.categories.find(el => el.id === this.selectedCategory)!.name
+    return this.categories.find(el => el.id === this.selectedCategoryId)!.name
   }
 
   getCategoryImage (id: number) {
@@ -182,26 +182,29 @@ export default class Post extends Vue {
     }
 
     this.index = 2
-    this.selectedCategory = category.id
-    if (this.selectedCategory === null) {
+    this.selectedCategoryId = category.id
+    if (this.selectedCategoryId === null) {
       return null
     }
     this.comparePoints = this.categories.find(
-      el => el.id === this.selectedCategory
+      el => el.id === this.selectedCategoryId
     )!.factory.comparePoints
-    this.checkState = Array(this.comparePoints.length).fill(true)
+    this.checkState = Array(this.comparePoints.length)
+      // 4つ以上の選択肢はあってもしんどいだけなのでデフォルトは外す※UX
+      .fill(true, 0, 4)
+      .fill(false, 5)
   }
   async onClickedOtherProduct () {
-    this.selectedCategory = 0
+    this.selectedCategoryId = 0
     await this.submit()
   }
   async submit (): Promise<boolean> {
-    if (this.selectedCategory === null) {
+    if (this.selectedCategoryId === null) {
       return false
     }
     // TODO: validate number
     const table = this.categories
-      .find(el => el.id === this.selectedCategory)!
+      .find(el => el.id === this.selectedCategoryId)!
       .factory.factory({
         productInfoList: this.productInfoList,
         comparePointKeys: this.comparePoints
@@ -213,17 +216,17 @@ export default class Post extends Vue {
 
     const docRef = await this.repository.create({
       table: table.data,
-      title: '',
+      title: `${this.categories[this.selectedCategoryId].name}の比較`,
       content: '',
       is_public: true,
       uid: this.uid,
       created_at: Date.now(),
-      categoryId: this.selectedCategory,
+      categoryId: this.selectedCategoryId,
     })
     this.$router.push({
       name: 'compares-categoryId-compareId-edit',
       params: {
-        categoryId: `${this.selectedCategory}`,
+        categoryId: `${this.selectedCategoryId}`,
         compareId: docRef.id,
       },
     })

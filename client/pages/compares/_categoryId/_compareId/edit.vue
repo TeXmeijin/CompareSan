@@ -54,7 +54,9 @@ export default class Post extends Vue {
   })
   async function () {
     this.repository = new FirestoreCompareTableRepository()
-    await this.readData()
+    try {
+      await this.readData()
+    } catch (error) {}
   }
 
   async readData () {
