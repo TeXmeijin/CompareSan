@@ -1,12 +1,14 @@
 <template lang="pug">
   section.CompareListItem
+    .CompareTag
+      .CompareTag__container
+        .CompareTagItem
+          nuxt-link.CompareTagItem__text(
+            :to="{ name: 'compares-categoryId', params: { categoryId: article.categoryId } }"
+          ) {{ categories[article.categoryId].name }}
     nuxt-link.CompareLink(
       :to="{ name: 'compares-categoryId-compareId', params: { categoryId: article.categoryId, compareId: article.id } }"
     )
-      .CompareTag
-        .CompareTag__container
-          .CompareTagItem
-            span.CompareTagItem__text {{ categories[article.categoryId].name }}
       .CompareTitle
         h3.CompareTitle__text {{ article.title }}
       .ComparingItem

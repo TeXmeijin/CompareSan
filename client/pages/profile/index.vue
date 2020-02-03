@@ -61,19 +61,20 @@ export default class Profile extends Vue {
 
   compareRepository: ICompareTableRepository
 
-  @Watch('uid')
+  @Watch('uid', {
+    immediate: true,
+  })
   async function () {
-    this.compareList = await this.compareRepository.listByUid(this.uid)
+    this.compareRepository = new FirestoreCompareTableRepository()
+    if (this.uid) {
+      try {
+        this.compareList = await this.compareRepository.listByUid(this.uid)
+      } catch (error) {}
+    }
   }
 
-  async created () {
+  created () {
     this.compareRepository = new FirestoreCompareTableRepository()
-
-    if (this.uid) {
-      this.compareList = await this.compareRepository.listByUid(this.uid)
-    } else {
-      this.$router.push('/login')
-    }
   }
 
   async onClickedLogout () {

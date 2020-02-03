@@ -104,6 +104,39 @@ implements ICompareTableRepository {
       )!
     })
   }
+  async listByPublic (): Promise<CompareArticle[]> {
+    const snapshotList = await this.getOrm()
+      .where('is_public', '==', true)
+      .where('deleted_at', '==', null)
+      .orderBy('created_at', 'desc')
+      .get()
+
+    const data = snapshotList.docs
+
+    return data.map((snapshot) => {
+      return convertFirestoreDocumentDataToCompareArticle(
+        snapshot.data(),
+        snapshot.id
+      )!
+    })
+  }
+  async listByCategoryId (categoryId: number): Promise<CompareArticle[]> {
+    const snapshotList = await this.getOrm()
+      .where('is_public', '==', true)
+      .where('categoryId', '==', categoryId)
+      .where('deleted_at', '==', null)
+      .orderBy('created_at', 'desc')
+      .get()
+
+    const data = snapshotList.docs
+
+    return data.map((snapshot) => {
+      return convertFirestoreDocumentDataToCompareArticle(
+        snapshot.data(),
+        snapshot.id
+      )!
+    })
+  }
   deleteArticle (article: CompareArticle): Promise<void> {
     return this.getOrm()
       .doc(article.id!)
