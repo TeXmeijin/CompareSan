@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "cp .env.dev .env; nuxt-ts --port 3333",
-    "build": "cp .env.prod .env; nuxt-ts build",
+    "build": "nuxt-ts build",
     "start": "nuxt-ts start",
     "generate": "cp .env.prod .env; nuxt-ts generate",
     "lint": "eslint --ext .ts,.js,.vue --ignore-path .gitignore .",
