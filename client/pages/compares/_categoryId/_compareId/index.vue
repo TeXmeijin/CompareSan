@@ -24,30 +24,49 @@ import CompareTableView from '~/components/organisms/ReadOnly/ReadOnlyCompareTab
 import * as auth from '~/store/auth'
 const Auth = namespace(auth.name)
 
+async function init ({ route }) {
+  const snapshot = await new FirestoreCompareTableRepository().findById(
+    route.params.compareId,
+    parseInt(route.params.categoryId)
+  )
+
+  if (!snapshot) {
+    return
+  }
+
+  return {
+    article: snapshot,
+    repository: new FirestoreCompareTableRepository(),
+  }
+}
+
 @Component({
   components: {
     CompareTableView,
   },
   async asyncData ({ route }) {
-    const snapshot = await new FirestoreCompareTableRepository().findById(
-      route.params.compareId,
-      parseInt(route.params.categoryId)
-    )
-
-    if (!snapshot) {
-      return
-    }
-
-    return {
-      article: snapshot,
-      repository: new FirestoreCompareTableRepository(),
-    }
+    try {
+      return await init({ route })
+    } catch (error) {}
   },
 })
 export default class ViewCompare extends Vue {
   article: CompareArticle | null = null
 
   @Auth.State user
+
+  async mounted () {
+    if (this.article === null) {
+      const initData = await init({ route: this.$route })
+
+      if (!initData) {
+        return
+      }
+
+      this.article = initData.article
+      this.repository = initData.repository
+    }
+  }
 
   repository: ICompareTableRepository
 }

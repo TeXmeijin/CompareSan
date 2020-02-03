@@ -6,16 +6,20 @@
       @input="$emit('on-updated-cell-value', { ...cell, value: $event })"
     )
     .MiniLabel 自己評価
-    select(
-      :value="cell.evaluate"
-      @input="$emit('on-updated-cell-evaluate', { ...cell, evaluate: $event.target.value })"
-    ).selector
-      template(v-for="evaluateItem in evaluateItemList")
-        option(
-          :key="evaluateItem.level"
-          :value="evaluateItem.level"
-          :selected="evaluateItem.key == cell.evaluate"
-        ) {{ evaluateItem.levelString }}
+    .TheSelect
+      v-icon(
+        name="chevron-down"
+      ).TheSelect__icon
+      select(
+        :value="cell.evaluate"
+        @input="$emit('on-updated-cell-evaluate', { ...cell, evaluate: $event.target.value })"
+      ).TheSelect__selector
+        template(v-for="evaluateItem in evaluateItemList")
+          option(
+            :key="evaluateItem.level"
+            :value="evaluateItem.level"
+            :selected="evaluateItem.key == cell.evaluate"
+          ) {{ evaluateItem.levelString }}
 </template>
 
 <script lang="ts">
@@ -25,8 +29,14 @@ import {
   Evaluate,
   MasterEvaluateItemList,
 } from '../../assets/javascript/types/tableTypes'
+import 'vue-awesome/icons/chevron-down'
+import Icon from 'vue-awesome/components/Icon.vue'
 
-@Component
+@Component({
+  components: {
+    'v-icon': Icon,
+  },
+})
 export default class TextWithEvaluateCellVue extends Vue {
   @Prop({
     required: true,
@@ -54,6 +64,7 @@ export default class TextWithEvaluateCellVue extends Vue {
   margin-top: 6px;
   font-size: 0.6rem;
   text-align: right;
+  color: $gray;
 }
 
 .selector {
