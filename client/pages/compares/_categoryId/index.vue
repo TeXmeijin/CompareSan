@@ -15,7 +15,6 @@ import { namespace } from 'vuex-class'
 import {
   CompareCategory,
   GetMasterCategoryById,
-  CompareCategory,
 } from '../../../assets/javascript/types/masterCategories'
 import { CompareArticle } from '~/assets/javascript/types/articleTypes'
 import { FirestoreCompareTableRepository } from '~/assets/javascript/Repository/FirestoreCompareTableRepository'
