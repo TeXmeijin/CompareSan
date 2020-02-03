@@ -1,4 +1,4 @@
-name: CI
+name: Google App Engine Deploy
 
 on: [push]
 
