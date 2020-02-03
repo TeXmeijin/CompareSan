@@ -29,7 +29,7 @@
             size="small"
             block
             type="error-outlined"
-            @click.stop="$emit('on-clicked-delete', article)"
+            @click="$emit('on-clicked-delete', article)"
           ) 削除
         nuxt-link.CompareAction(
           :to="{ name: 'compares-categoryId-compareId-edit', params: { categoryId: article.categoryId, compareId: article.id } }"

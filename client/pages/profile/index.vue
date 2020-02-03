@@ -11,7 +11,7 @@ article.Profile
           :key="article.id"
           :article="article"
           :show-actions="true"
-          @on-clicked-deleted="deleteTarget = $event; isShowingDeleteModal = true"
+          @on-clicked-delete="deleteTarget = $event; isShowingDeleteModal = true"
         )
     section.Auth
       .Logout
