@@ -89,6 +89,12 @@ video {
   vertical-align: baseline;
 }
 
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
 strong {
   font-weight: bold;
 }
@@ -160,4 +166,8 @@ a {
 select {
   -webkit-appearance: button;
   appearance: button;
+}
+
+body {
+  margin: 0;
 }

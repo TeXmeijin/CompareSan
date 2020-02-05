@@ -20,6 +20,7 @@ export type TableHeader = Array<ComparingItem>
 export type ComparingPoint = {
   name: string
   type: CellType
+  description?: string
 }
 
 export enum CellType {

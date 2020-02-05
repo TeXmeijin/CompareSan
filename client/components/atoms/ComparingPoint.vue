@@ -1,6 +1,9 @@
 <template lang="pug">
   .ComparingPoint
     span.ComparingPoint__text {{ name }}
+    span.ComparingPoint__description(
+      v-if="description"
+    ) {{ description }}
     edit-button.ComparingPoint__editBtn
 </template>
 
@@ -22,6 +25,9 @@ export default Vue.extend({
     name (): string {
       return this.comparingItem.name
     },
+    description (): string | undefined {
+      return this.comparingItem.description
+    },
   },
 })
 </script>
@@ -31,14 +37,19 @@ export default Vue.extend({
   position: relative;
   padding: 12px 0;
   margin-right: 4px;
-  text-align: center;
   flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
 
   &__text {
+    font-weight: bold;
     font-size: 0.9rem;
+  }
+
+  &__description {
+    font-size: 0.8rem;
+    color: $gray;
+    margin-top: 4px;
   }
 
   &__editBtn {
