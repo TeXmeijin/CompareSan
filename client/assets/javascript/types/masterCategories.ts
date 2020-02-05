@@ -1,6 +1,8 @@
 import { SimpleTableFactory } from '../factory/tableFactories/simpleTableFactory'
 import { baseFactory } from '../factory/tableFactories/baseFactory'
 import { DisplayMonitorTableFactory } from '../factory/tableFactories/displayMonitorTableFactory'
+import { NotePcFactory } from '../factory/tableFactories/notePcFactory'
+import { DigitalCameraFactory } from '../factory/tableFactories/digitalCameraFactory'
 export interface CompareCategory {
   id: number
   name: string
@@ -27,21 +29,15 @@ export function GetMasterCategories (): {
     },
     humidifier: {
       id: 2,
-      name: 'デジタルカメラ',
+      name: 'デジタル一眼レフ',
       description: '',
-      factory: new SimpleTableFactory(),
+      factory: new DigitalCameraFactory(),
     },
-    'vacuum-cleaner': {
+    'note-pc': {
       id: 3,
-      name: '掃除機',
+      name: 'ノートパソコン',
       description: '',
-      factory: new SimpleTableFactory(),
-    },
-    toaster: {
-      id: 4,
-      name: 'トースター',
-      description: '',
-      factory: new SimpleTableFactory(),
+      factory: new NotePcFactory(),
     },
   }
 }

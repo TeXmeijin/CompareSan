@@ -12,7 +12,7 @@ interface TableSizeState {
 export const name = 'tableSize'
 
 export const state = (): TableSizeState => ({
-  headWidth: 130,
+  headWidth: 150,
   cellWidth: 180,
   headHeight: 40,
   cellHeight: 80,

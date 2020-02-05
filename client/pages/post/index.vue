@@ -1,6 +1,6 @@
 <template lang="pug">
 .Wrapper
-  .PostChoicePage(:style="pageClass")
+  .PostChoicePage(:class="pageClass")
     .MenuBase
       span.Heading 比較したい家電を
         br
@@ -38,7 +38,11 @@
           @click="checkState.splice(index, 1, !checkState[index])"
         )
           .ItemInner
-            span.Name {{ comparePoint.name }}
+            .ItemInner__container
+              span.Name {{ comparePoint.name }}
+              span.ItemInnerDescription(
+                v-if="comparePoint.description"
+              ) {{ comparePoint.description }}
             v-icon(
               name="check-circle"
               scale="2.2"
@@ -147,7 +151,7 @@ export default class Post extends Vue {
   }
   get pageClass (): any {
     return {
-      transform: `translateX(${-1 * (this.index - 1) * 100}vw)`,
+      [`pageTransform${this.index}`]: true,
     }
   }
   get selectedProductName (): string {
@@ -166,10 +170,7 @@ export default class Post extends Vue {
       return require('~/assets/img/product_image/image_digital_camera.jpg')
 
     case 3:
-      return require('~/assets/img/product_image/image_vacuum.jpg')
-
-    case 4:
-      return require('~/assets/img/product_image/image_toaster.jpg')
+      return require('~/assets/img/product_image/note_pc.jpg')
 
     default:
       break
@@ -238,10 +239,15 @@ export default class Post extends Vue {
 <style lang="scss">
 .Wrapper {
   overflow: hidden;
+
+  @extend %pc-centering-page;
 }
 .PostChoicePage {
   display: flex;
   width: 300vw;
+  @include mq {
+    width: calc(3 * 720px);
+  }
   min-height: 100vh;
   position: relative;
 
@@ -250,6 +256,10 @@ export default class Post extends Vue {
   .MenuBase {
     box-sizing: border-box;
     width: 100vw;
+    @include mq {
+      width: 720px;
+    }
+
     min-height: 100vh;
     padding: 56px 16px 80px;
     background: $gray-light-4;
@@ -317,6 +327,17 @@ export default class Post extends Vue {
         align-items: center;
         justify-content: space-between;
         padding: 8px 16px;
+
+        &__container {
+          display: flex;
+          flex-direction: column;
+        }
+
+        &Description {
+          color: $gray;
+          font-size: 0.8rem;
+          margin-top: 4px;
+        }
       }
 
       .CheckIcon {
@@ -356,6 +377,24 @@ export default class Post extends Vue {
     .Form {
       flex: 1;
     }
+  }
+}
+
+.pageTransform1 {
+  transform: translateX(0);
+}
+
+.pageTransform2 {
+  transform: translateX(-100vw);
+  @include mq {
+    transform: translateX(-720px);
+  }
+}
+
+.pageTransform3 {
+  transform: translateX(-200vw);
+  @include mq {
+    transform: translateX(-1440px);
   }
 }
 </style>

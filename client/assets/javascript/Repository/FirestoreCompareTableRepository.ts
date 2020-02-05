@@ -44,7 +44,7 @@ implements ICompareTableRepository {
       categoryId: article.categoryId,
       content: article.content,
       is_public: article.is_public,
-      created_at: new Date(),
+      created_at: article.created_at,
       deleted_at: null,
       version: this.getVersion(),
     })

@@ -5,7 +5,8 @@ import { oneCellFactory } from './oneCellFactory'
 export const oneRowFactory = (
   instance: CompareTable,
   type: CellType = CellType.TEXT_WITH_EVALUATION,
-  name: string = '...'
+  name: string = '...',
+  description: string = ''
 ): Row => {
   const cells: Cell[] = []
 
@@ -13,6 +14,7 @@ export const oneRowFactory = (
     head: {
       name,
       type,
+      description,
     },
     cells,
     rowKey: generateRandom(),
