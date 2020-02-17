@@ -46,7 +46,7 @@ export default class CompareAllList extends Vue {
 
 <style lang="scss" scoped>
 .CompareAllList {
-  padding: 24px 12px;
+  padding: 24px 16px;
 }
 
 .Title {
@@ -60,7 +60,7 @@ export default class CompareAllList extends Vue {
 
 .CompareListItem {
   &:not(:first-child) {
-    margin-top: 12px;
+    margin-top: 24px;
   }
 }
 </style>

@@ -105,7 +105,7 @@ export default class Profile extends Vue {
 
 <style lang="scss" scoped>
 .Profile {
-  padding: 0 12px 80px;
+  padding: 0 16px 80px;
 }
 
 .Heading {
@@ -127,7 +127,7 @@ export default class Profile extends Vue {
   .CompareList {
     .CompareListItem {
       &:not(:first-child) {
-        margin-top: 12px;
+        margin-top: 24px;
       }
     }
   }

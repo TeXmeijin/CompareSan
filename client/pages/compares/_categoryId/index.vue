@@ -77,7 +77,7 @@ export default class CompareCategoryList extends Vue {
 
 .CompareListItem {
   &:not(:first-child) {
-    margin-top: 12px;
+    margin-top: 24px;
   }
 }
 </style>

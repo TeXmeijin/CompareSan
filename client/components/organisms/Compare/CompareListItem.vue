@@ -5,7 +5,7 @@
         .CompareTagItem
           nuxt-link.CompareTagItem__text(
             :to="{ name: 'compares-categoryId', params: { categoryId: article.categoryId } }"
-          ) {{ categories[article.categoryId].name }}
+          ) # {{ categories[article.categoryId].name }}
     nuxt-link.CompareLink(
       :to="{ name: 'compares-categoryId-compareId', params: { categoryId: article.categoryId, compareId: article.id } }"
     )
@@ -26,7 +26,6 @@
       .CompareActions__container
         .CompareAction
           c-button(
-            size="small"
             block
             type="error-outlined"
             @click="$emit('on-clicked-delete', article)"
@@ -35,7 +34,6 @@
           :to="{ name: 'compares-categoryId-compareId-edit', params: { categoryId: article.categoryId, compareId: article.id } }"
         )
           c-button(
-            size="small"
             type="accent"
             block
           ) 編集
@@ -105,7 +103,7 @@ export default class CompareListItem extends Vue {
   @extend %box-shadow;
   border-radius: 8px;
   background: $white;
-  padding: 12px;
+  padding: 16px;
 
   .CompareLink {
     display: block;
@@ -121,7 +119,7 @@ export default class CompareListItem extends Vue {
   .CompareTagItem {
     padding: 2px 12px;
     background: lighten($primary, 40%);
-    border-radius: 12px;
+    border-radius: 4px;
 
     &__text {
       line-height: 0.8;
