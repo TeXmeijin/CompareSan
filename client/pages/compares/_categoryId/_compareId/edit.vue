@@ -105,7 +105,7 @@ export default class Post extends Vue {
 
   .heading {
     text-align: center;
-    padding: 0 12px;
+    padding: 0 16px;
 
     .heading__head {
       font-weight: bold;

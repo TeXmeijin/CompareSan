@@ -25,7 +25,7 @@ export default class TheHeader extends Vue {}
     justify-content: center;
     text-decoration: none;
     height: 60px;
-    padding: 6px 12px;
+    padding: 6px 16px;
 
     .ServiceLogo_image {
       max-height: 100%;
