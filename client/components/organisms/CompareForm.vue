@@ -16,10 +16,9 @@ form
     .FormContent
       span.Label 比較の内容（補足やメモなど）
       client-only
-        vue-simplemde(
+        editor(
           v-model="formContent"
-          :configs="{ spellChecker: false, }"
-        ).TextArea.FormItem
+        ).FormItem
     .FormContent
       c-checkbox(
         v-model="formIsPublic"
@@ -48,6 +47,7 @@ const Auth = namespace(auth.name)
 @Component({
   components: {
     CompareTableView,
+    Editor: () => import('@/components/molecules/Editor.vue'),
   },
 })
 export default class CompareForm extends Vue {

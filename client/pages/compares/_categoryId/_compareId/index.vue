@@ -9,7 +9,7 @@ main.sec-main
         :initialTable="article.table"
       )
     .content
-      section(v-html="$md.render(article.content.replace(/^# /, '## '))")
+      section(v-html="$md.render(article.content)")
 </template>
 
 <script lang="ts">
@@ -33,6 +33,8 @@ async function init ({ route }) {
   if (!snapshot) {
     return
   }
+
+  snapshot.content = snapshot.content.replace(/(\n|#)# /g, '$1## ').replace(/^# /, '## ')
 
   return {
     article: snapshot,
