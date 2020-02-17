@@ -4,4 +4,7 @@ export default {
   h3: 'Markdown__h3',
   h4: 'Markdown__h4',
   p: 'Markdown__p',
+  ul: 'Markdown__ul',
+  li: 'Markdown__li',
+  img: 'Markdown__img',
 }

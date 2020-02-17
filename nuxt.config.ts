@@ -72,7 +72,6 @@ const config: Configuration = {
   plugins: [
     '@/plugins/globalComponents.js',
     '@/plugins/firebase/firebase.ts',
-    { src: '~plugins/nuxt-simplemde-plugin.js', ssr: false },
   ],
   /*
    ** Nuxt.js dev-modules

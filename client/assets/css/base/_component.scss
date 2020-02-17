@@ -132,24 +132,51 @@
 
 .Markdown {
   &__h2 {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     font-weight: bold;
-    padding: 8px 0;
+    margin-top: 48px;
   }
 
   &__h3 {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     font-weight: bold;
-    padding: 8px 0;
+    margin-top: 32px;
   }
 
   &__h4 {
     font-size: 1.1rem;
     font-weight: bold;
-    padding: 8px 0;
+    margin-top: 32px;
   }
 
   &__p {
-    padding: 12px 0;
+    letter-spacing: 1px;
+    line-height: 2;
+    margin-top: 16px;
   }
+
+  &__ul {
+    margin-top: 16px;
+    padding-left: 24px;
+  }
+
+  &__li {
+    letter-spacing: 1px;
+    line-height: 2;
+    list-style: disc;
+  }
+
+  &__img {
+    margin-top: 16px;
+    max-width: 100%;
+    max-height: 500px;
+  }
+}
+
+.Form .te-md-container .CodeMirror {
+  font-size: 1rem;
+}
+
+.Form .CodeMirror {
+  font-family: inherit;
 }
