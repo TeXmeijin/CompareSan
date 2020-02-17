@@ -270,7 +270,7 @@ export default class Post extends Vue {
       text-align: center;
       font-size: 1.4rem;
       padding-bottom: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
 
     .Confirm {

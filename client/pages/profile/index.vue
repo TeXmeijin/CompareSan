@@ -140,7 +140,7 @@ export default class Profile extends Vue {
     display: block;
     font-weight: bold;
     font-size: 1.2rem;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
 }
 </style>

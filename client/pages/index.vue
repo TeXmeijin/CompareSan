@@ -160,7 +160,7 @@
     padding: 32px 12px;
 
     @include mq {
-      max-width: 520px;
+      max-width: 680px;
       margin: 0 auto;
     }
 

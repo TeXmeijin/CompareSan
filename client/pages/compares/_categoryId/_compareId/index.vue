@@ -87,7 +87,7 @@ export default class ViewCompare extends Vue {
   }
 
   .heading {
-    padding: 0 12px;
+    padding: 0 16px;
 
     .heading__head {
       font-weight: bold;
@@ -102,17 +102,17 @@ export default class ViewCompare extends Vue {
   }
 
   .dataTable {
-    padding: 24px 12px;
+    padding: 24px 16px;
     overflow-x: scroll;
     color: $body;
   }
 
   .content {
-    padding: 24px 12px;
+    padding: 24px 16px;
   }
 
   .commit {
-    padding: 12px;
+    padding: 16px;
   }
 }
 </style>

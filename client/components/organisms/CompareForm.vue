@@ -110,14 +110,14 @@ export default class CompareForm extends Vue {
 .dataTable {
   padding: 8px 0;
   @include mq {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
   color: $body;
 }
 
 .commit {
-  padding: 12px;
+  padding: 16px;
 }
 
 .TextArea {
