@@ -11,18 +11,10 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.11.0]
+        node-version: [12.20.1]
 
     steps:
       - uses: actions/checkout@v2
-      - name: Setup gcloud environment
-        uses: GoogleCloudPlatform/github-actions@0.1.1
-        with:
-          # The version of the gcloud SDK to be installed.  Example: 275.0.0
-          # The service account email which will be used for authentication.
-          service_account_email: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}
-          # The service account key which will be used for authentication.
-          service_account_key: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_CREDENTIALS }}
       - name: Run tests with ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -40,5 +32,11 @@ jobs:
           MESSAGINGSENDERID: ${{ secrets.FIREBASE_MESSAGINGSENDERID }}
           APPID: ${{ secrets.FIREBASE_APPID }}
           MEASUREMENTID: ${{ secrets.FIREBASE_MEASUREMENTID }}
-      - name: GAE deploy
-        run: gcloud app deploy app.yaml --project comparesan
+      - name: Deploy to App Engine
+        uses: google-github-actions/deploy-appengine@main
+        with:
+          deliverables: app.yaml
+          project_id: ${{ secrets.GCP_PROJECT }}
+          credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_CREDENTIALS }}
+          promote: false
+          version: v1
