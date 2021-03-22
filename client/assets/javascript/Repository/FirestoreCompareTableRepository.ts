@@ -1,4 +1,4 @@
-import * as firebase from 'firebase/app'
+import firebase from 'firebase'
 import 'firebase/firestore'
 import { CompareArticle } from '../types/articleTypes'
 import ICompareTableRepository from './ICompareTableRepository'

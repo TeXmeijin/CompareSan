@@ -10,7 +10,7 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch, Emit, Ref } from 'vue-property-decorator'
 import { Editor } from '@toast-ui/vue-editor'
-import * as firebase from 'firebase/app'
+import firebase from 'firebase'
 import 'firebase/storage'
 import { generateRandom } from '../../assets/javascript/utils/GenerateRandom'
 

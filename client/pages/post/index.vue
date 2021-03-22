@@ -292,6 +292,7 @@ export default class Post extends Vue {
       box-shadow: 2px 2px 5px 2px $gray-light-c;
       overflow: hidden;
       transition: background 0.1s;
+      cursor: pointer;
 
       @include mq {
         &:hover {
